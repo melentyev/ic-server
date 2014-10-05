@@ -26,7 +26,14 @@ namespace Events.Controllers
             eventsRepository = evRepo;
             commentsRepository = comRepo;
         }
-        
+
+        // GET api/EventComments
+        [Authorize]
+        public IQueryable<Event> GetEventComments()
+        {
+            return eventsRepository.Objects;
+        }
+
         [Authorize]
         [ResponseType(typeof(Comment))]
         [CheckModelForNull]
