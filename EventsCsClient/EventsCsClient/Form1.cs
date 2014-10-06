@@ -13,13 +13,14 @@ using Newtonsoft.Json.Linq;
 
 namespace EventsCsClient
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         public string TokenUrl = "Token";
         public string RegisterUrl = "api/Account/Register";
         public string GetEventsUrl = "api/Events";
         public string AddEventUrl = "api/Events";
-        public Form1()
+        public string AddCommentUrl = "api/eventComments";
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -40,22 +41,21 @@ namespace EventsCsClient
                 WaitLab.Hide();
                 JObject o1 = JObject.Parse(result);
                 var token = o1["access_token"].Value<string>();
-                richTextBox1.Text = result;
-                textBox8.Text = token;
+                MsgBox1.Text = result;
+                TbToken.Text = token;
             }
             catch (WebException we)
             {
-                richTextBox1.Text = we.Message;
+                MsgBox1.Text = we.Message;
             }
-
         }
 
         private async void RegisterBtn_Click(object sender, EventArgs e)
         {
             var body = JsonConvert.SerializeObject(new 
             {
-                UserName = textBox3.Text,
-                Password = textBox4.Text,
+                UserName = TbLoginUserName.Text,
+                Password = TbLoginPassword.Text,
                 ConfirmPassword = textBox5.Text
             });
             /*var request = HttpWebRequest.Create(SiteUrlTb.Text + RegisterUrl);
@@ -68,11 +68,11 @@ namespace EventsCsClient
                 WaitLab.Show();
                 var result = await wc.UploadStringTaskAsync(SiteUrlTb.Text + RegisterUrl, body);
                 WaitLab.Hide();
-                richTextBox1.Text = "200\r\n" + result;
+                MsgBox1.Text = "200\r\n" + result;
             }
             catch (WebException we)
             {
-                richTextBox2.Text = we.Message;
+                MsgBox2.Text = we.Message;
             }
         }
 
@@ -83,37 +83,65 @@ namespace EventsCsClient
             WaitLab.Show();
             var result = await wc.DownloadStringTaskAsync(SiteUrlTb.Text + GetEventsUrl);
             WaitLab.Hide();
-            richTextBox1.Text = "200\r\n" + result;
+            MsgBox1.Text = "200\r\n" + result;
 
         }
 
         private async void AddEvent_Click(object sender, EventArgs e)
         {
-            var token = textBox8.Text;
+            var token = TbToken.Text;
             var wc = new WebClient();
             wc.Headers.Add("Content-Type", "application/json");
             wc.Headers.Add("Authorization", "Bearer " + token);
             try {
                 var data = JsonConvert.SerializeObject(new
                 {
-                    Latitude = textBox6.Text,
-                    Longitude = textBox7.Text,
-                    Description = richTextBox2.Text,
+                    Latitude = EventAddLatitude.Text,
+                    Longitude = EventAddLongitude.Text,
+                    Description = MsgBox2.Text,
                     EventDate = DateTime.Now.ToString()
                 });
                 WaitLab.Show();
                 var result = await wc.UploadStringTaskAsync(SiteUrlTb.Text + AddEventUrl, data);
                 WaitLab.Hide();
-                richTextBox1.Text = result;
+                MsgBox1.Text = result;
             }
             catch (WebException we)
             {
-                richTextBox2.Text = we.Message;
+                MsgBox2.Text = we.Message;
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+        }
+
+        private async void AddComment_Click(object sender, EventArgs e)
+        {
+            var token = TbToken.Text;
+            var wc = new WebClient();
+            wc.Headers.Add("Content-Type", "application/json");
+            wc.Headers.Add("Authorization", "Bearer " + token);
+            try {
+                var data = JsonConvert.SerializeObject(new
+                {
+                    Text = richTextBox4.Text,
+                    EntityId = textBox9.Text
+                });
+                WaitLab.Show();
+                var result = await wc.UploadStringTaskAsync(SiteUrlTb.Text + AddCommentUrl, data);
+                WaitLab.Hide();
+                MsgBox1.Text = result;
+            }
+            catch (WebException we)
+            {
+                MsgBox2.Text = we.Message;
             }
             catch
             {
                 
             }
+            
         }
     }
 }
