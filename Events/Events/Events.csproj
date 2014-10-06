@@ -183,6 +183,7 @@
   <ItemGroup>
     <Compile Include="Abstract\ICommentsRepository.cs" />
     <Compile Include="Abstract\IEventsRepository.cs" />
+    <Compile Include="Abstract\IGcmRegIdsRepository.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -215,6 +216,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\ApplicationDbContext.cs" />
+    <Compile Include="Infrastructure\GCMClient.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\Secrets.cs" />
     <Compile Include="Infrastructure\UnityResolver.cs" />
@@ -232,7 +234,9 @@
     <Compile Include="Models\BindingModels.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Common.cs" />
+    <Compile Include="Controllers\EndpointsController.cs" />
     <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\GcmRegistrationId.cs" />
     <Compile Include="Models\Subscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
