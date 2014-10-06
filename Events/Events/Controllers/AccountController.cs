@@ -47,7 +47,7 @@ namespace Events.Controllers
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
+            var id = User.Identity.GetUserId();
             return new UserInfoViewModel
             {
                 UserName = User.Identity.GetUserName(),

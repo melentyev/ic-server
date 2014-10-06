@@ -54,9 +54,9 @@ namespace Events
             //    clientId: "",
             //    clientSecret: "");
 
-            //app.UseTwitterAuthentication(
-            //    consumerKey: "",
-            //    consumerSecret: "");
+            app.UseTwitterAuthentication(
+                consumerKey: Secrets.TwitterConsumerKey,
+                consumerSecret: Secrets.TwitterConsumerSecret);
 
             //app.UseFacebookAuthentication(
             //    appId: "",

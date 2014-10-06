@@ -216,6 +216,7 @@
     </Compile>
     <Compile Include="Infrastructure\ApplicationDbContext.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Infrastructure\Secrets.cs" />
     <Compile Include="Infrastructure\UnityResolver.cs" />
     <Compile Include="Migrations\201410011544283_InitialCreate.cs" />
     <Compile Include="Migrations\201410011544283_InitialCreate.Designer.cs">
