@@ -17,6 +17,7 @@ using Events.Filters;
 
 namespace Events.Controllers
 {
+    [Authorize]
     public class EventsController : ApiController
     {
         private IEventsRepository eventsRepository;
@@ -26,14 +27,12 @@ namespace Events.Controllers
         }
 
         // GET api/Events
-        [Authorize]
         public IQueryable<Event> GetEvents()
         {
             return eventsRepository.Objects;
         }
 
         // GET api/Events/5
-        [Authorize]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> GetEvent(int id)
         {
@@ -63,7 +62,6 @@ namespace Events.Controllers
         }*/
 
         // POST api/Events
-        [Authorize]
         [ResponseType(typeof(Event))]
         [CheckModelForNull]
         public async Task<IHttpActionResult> PostEvent(AddEventBindingModel model)
@@ -87,7 +85,6 @@ namespace Events.Controllers
         }
 
         // DELETE api/Events/5
-        [Authorize]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> DeleteEvent(int id)
         {
