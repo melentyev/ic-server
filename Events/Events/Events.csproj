@@ -217,6 +217,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\ApplicationApiController.cs" />
     <Compile Include="Infrastructure\ApplicationDbContext.cs" />
     <Compile Include="Infrastructure\GCMClient.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />

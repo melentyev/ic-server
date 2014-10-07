@@ -6,6 +6,7 @@ using System.Security.Claims;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Events.Infrastructure;
+using System.Threading.Tasks;
 
 namespace Events.Models
 {
@@ -13,7 +14,16 @@ namespace Events.Models
         IdentityUser<int, AppUserLogin, AppUserRole, AppUserClaim>,
         IUser<int>
     {
-
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(
+            UserManager<ApplicationUser, int> manager)
+        {
+            // Note the authenticationType must match the one defined in
+            // CookieAuthenticationOptions.AuthenticationType 
+            var userIdentity = await manager.CreateIdentityAsync(
+                this, DefaultAuthenticationTypes.ApplicationCookie);
+            // Add custom user claims here 
+            return userIdentity;
+        } 
         public override string Email { get; set; }
     }
     public class AppUserLogin : IdentityUserLogin<int> { }

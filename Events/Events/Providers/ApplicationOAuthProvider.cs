@@ -50,6 +50,14 @@ namespace Events.Providers
                     context.Options.AuthenticationType);
                 ClaimsIdentity cookiesIdentity = await userManager.CreateIdentityAsync(user,
                     CookieAuthenticationDefaults.AuthenticationType);
+
+                // ADDED FROM INTERNET!!!!/ 
+
+                oAuthIdentity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
+                cookiesIdentity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
+
+
+
                 AuthenticationProperties properties = CreateProperties(user.UserName);
                 AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
                 context.Validated(ticket);

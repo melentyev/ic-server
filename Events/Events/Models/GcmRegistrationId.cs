@@ -7,7 +7,7 @@ namespace Events.Models
 {
     public class GcmRegistrationId
     {
-        string RegId;
-        string UserId;
+        public string RegId;
+        public int UserId;
     }
 }

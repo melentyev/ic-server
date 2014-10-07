@@ -17,17 +17,14 @@ using Events.Models;
 using Events.Providers;
 using Events.Results;
 using Events.Filters;
+using Events.Infrastructure;
 
 namespace Events.Controllers
 {
     [Authorize]
     [RoutePrefix("api/Account")]
-    public class AccountController : ApiController
+    public class AccountController : ApplicationApiController
     {
-        public AppClaimsPrincipal CurrentUser
-        {
-            get { return new AppClaimsPrincipal((ClaimsPrincipal)this.User); }
-        }
         private const string LocalLoginProvider = "Local";
 
         public AccountController()
@@ -262,6 +259,12 @@ namespace Events.Controllers
                     OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await UserManager.CreateIdentityAsync(user,
                     CookieAuthenticationDefaults.AuthenticationType);
+
+                // ADDED FROM INTERNET!!!!/ 
+
+                oAuthIdentity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
+                cookieIdentity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
+
                 AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
                 Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
             }
@@ -269,6 +272,11 @@ namespace Events.Controllers
             {
                 IEnumerable<Claim> claims = externalLogin.GetClaims();
                 ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+
+                // ADDED FROM INTERNET!!!!/ 
+
+                identity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
+
                 Authentication.SignIn(identity);
             }
 

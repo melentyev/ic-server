@@ -11,6 +11,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Microsoft.AspNet.Identity;
 
+using Events.Infrastructure;
 using Events.Models;
 using Events.Abstract;
 using Events.Filters;
@@ -18,7 +19,7 @@ using Events.Filters;
 namespace Events.Controllers
 {
     [Authorize]
-    public class EventsController : ApiController
+    public class EventsController : ApplicationApiController
     {
         private IEventsRepository eventsRepository;
         //private ICommentsRepository commentsRepository;
@@ -72,7 +73,7 @@ namespace Events.Controllers
             }
             var ev = new Event
             {
-                UserId = User.Identity.GetUserId(),
+                UserId = CurrentUser.UserId,
                 Latitude = model.Latitude,
                 Longitude =  model.Longitude,
                 Description = model.Description,

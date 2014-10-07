@@ -14,10 +14,11 @@ using Microsoft.AspNet.Identity;
 using Events.Models;
 using Events.Abstract;
 using Events.Filters;
+using Events.Infrastructure;
 
 namespace Events.Controllers
 {
-    public class EventCommentsController : ApiController
+    public class EventCommentsController : ApplicationApiController
     {
         private IEventsRepository eventsRepository;
         private ICommentsRepository commentsRepository;
@@ -45,7 +46,7 @@ namespace Events.Controllers
             }
             var comment = new Comment
             {
-                UserId = User.Identity.GetUserId(),
+                UserId = CurrentUser.UserId,
                 EntityId = model.EntityId,
                 EntityType = EntityTypes.Event,
                 Text = model.Text,

@@ -12,7 +12,7 @@ namespace Events.Models
     public class Comment
     {
         public int CommentId { get; set; }
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         public EntityTypes EntityType { get; set; }
         public int EntityId { get; set; }
