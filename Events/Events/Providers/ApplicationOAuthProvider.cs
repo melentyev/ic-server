@@ -16,9 +16,9 @@ namespace Events.Providers
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         private readonly string _publicClientId;
-        private readonly Func<UserManager<ApplicationUser>> _userManagerFactory;
+        private readonly Func<AppUserManager> _userManagerFactory;
 
-        public ApplicationOAuthProvider(string publicClientId, Func<UserManager<ApplicationUser>> userManagerFactory)
+        public ApplicationOAuthProvider(string publicClientId, Func<AppUserManager> userManagerFactory)
         {
             if (publicClientId == null)
             {
@@ -36,7 +36,7 @@ namespace Events.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            using (UserManager<ApplicationUser> userManager = _userManagerFactory())
+            using (AppUserManager userManager = _userManagerFactory())
             {
                 ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
 

@@ -8,7 +8,7 @@ using Events.Models;
 
 namespace Events.Infrastructure
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, AppRole, int, AppUserLogin, AppUserRole, AppUserClaim>
     {
         public ApplicationDbContext()
             : base("DefaultConnection")

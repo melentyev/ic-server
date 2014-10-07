@@ -24,6 +24,10 @@ namespace Events.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
+        public AppClaimsPrincipal CurrentUser
+        {
+            get { return new AppClaimsPrincipal((ClaimsPrincipal)this.User); }
+        }
         private const string LocalLoginProvider = "Local";
 
         public AccountController()
@@ -31,14 +35,14 @@ namespace Events.Controllers
         {
         }
 
-        public AccountController(UserManager<ApplicationUser> userManager,
+        public AccountController(AppUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
         }
 
-        public UserManager<ApplicationUser> UserManager { get; private set; }
+        public AppUserManager UserManager { get; private set; }
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
         // GET api/Account/UserInfo
@@ -68,7 +72,7 @@ namespace Events.Controllers
         [Route("ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
-            ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            ApplicationUser user = await UserManager.FindByIdAsync(CurrentUser.UserId);
 
             if (user == null)
             {
@@ -77,7 +81,7 @@ namespace Events.Controllers
 
             List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
 
-            foreach (IdentityUserLogin linkedAccount in user.Logins)
+            foreach (AppUserLogin linkedAccount in user.Logins)
             {
                 logins.Add(new UserLoginInfoViewModel
                 {
@@ -113,7 +117,7 @@ namespace Events.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
+            IdentityResult result = await UserManager.ChangePasswordAsync(CurrentUser.UserId, model.OldPassword,
                 model.NewPassword);
             IHttpActionResult errorResult = GetErrorResult(result);
 
@@ -134,7 +138,7 @@ namespace Events.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+            IdentityResult result = await UserManager.AddPasswordAsync(CurrentUser.UserId, model.NewPassword);
             IHttpActionResult errorResult = GetErrorResult(result);
 
             if (errorResult != null)
@@ -172,7 +176,7 @@ namespace Events.Controllers
                 return BadRequest("The external login is already associated with an account.");
             }
 
-            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
+            IdentityResult result = await UserManager.AddLoginAsync(CurrentUser.UserId,
                 new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
 
             IHttpActionResult errorResult = GetErrorResult(result);
@@ -198,11 +202,11 @@ namespace Events.Controllers
 
             if (model.LoginProvider == LocalLoginProvider)
             {
-                result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
+                result = await UserManager.RemovePasswordAsync(CurrentUser.UserId);
             }
             else
             {
-                result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
+                result = await UserManager.RemoveLoginAsync(CurrentUser.UserId,
                     new UserLoginInfo(model.LoginProvider, model.ProviderKey));
             }
 
@@ -361,7 +365,7 @@ namespace Events.Controllers
             {
                 UserName = model.UserName
             };
-            user.Logins.Add(new IdentityUserLogin
+            user.Logins.Add(new AppUserLogin
             {
                 LoginProvider = externalLogin.LoginProvider,
                 ProviderKey = externalLogin.ProviderKey

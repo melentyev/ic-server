@@ -19,7 +19,6 @@ namespace Events.Models
         [Route("GcmRegister/{regId}")]
         public async Task<IHttpActionResult> GcmRegister(string regId)
         {
-
             return Ok();
         }
     }

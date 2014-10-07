@@ -20,7 +20,7 @@ namespace Events
         {
             PublicClientId = "self";
 
-            UserManagerFactory = () => new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            UserManagerFactory = () => new AppUserManager(new AppUserStore(new ApplicationDbContext()));
 
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
@@ -34,7 +34,7 @@ namespace Events
 
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 
-        public static Func<UserManager<ApplicationUser>> UserManagerFactory { get; set; }
+        public static Func<AppUserManager> UserManagerFactory { get; set; }
 
         public static string PublicClientId { get; private set; }
 
