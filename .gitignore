@@ -187,3 +187,6 @@ FakesAssemblies/
 
 
 Secrets.cs
+Web.config
+Web.config.Debug
+Web.config.Release
