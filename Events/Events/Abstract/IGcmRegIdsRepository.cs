@@ -7,11 +7,10 @@ using Events.Models;
 
 namespace Events.Abstract
 {
-    interface IGcmRegIdsRepository : IDisposable
+    public interface IGcmRegIdsRepository : IDisposable
     {
         IQueryable<GcmRegistrationId> Objects { get; }
         Task<GcmRegistrationId> FindAsync(params object[] k);
         Task SaveInstance(GcmRegistrationId regId);
-        IQueryable<GcmRegistrationId> GetRegIdsByUser(string UserId);
     }
 }

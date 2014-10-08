@@ -273,9 +273,8 @@ namespace Events.Controllers
                 IEnumerable<Claim> claims = externalLogin.GetClaims();
                 ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
 
-                // ADDED FROM INTERNET!!!!/ 
-
-                identity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
+                // ADDED FROM INTERNET!!!!/ BAAAAAD
+                //identity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
 
                 Authentication.SignIn(identity);
             }

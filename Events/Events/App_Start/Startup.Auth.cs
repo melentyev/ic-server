@@ -11,6 +11,8 @@ using Events.Providers;
 using Events.Models;
 using Events.Infrastructure;
 
+using KatanaContrib.Security.VK;
+
 
 namespace Events
 {
@@ -61,6 +63,12 @@ namespace Events
             //app.UseFacebookAuthentication(
             //    appId: "",
             //    appSecret: "");
+
+            app.UseVkontakteAuthentication(new VkAuthenticationOptions
+            {
+                ClientId = Secrets.VkKey,
+                ClientSecret = Secrets.VkSecret
+            });
 
             //app.UseGoogleAuthentication();
         }

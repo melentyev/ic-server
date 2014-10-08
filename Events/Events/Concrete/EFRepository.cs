@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Threading.Tasks;
-
-
 using Events.Models;
 using Events.Infrastructure;
 
@@ -18,10 +16,6 @@ namespace Events.Concrete
         public EFRepository(string idpropname) 
         {
             IdPropName = idpropname;
-        }
-        public virtual Task<T> FindAsync(params object[] k)
-        {
-            return context.Set<T>().FindAsync(k);
         }
 
         public virtual IQueryable<T> Objects

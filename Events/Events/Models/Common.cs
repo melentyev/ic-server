@@ -25,6 +25,7 @@ namespace Events.Models
             return userIdentity;
         } 
         public override string Email { get; set; }
+        public virtual ICollection<GcmRegistrationId> GcmRegistrationIds { get; set; }
     }
     public class AppUserLogin : IdentityUserLogin<int> { }
 
