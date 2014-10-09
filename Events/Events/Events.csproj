@@ -186,6 +186,7 @@
     <Compile Include="Abstract\ICommentsRepository.cs" />
     <Compile Include="Abstract\IEventsRepository.cs" />
     <Compile Include="Abstract\IGcmRegIdsRepository.cs" />
+    <Compile Include="Abstract\ISubscribeRepository.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -208,9 +209,11 @@
     <Compile Include="Concrete\EFCommentsRepository.cs" />
     <Compile Include="Concrete\EFEventsRepository.cs" />
     <Compile Include="Concrete\EFRepository.cs" />
+    <Compile Include="Concrete\EFSubscriptionRepository.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EventCommentsController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
+    <Compile Include="Controllers\FriendsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Filters\CheckModelForNullAttribute.cs" />
@@ -299,6 +302,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Friends\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

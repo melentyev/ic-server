@@ -24,4 +24,10 @@ namespace Events.Models
         [Required]
         public string Text { get; set; }
     }
+
+    public class AddSubscribeBindingModel
+    {
+        [Required]
+        public int SubscribedTo { get; set; }
+    }
 }
