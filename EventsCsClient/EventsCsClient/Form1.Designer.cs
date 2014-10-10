@@ -50,6 +50,10 @@
             this.AddComment = new System.Windows.Forms.Button();
             this.richTextBox4 = new System.Windows.Forms.RichTextBox();
             this.textBox9 = new System.Windows.Forms.TextBox();
+            this.friendTb = new System.Windows.Forms.TextBox();
+            this.Follow = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -88,10 +92,10 @@
             this.RegisterBtn.UseVisualStyleBackColor = true;
             this.RegisterBtn.Click += new System.EventHandler(this.RegisterBtn_Click);
             // 
-            // richTextBox1
+            // MsgBox1
             // 
             this.MsgBox1.Location = new System.Drawing.Point(2, 232);
-            this.MsgBox1.Name = "richTextBox1";
+            this.MsgBox1.Name = "MsgBox1";
             this.MsgBox1.Size = new System.Drawing.Size(306, 149);
             this.MsgBox1.TabIndex = 4;
             this.MsgBox1.Text = "";
@@ -106,18 +110,18 @@
             this.LabelBearer.Text = "Token";
             this.LabelBearer.Click += new System.EventHandler(this.label1_Click);
             // 
-            // textBox3
+            // TbLoginUserName
             // 
             this.TbLoginUserName.Location = new System.Drawing.Point(217, 45);
-            this.TbLoginUserName.Name = "textBox3";
+            this.TbLoginUserName.Name = "TbLoginUserName";
             this.TbLoginUserName.Size = new System.Drawing.Size(100, 20);
             this.TbLoginUserName.TabIndex = 6;
             this.TbLoginUserName.Text = "user";
             // 
-            // textBox4
+            // TbLoginPassword
             // 
             this.TbLoginPassword.Location = new System.Drawing.Point(217, 72);
-            this.TbLoginPassword.Name = "textBox4";
+            this.TbLoginPassword.Name = "TbLoginPassword";
             this.TbLoginPassword.Size = new System.Drawing.Size(100, 20);
             this.TbLoginPassword.TabIndex = 7;
             this.TbLoginPassword.Text = "123456";
@@ -167,26 +171,26 @@
             this.GetEventsBtn.UseVisualStyleBackColor = true;
             this.GetEventsBtn.Click += new System.EventHandler(this.GetEventsBtn_Click);
             // 
-            // textBox6
+            // EventAddLatitude
             // 
             this.EventAddLatitude.Location = new System.Drawing.Point(698, 11);
-            this.EventAddLatitude.Name = "textBox6";
+            this.EventAddLatitude.Name = "EventAddLatitude";
             this.EventAddLatitude.Size = new System.Drawing.Size(100, 20);
             this.EventAddLatitude.TabIndex = 13;
             this.EventAddLatitude.Text = "1232,322";
             // 
-            // textBox7
+            // EventAddLongitude
             // 
             this.EventAddLongitude.Location = new System.Drawing.Point(698, 38);
-            this.EventAddLongitude.Name = "textBox7";
+            this.EventAddLongitude.Name = "EventAddLongitude";
             this.EventAddLongitude.Size = new System.Drawing.Size(100, 20);
             this.EventAddLongitude.TabIndex = 14;
             this.EventAddLongitude.Text = "45334,8";
             // 
-            // richTextBox2
+            // MsgBox2
             // 
             this.MsgBox2.Location = new System.Drawing.Point(698, 64);
-            this.MsgBox2.Name = "richTextBox2";
+            this.MsgBox2.Name = "MsgBox2";
             this.MsgBox2.Size = new System.Drawing.Size(153, 96);
             this.MsgBox2.TabIndex = 15;
             this.MsgBox2.Text = "sasdasd";
@@ -199,10 +203,10 @@
             this.richTextBox3.TabIndex = 16;
             this.richTextBox3.Text = "";
             // 
-            // textBox8
+            // TbToken
             // 
             this.TbToken.Location = new System.Drawing.Point(12, 166);
-            this.TbToken.Name = "textBox8";
+            this.TbToken.Name = "TbToken";
             this.TbToken.Size = new System.Drawing.Size(440, 20);
             this.TbToken.TabIndex = 17;
             // 
@@ -242,11 +246,50 @@
             this.textBox9.Size = new System.Drawing.Size(100, 20);
             this.textBox9.TabIndex = 21;
             // 
-            // Form1
+            // friendTb
+            // 
+            this.friendTb.Location = new System.Drawing.Point(1021, 11);
+            this.friendTb.Name = "friendTb";
+            this.friendTb.Size = new System.Drawing.Size(237, 20);
+            this.friendTb.TabIndex = 22;
+            // 
+            // Follow
+            // 
+            this.Follow.Location = new System.Drawing.Point(1021, 166);
+            this.Follow.Name = "Follow";
+            this.Follow.Size = new System.Drawing.Size(75, 23);
+            this.Follow.TabIndex = 23;
+            this.Follow.Text = "follow";
+            this.Follow.UseVisualStyleBackColor = true;
+            this.Follow.Click += new System.EventHandler (this.Follow_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(1102, 166);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 24;
+            this.button2.Text = "unfollow";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(1183, 166);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 25;
+            this.button3.Text = "get list";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1024, 384);
+            this.ClientSize = new System.Drawing.Size(1443, 384);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.Follow);
+            this.Controls.Add(this.friendTb);
             this.Controls.Add(this.textBox9);
             this.Controls.Add(this.richTextBox4);
             this.Controls.Add(this.AddComment);
@@ -269,7 +312,7 @@
             this.Controls.Add(this.LoginBtn);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -300,6 +343,10 @@
         private System.Windows.Forms.Button AddComment;
         private System.Windows.Forms.RichTextBox richTextBox4;
         private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox friendTb;
+        private System.Windows.Forms.Button Follow;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
     }
 }
 

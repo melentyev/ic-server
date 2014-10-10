@@ -7,6 +7,6 @@ namespace Events.Concrete
 {
     public class EFSubscriptionRepository : Events.Concrete.EFRepository<Subscription>, ISubscribeRepository
     {
-        public EFSubscriptionRepository() : base("CommentId") { }
+        public EFSubscriptionRepository() : base("SubscribtionId") { }
     }
 }
