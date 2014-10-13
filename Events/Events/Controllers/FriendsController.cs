@@ -35,21 +35,29 @@ namespace Events.Controllers
         //}
 
         // GET api/Friends/f
-        [Route("{parametr}")]
+        [Route("/{puserId}/{param}")]
         [ResponseType(typeof(IQueryable<Subscription>))]
-        public async Task<IHttpActionResult> GetFriend(string parametr)
+        public IHttpActionResult GetFriends(string puserId, string param)
         {
-            var @friends = subscribeRepository.Objects;
-            switch (parametr)
+            var userId = CurrentUser.UserId;
+            if (puserId != "my") 
+            {
+                if(!Int32.TryParse(puserId, out userId) ) 
+                {
+                    return BadRequest("/api/friends/my/{type} or /api/friends/{userId}/{type}");
+                }
+            }
+            var friends = subscribeRepository.Objects;
+            switch (param)
             {
                 case "f":
-                    @friends = subscribeRepository.Objects.Where(e => (e.Subscriber == CurrentUser.UserId && e.Relationship == Subscription.relationship.follower));
+                    friends = subscribeRepository.Objects.Where(e => (e.Subscriber == CurrentUser.UserId && e.Relationship == Subscription.relationship.follower));
                     break;
                 case "s":
-                    @friends = subscribeRepository.Objects.Where(e => (e.SubscribedTo == CurrentUser.UserId && e.Relationship == Subscription.relationship.following));
+                    friends = subscribeRepository.Objects.Where(e => (e.SubscribedTo == CurrentUser.UserId && e.Relationship == Subscription.relationship.following));
                     break;
-                case "n":
-                    @friends = subscribeRepository.Objects.Where(e => (e.SubscribedTo == CurrentUser.UserId && e.Relationship == Subscription.relationship.friend));
+                case "m":
+                    friends = subscribeRepository.Objects.Where(e => (e.SubscribedTo == CurrentUser.UserId && e.Relationship == Subscription.relationship.friend));
                     break;
                 default:
                     return BadRequest("incorrect input");

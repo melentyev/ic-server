@@ -35,8 +35,9 @@ namespace EventsCsClient
         {
             var wc = new WebClient();
             var data = "grant_type=password&username=" + textBox1.Text + "&password=" + textBox2.Text;
-			wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-            try {
+            wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+            try
+            {
                 WaitLab.Show();
                 var result = await wc.UploadStringTaskAsync(SiteUrlTb.Text + TokenUrl, data);
                 WaitLab.Hide();
@@ -53,7 +54,7 @@ namespace EventsCsClient
 
         private async void RegisterBtn_Click(object sender, EventArgs e)
         {
-            var body = JsonConvert.SerializeObject(new 
+            var body = JsonConvert.SerializeObject(new
             {
                 UserName = TbLoginUserName.Text,
                 Password = TbLoginPassword.Text,
@@ -65,7 +66,8 @@ namespace EventsCsClient
             .Headers.*/
             var wc = new WebClient();
             wc.Headers.Add("Content-Type", "application/json");
-            try {
+            try
+            {
                 WaitLab.Show();
                 var result = await wc.UploadStringTaskAsync(SiteUrlTb.Text + RegisterUrl, body);
                 WaitLab.Hide();
@@ -74,6 +76,9 @@ namespace EventsCsClient
             catch (WebException we)
             {
                 MsgBox2.Text = we.Message;
+                var stream = new System.IO.StreamReader(we.Response.GetResponseStream() );
+                var line = stream.ReadToEnd();
+                var aaa = 5;
             }
         }
 
@@ -92,16 +97,21 @@ namespace EventsCsClient
         {
             var token = TbToken.Text;
             var wc = new WebClient();
+            wc.Encoding = Encoding.UTF8;
             wc.Headers.Add("Content-Type", "application/json");
             wc.Headers.Add("Authorization", "Bearer " + token);
-            try {
+            try
+            {
+                //var descr = MsgBox2.Text.Select(c => string.Format(@"\u{0:x4}", (int)c)).Aggregate("", (a, b) => a + b);
+                var descr = MsgBox2.Text;
                 var data = JsonConvert.SerializeObject(new
                 {
                     Latitude = EventAddLatitude.Text,
                     Longitude = EventAddLongitude.Text,
-                    Description = MsgBox2.Text,
+                    Description = descr,
                     EventDate = DateTime.Now.ToString()
                 });
+                //data = data.Replace(@"\\", @"\");
                 WaitLab.Show();
                 var result = await wc.UploadStringTaskAsync(SiteUrlTb.Text + AddEventUrl, data);
                 WaitLab.Hide();
@@ -110,10 +120,15 @@ namespace EventsCsClient
             catch (WebException we)
             {
                 MsgBox2.Text = we.Message;
+                var stream = new System.IO.StreamReader(we.Response.GetResponseStream());
+                var line = stream.ReadToEnd();
+                var aaa = 5;
+                WaitLab.Hide();
             }
             catch (Exception exc)
             {
                 MessageBox.Show(exc.Message);
+                WaitLab.Hide();
             }
         }
 
@@ -123,7 +138,8 @@ namespace EventsCsClient
             var wc = new WebClient();
             wc.Headers.Add("Content-Type", "application/json");
             wc.Headers.Add("Authorization", "Bearer " + token);
-            try {
+            try
+            {
                 var data = JsonConvert.SerializeObject(new
                 {
                     Text = richTextBox4.Text,
@@ -140,9 +156,9 @@ namespace EventsCsClient
             }
             catch
             {
-                
+
             }
-            
+
         }
         private async void Follow_Click(object sender, EventArgs e)
         {
@@ -181,17 +197,19 @@ namespace EventsCsClient
                 });
                 WaitLab.Show();
                 var st = SiteUrlTb.Text + SubscribeUrl + "/" + "{" + friendTb.Text + "}";
-                var result = await wc.DownloadStringTaskAsync(SiteUrlTb.Text + SubscribeUrl+ "/" + "{" + friendTb.Text + "}");
+                var result = await wc.DownloadStringTaskAsync(SiteUrlTb.Text + SubscribeUrl + "/" + "{" + friendTb.Text + "}");
                 WaitLab.Hide();
                 MsgBox1.Text = result;
             }
             catch (WebException we)
             {
                 MsgBox2.Text = we.Message;
+                WaitLab.Hide();
             }
             catch (Exception exc)
             {
                 MessageBox.Show(exc.Message);
+                WaitLab.Hide();
             }
             //var wc = new WebClient();
             //wc.Headers.Add("Content-Type", "application/json");
