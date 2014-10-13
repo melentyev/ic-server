@@ -20,7 +20,7 @@ namespace EventsCsClient
         public string GetEventsUrl = "api/Events";
         public string AddEventUrl = "api/Events";
         public string AddCommentUrl = "api/eventComments";
-        public string SubscribeUrl = "api/Friends";
+        public string SubscribeUrl = "api/Friends/Follow";
         public MainForm()
         {
             InitializeComponent();
@@ -180,7 +180,8 @@ namespace EventsCsClient
                     SubscribedTo = friendTb.Text,
                 });
                 WaitLab.Show();
-                var result = await wc.UploadStringTaskAsync(SiteUrlTb.Text + SubscribeUrl, data);
+                var st = SiteUrlTb.Text + SubscribeUrl + "/" + "{" + friendTb.Text + "}";
+                var result = await wc.DownloadStringTaskAsync(SiteUrlTb.Text + SubscribeUrl+ "/" + "{" + friendTb.Text + "}");
                 WaitLab.Hide();
                 MsgBox1.Text = result;
             }

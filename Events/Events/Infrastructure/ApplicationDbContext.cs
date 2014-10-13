@@ -17,6 +17,6 @@ namespace Events.Infrastructure
 
         public System.Data.Entity.DbSet<Event> Events { get; set; }
 //        public System.Data.Entity.DbSet<Comment> Comment { get; set; }
-//        public System.Data.Entity.DbSet<Subscription> Subscription { get; set; }
+        public System.Data.Entity.DbSet<Subscription> Subscription { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Events.Models
     {
         public enum relationship {unfollow, follower, following, friend }
         [Key]
-        public int SubscribeId { get; set; }
+        public int SubscribtionId { get; set; }
         public int Subscriber { get; set; }
         public int SubscribedTo { get; set; }
         public relationship Relationship { get; set; }

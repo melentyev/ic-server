@@ -220,7 +220,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\ApplicanionSubscribersDbContext.cs" />
     <Compile Include="Infrastructure\ApplicationApiController.cs" />
     <Compile Include="Infrastructure\ApplicationDbContext.cs" />
     <Compile Include="Infrastructure\GCMClient.cs" />
@@ -234,6 +233,10 @@
     <Compile Include="Migrations\201410081113194_Initial2.cs" />
     <Compile Include="Migrations\201410081113194_Initial2.Designer.cs">
       <DependentUpon>201410081113194_Initial2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410111331266_Subscriptions1.cs" />
+    <Compile Include="Migrations\201410111331266_Subscriptions1.Designer.cs">
+      <DependentUpon>201410111331266_Subscriptions1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -284,13 +287,6 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\_references.js" />
@@ -300,6 +296,13 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -318,6 +321,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410081113194_Initial2.resx">
       <DependentUpon>201410081113194_Initial2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410111331266_Subscriptions1.resx">
+      <DependentUpon>201410111331266_Subscriptions1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

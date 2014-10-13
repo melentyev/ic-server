@@ -19,6 +19,7 @@ using Events.Filters;
 namespace Events.Controllers
 {
     [Authorize]
+    [RoutePrefix("api/Friends")]
     public class FriendsController : ApplicationApiController
     {
         private ISubscribeRepository subscribeRepository;
@@ -28,17 +29,18 @@ namespace Events.Controllers
         }
         // GET api/Friends
 
-        public IQueryable<Subscription> GetFriends()
-        {
-            return subscribeRepository.Objects;
-        }
+        //public IQueryable<Subscription> GetFriends()
+        //{
+        //    return subscribeRepository.Objects;
+        //}
 
         // GET api/Friends/f
+        [Route("{parametr}")]
         [ResponseType(typeof(IQueryable<Subscription>))]
-        public async Task<IHttpActionResult> GetFriend(string id)
+        public async Task<IHttpActionResult> GetFriend(string parametr)
         {
             var @friends = subscribeRepository.Objects;
-            switch (id)
+            switch (parametr)
             {
                 case "f":
                     @friends = subscribeRepository.Objects.Where(e => (e.Subscriber == CurrentUser.UserId && e.Relationship == Subscription.relationship.follower));
@@ -56,23 +58,23 @@ namespace Events.Controllers
         }
 
         // POST api/Friends/Follow
-        [ActionName("Follow")]
+        [Route("Follow/{id}")]
         [ResponseType(typeof(Subscription))]
         [CheckModelForNull]
-        public async Task<IHttpActionResult> PostFollow(AddSubscribeBindingModel model)
+        public async Task<IHttpActionResult> PostFollow(int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var friend = await subscribeRepository.Objects.Where(e => (e.SubscribedTo == CurrentUser.UserId && e.Subscriber == model.SubscribedTo)).FirstOrDefaultAsync();
-            var i = await subscribeRepository.Objects.Where(e => (e.Subscriber == CurrentUser.UserId && e.SubscribedTo == model.SubscribedTo)).FirstOrDefaultAsync();
+            var friend = await subscribeRepository.Objects.Where(e => (e.SubscribedTo == CurrentUser.UserId && e.Subscriber == id)).FirstOrDefaultAsync();
+            var i = await subscribeRepository.Objects.Where(e => (e.Subscriber == CurrentUser.UserId && e.SubscribedTo == id)).FirstOrDefaultAsync();
             if (i == null)
             {
                 var sub = new Subscription
                 {
                     Subscriber = CurrentUser.UserId,
-                    SubscribedTo = model.SubscribedTo,
+                    SubscribedTo = id,
                 };
                 if (friend == null)
                 {
@@ -104,18 +106,18 @@ namespace Events.Controllers
             }
             return Ok();
         }
-
-        [ActionName("Unfollow")]
+        // POST api/Friends/Unfollow
+        [Route("Unfollow/{id}")]
         [ResponseType(typeof(Subscription))]
         [CheckModelForNull]
-        public async Task<IHttpActionResult> PostUnfollow(AddSubscribeBindingModel model)
+        public async Task<IHttpActionResult> PostUnfollow(int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var friend = await subscribeRepository.Objects.Where(e => (e.SubscribedTo == CurrentUser.UserId && e.Subscriber == model.SubscribedTo)).FirstOrDefaultAsync();
-            var i = await subscribeRepository.Objects.Where(e => (e.Subscriber == CurrentUser.UserId && e.SubscribedTo == model.SubscribedTo)).FirstOrDefaultAsync();
+            var friend = await subscribeRepository.Objects.Where(e => (e.SubscribedTo == CurrentUser.UserId && e.Subscriber == id)).FirstOrDefaultAsync();
+            var i = await subscribeRepository.Objects.Where(e => (e.Subscriber == CurrentUser.UserId && e.SubscribedTo == id)).FirstOrDefaultAsync();
             if (i == null)
             {
                 return BadRequest("You not subscribe on this user");
@@ -138,7 +140,7 @@ namespace Events.Controllers
             return Ok();
         }
 
-
+        //// POST api/Friends/5
         //[ResponseType(typeof(Subscription))]
         //[CheckModelForNull]
         //public async Task<IHttpActionResult> PostEvent(AddSubscribeBindingModel model)
@@ -155,7 +157,7 @@ namespace Events.Controllers
         //    };
         //    await subscribeRepository.SaveInstance(ev);
 
-        //    return CreatedAtRoute("DefaultApi", new { id = ev.SubscribeId }, ev);
+        //    return CreatedAtRoute("DefaultApi", new { id = ev.SubscribtionId }, ev);
         //}
     }
 }
