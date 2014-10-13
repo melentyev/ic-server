@@ -189,6 +189,7 @@
     <Compile Include="Abstract\ICommentsRepository.cs" />
     <Compile Include="Abstract\IEventsRepository.cs" />
     <Compile Include="Abstract\IGcmRegIdsRepository.cs" />
+    <Compile Include="Abstract\ISubscribeRepository.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -212,9 +213,11 @@
     <Compile Include="Concrete\EFCommentsRepository.cs" />
     <Compile Include="Concrete\EFEventsRepository.cs" />
     <Compile Include="Concrete\EFRepository.cs" />
+    <Compile Include="Concrete\EFSubscriptionRepository.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EventCommentsController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
+    <Compile Include="Controllers\FriendsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Filters\CheckModelForNullAttribute.cs" />
@@ -236,18 +239,6 @@
     <Compile Include="KatanaContrib.Security.VK\VkAuthenticationOptions.cs" />
     <Compile Include="KatanaContrib.Security.VK\VkAuthenticationProvider.cs" />
     <Compile Include="KatanaContrib.Security.VK\VkReturnEndpointContext.cs" />
-    <Compile Include="Migrations\201410071837103_InitialCreate.cs" />
-    <Compile Include="Migrations\201410071837103_InitialCreate.Designer.cs">
-      <DependentUpon>201410071837103_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201410081113194_Initial2.cs" />
-    <Compile Include="Migrations\201410081113194_Initial2.Designer.cs">
-      <DependentUpon>201410081113194_Initial2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201410081925093_addRegIdKey.cs" />
-    <Compile Include="Migrations\201410081925093_addRegIdKey.Designer.cs">
-      <DependentUpon>201410081925093_addRegIdKey.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -297,13 +288,6 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\_references.js" />
@@ -313,9 +297,17 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Friends\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -323,17 +315,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201410071837103_InitialCreate.resx">
-      <DependentUpon>201410071837103_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201410081113194_Initial2.resx">
-      <DependentUpon>201410081113194_Initial2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201410081925093_addRegIdKey.resx">
-      <DependentUpon>201410081925093_addRegIdKey.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -14,7 +14,6 @@ namespace Events.Models
         public string Longitude { get; set; }
         [Required]
         public string Description { get; set; }
-        [Required]
         public DateTime EventDate { get; set; }
     }
     public class AddCommentBindingModel
@@ -23,5 +22,11 @@ namespace Events.Models
         public int EntityId { get; set; }
         [Required]
         public string Text { get; set; }
+    }
+
+    public class AddSubscribeBindingModel
+    {
+        [Required]
+        public int SubscribedTo { get; set; }
     }
 }

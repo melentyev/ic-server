@@ -20,6 +20,7 @@ namespace Events
             var container = new UnityContainer();
             container.RegisterType<IEventsRepository, EFEventsRepository>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentsRepository, EFCommentsRepository>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISubscribeRepository, EFSubscriptionRepository>(new HierarchicalLifetimeManager());
 
             config.DependencyResolver = new UnityResolver(container);
 
