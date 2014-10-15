@@ -239,6 +239,10 @@
     <Compile Include="KatanaContrib.Security.VK\VkAuthenticationOptions.cs" />
     <Compile Include="KatanaContrib.Security.VK\VkAuthenticationProvider.cs" />
     <Compile Include="KatanaContrib.Security.VK\VkReturnEndpointContext.cs" />
+    <Compile Include="Migrations\201410150902246_InitialCreate.cs" />
+    <Compile Include="Migrations\201410150902246_InitialCreate.Designer.cs">
+      <DependentUpon>201410150902246_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -276,7 +280,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="doc.json" />
-    <None Include="Properties\PublishProfiles\myasp.pubxml" />
+    <None Include="Properties\PublishProfiles\myasp1.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -318,6 +322,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201410150902246_InitialCreate.resx">
+      <DependentUpon>201410150902246_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

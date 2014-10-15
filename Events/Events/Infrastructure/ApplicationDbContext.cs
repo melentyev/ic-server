@@ -14,14 +14,23 @@ namespace Events.Infrastructure
         public ApplicationDbContext()
             : base("DefaultConnection")
         {
-            Database.Log = (msg => {
-                //myLog.Add(msg);
+            /*Database.Log = (msg => {                
                 myFileLog.Write(msg);
-            });
+            });*/
         }
-
-        static StreamWriter myFileLog = new StreamWriter(new FileStream(
-                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\mydblog.txt", FileMode.Append));
+        private static StreamWriter m_myFileLog = null;
+        static StreamWriter myFileLog 
+        { 
+            get 
+            { 
+                if (m_myFileLog == null) 
+                {
+                    m_myFileLog = new StreamWriter(new FileStream(
+                        Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\mydblog.txt", FileMode.Append));
+                } 
+                return m_myFileLog;
+            } 
+        }
         static IList<string> myLog = new List<string>();
         public System.Data.Entity.DbSet<Event> Events { get; set; }
         public System.Data.Entity.DbSet<Comment> Comment { get; set; }

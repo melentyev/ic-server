@@ -4,18 +4,20 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using Events.Abstract;
+using Events.Concrete;
 using Events.Filters;
 
 namespace Events.Controllers
 {
     public class HomeController : Controller
     {
-        [CheckModelForNull]
-        public ActionResult Index()
+        private IEventsRepository eventsRepository = new EFEventsRepository();
+        public string Index()
         {
-            ViewBag.Title = "Home Page";
-
-            return View();
+            var tmp = eventsRepository.Objects.First();
+            var nm = tmp.EventId;
+            return "<H1>Home</H1>";
         }
     }
 }

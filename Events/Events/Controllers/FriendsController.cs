@@ -19,7 +19,6 @@ using Events.Filters;
 namespace Events.Controllers
 {
     [Authorize]
-    [RoutePrefix("api/Friends")]
     public class FriendsController : ApplicationApiController
     {
         private ISubscribeRepository subscribeRepository;
@@ -35,7 +34,7 @@ namespace Events.Controllers
         //}
 
         // GET api/Friends/f
-        [Route("/{puserId}/{param}")]
+        [Route("{puserId}/{param}")]
         [ResponseType(typeof(IQueryable<Subscription>))]
         public IHttpActionResult GetFriends(string puserId, string param)
         {
