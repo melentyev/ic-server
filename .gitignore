@@ -190,3 +190,5 @@ Secrets.cs
 Web.config
 Web.config.Debug
 Web.config.Release
+Web.Debug.config
+Web.Release.config

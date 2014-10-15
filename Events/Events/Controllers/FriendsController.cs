@@ -51,13 +51,21 @@ namespace Events.Controllers
             switch (param)
             {
                 case "f":
-                    friends = subscribeRepository.Objects.Where(e => (e.Subscriber == CurrentUser.UserId && e.Relationship == Subscription.relationship.follower));
+                    friends = subscribeRepository.Objects.Where(e => (e.SubscribedTo == CurrentUser.UserId && e.Relationship == Subscription.relationship.follower));
                     break;
                 case "s":
-                    friends = subscribeRepository.Objects.Where(e => (e.SubscribedTo == CurrentUser.UserId && e.Relationship == Subscription.relationship.following));
+                    friends = subscribeRepository.Objects.Where(e => (e.Subscriber == CurrentUser.UserId && e.Relationship == Subscription.relationship.following));
                     break;
                 case "m":
-                    friends = subscribeRepository.Objects.Where(e => (e.SubscribedTo == CurrentUser.UserId && e.Relationship == Subscription.relationship.friend));
+                    friends = subscribeRepository.Objects.Where(e => (e.Subscriber == CurrentUser.UserId && e.Relationship == Subscription.relationship.friend));
+                    break;
+                case "mf":
+                    friends = subscribeRepository.Objects.Where
+                        (e => (e.SubscribedTo == CurrentUser.UserId && (e.Relationship == Subscription.relationship.follower || e.Relationship == Subscription.relationship.friend)));
+                    break;
+                case "ms":
+                    friends = subscribeRepository.Objects.Where
+                        (e => (e.Subscriber == CurrentUser.UserId && (e.Relationship == Subscription.relationship.following || e.Relationship == Subscription.relationship.friend)));
                     break;
                 default:
                     return BadRequest("incorrect input");
