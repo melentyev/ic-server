@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
+    <NuGetPackageImportStamp>a938a430</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,6 +57,14 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.2.0.2\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.2.0.2\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
@@ -151,14 +160,8 @@
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin">
-      <HintPath>..\packages\Microsoft.Owin.2.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Owin.Host.SystemWeb">
       <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security">
-      <HintPath>..\packages\Microsoft.Owin.Security.2.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.Facebook">
       <HintPath>..\packages\Microsoft.Owin.Security.Facebook.2.0.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
@@ -206,6 +209,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Concrete\EFGcmRegIdsRepository.cs" />
     <Compile Include="Concrete\EFCommentsRepository.cs" />
     <Compile Include="Concrete\EFEventsRepository.cs" />
     <Compile Include="Concrete\EFRepository.cs" />
@@ -226,18 +230,15 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\Secrets.cs" />
     <Compile Include="Infrastructure\UnityResolver.cs" />
-    <Compile Include="Migrations\201410071837103_InitialCreate.cs" />
-    <Compile Include="Migrations\201410071837103_InitialCreate.Designer.cs">
-      <DependentUpon>201410071837103_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201410081113194_Initial2.cs" />
-    <Compile Include="Migrations\201410081113194_Initial2.Designer.cs">
-      <DependentUpon>201410081113194_Initial2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201410111331266_Subscriptions1.cs" />
-    <Compile Include="Migrations\201410111331266_Subscriptions1.Designer.cs">
-      <DependentUpon>201410111331266_Subscriptions1.cs</DependentUpon>
-    </Compile>
+    <Compile Include="KatanaContrib.Security.VK\Constants.cs" />
+    <Compile Include="KatanaContrib.Security.VK\IVkAuthenticationProvider.cs" />
+    <Compile Include="KatanaContrib.Security.VK\VkAuthenticatedContext.cs" />
+    <Compile Include="KatanaContrib.Security.VK\VkAuthenticationExtensions.cs" />
+    <Compile Include="KatanaContrib.Security.VK\VkAuthenticationHandler.cs" />
+    <Compile Include="KatanaContrib.Security.VK\VkAuthenticationMiddleware.cs" />
+    <Compile Include="KatanaContrib.Security.VK\VkAuthenticationOptions.cs" />
+    <Compile Include="KatanaContrib.Security.VK\VkAuthenticationProvider.cs" />
+    <Compile Include="KatanaContrib.Security.VK\VkReturnEndpointContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -316,15 +317,7 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201410071837103_InitialCreate.resx">
-      <DependentUpon>201410071837103_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201410081113194_Initial2.resx">
-      <DependentUpon>201410081113194_Initial2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201410111331266_Subscriptions1.resx">
-      <DependentUpon>201410111331266_Subscriptions1.cs</DependentUpon>
-    </EmbeddedResource>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

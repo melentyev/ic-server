@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace Events.Models
 {
     public class GcmRegistrationId
     {
-        public string RegId;
-        public int UserId;
+        [Key]
+        public string RegId { get; set; }
+        public int UserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

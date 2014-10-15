@@ -9,8 +9,7 @@ namespace Events.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
-            ContextKey = "Events.Infrastructure.ApplicationDbContext";
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Events.Infrastructure.ApplicationDbContext context)

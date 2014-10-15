@@ -18,19 +18,29 @@ using Events.Filters;
 
 namespace Events.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class EventsController : ApplicationApiController
     {
         private IEventsRepository eventsRepository;
+        private const int getEventsMaxCount = 200;
         //private ICommentsRepository commentsRepository;
         public EventsController(IEventsRepository evRepo) {
             eventsRepository = evRepo;
         }
-
-        // GET api/Events
-        public IQueryable<Event> GetEvents()
+        
+        /*private R WithOptionalRequestParam<T, R>(string parm, Func<T, R>) 
         {
-            return eventsRepository.Objects;
+            
+            if (parsed.AllKeys.Contains(param)) 
+        }*/
+        // GET api/Events
+        public IQueryable<Event> GetEvents(int? offset = null, int count = 20)
+        {
+            var query = eventsRepository.Objects;
+            query = offset == null ? query : query.Skip(offset.Value);
+            query = offset == null ? query : query.Take(Math.Min(count, getEventsMaxCount));
+
+            return query;
         }
 
         // GET api/Events/5

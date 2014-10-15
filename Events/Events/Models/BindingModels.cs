@@ -14,7 +14,6 @@ namespace Events.Models
         public string Longitude { get; set; }
         [Required]
         public string Description { get; set; }
-        [Required]
         public DateTime EventDate { get; set; }
     }
     public class AddCommentBindingModel
