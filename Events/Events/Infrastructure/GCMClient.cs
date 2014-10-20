@@ -14,9 +14,8 @@ namespace Events.Infrastructure
 {
     public class GCMClient
     {
-        public async Task<string> SendNotification(string[] registration_ids, string message, string collapse_key, object data)
+        public async Task<string> SendNotification(string[] registration_ids, object data, string collapse_key = null)
         {
-            var value = message;
             using (var client = new HttpClient()) {   
                 JObject body = new JObject();
                 body.Add("registration_ids", JObject.FromObject(registration_ids));
