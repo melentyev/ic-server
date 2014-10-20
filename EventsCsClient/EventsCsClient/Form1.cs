@@ -33,6 +33,11 @@ namespace EventsCsClient
 
         private async void LoginBtn_Click(object sender, EventArgs e)
         {
+            var dtu = DateTime.UtcNow.ToString("r");
+            var dt = DateTime.Now.ToString("r");
+            var dtu1 = DateTime.UtcNow.ToString();
+            var dt1 = DateTime.Now.ToString();
+            
             var wc = new WebClient();
             var data = "grant_type=password&username=" + textBox1.Text + "&password=" + textBox2.Text;
             wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
@@ -104,12 +109,13 @@ namespace EventsCsClient
             {
                 //var descr = MsgBox2.Text.Select(c => string.Format(@"\u{0:x4}", (int)c)).Aggregate("", (a, b) => a + b);
                 var descr = MsgBox2.Text;
+                var dtu = DateTime.UtcNow.ToString("r");
                 var data = JsonConvert.SerializeObject(new
                 {
                     Latitude = EventAddLatitude.Text,
                     Longitude = EventAddLongitude.Text,
                     Description = descr,
-                    EventDate = DateTime.Now.ToString()
+                    EventDate = dtu
                 });
                 //data = data.Replace(@"\\", @"\");
                 WaitLab.Show();
