@@ -15,6 +15,7 @@ using Events.Infrastructure;
 using Events.Models;
 using Events.Abstract;
 using Events.Filters;
+using GlobalHost = Microsoft.AspNet.SignalR.GlobalHost;
 
 namespace Events.Controllers
 {
@@ -22,39 +23,54 @@ namespace Events.Controllers
     public class EventsController : ApplicationApiController
     {
         private IEventsRepository eventsRepository;
+        private IGcmRegIdsRepository gcmRepo;
         private const int getEventsMaxCount = 200;
         //private ICommentsRepository commentsRepository;
-        public EventsController(IEventsRepository evRepo) {
-            eventsRepository = evRepo;
-        }
-        
-        /*private R WithOptionalRequestParam<T, R>(string parm, Func<T, R>) 
+
+        public EventsController(IEventsRepository evRepo, IGcmRegIdsRepository paramGcmRepo)
         {
-            
-            if (parsed.AllKeys.Contains(param)) 
-        }*/
+            eventsRepository = evRepo;
+            gcmRepo = paramGcmRepo;
+        }
         // GET api/Events
-        public IQueryable<Event> GetEvents(int? offset = null, int count = 20)
+        public IQueryable<EventViewModel> GetEvents(int? offset = null, int count = 20)
         {
             var query = eventsRepository.Objects;
             query = offset == null ? query : query.Skip(offset.Value);
-            query = offset == null ? query : query.Take(Math.Min(count, getEventsMaxCount));
-
-            return query;
+            query = query.Take(Math.Min(count, getEventsMaxCount));
+            return query.Select(e => new EventViewModel 
+            {   
+                EventId = e.EventId, 
+                UserId = e.UserId,
+                Latitude = e.Latitude,
+                Longitude = e.Longitude,
+                Description = e.Description,
+                EventDate = e.EventDate,
+            });;
         }
 
         // GET api/Events/5
-        [ResponseType(typeof(Event))]
+        [ResponseType(typeof(EventViewModel))]
         public async Task<IHttpActionResult> GetEvent(int id)
         {
 
-            Event @event = await eventsRepository.Objects.Where(e => e.EventId == id).FirstOrDefaultAsync();
-            if (@event == null)
+            Event dbEntry = await eventsRepository.Objects.Where(e => e.EventId == id).FirstOrDefaultAsync();
+            if (dbEntry == null)
             {
                 return NotFound();
             }
-
-            return Ok(@event);
+            var res = new EventViewModel
+            {
+                EventId = dbEntry.EventId,
+                UserId = dbEntry.UserId,
+                Latitude = dbEntry.Latitude,
+                Longitude = dbEntry.Longitude,
+                Description = dbEntry.Description,
+                EventDate = dbEntry.EventDate,
+                LastComments = new CommentViewModel[0],
+                Photos = new SavedFileViewModel[0]
+            };
+            return Ok(res);
         }
 
         /*// PUT api/Events/5
@@ -73,6 +89,7 @@ namespace Events.Controllers
         }*/
 
         // POST api/Events
+        [Authorize]
         [ResponseType(typeof(Event))]
         [CheckModelForNull]
         public async Task<IHttpActionResult> PostEvent(AddEventBindingModel model)
@@ -90,12 +107,16 @@ namespace Events.Controllers
                 EventDate = model.EventDate,
                 DateCreate = DateTime.Now
             };
-            await eventsRepository.SaveInstance(ev);
-
+            ev = await eventsRepository.SaveInstance(ev);
+            var gcmClient = new GCMClient();
+            var rids = await gcmRepo.Objects.Select(r => r.RegId).ToArrayAsync();
+            //await gcmClient.SendNotification(rids, new { Code = "NEW_EVENT", EventId = ev.EventId } as Object);
+            GlobalHost.ConnectionManager.GetHubContext<EventsHub>().Clients.All.broadcastNewEvent(ev.EventId.ToString());
             return CreatedAtRoute("DefaultApi", new { id = ev.EventId }, ev);
         }
 
         // DELETE api/Events/5
+        [Authorize]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> DeleteEvent(int id)
         {

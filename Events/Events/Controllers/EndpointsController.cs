@@ -11,10 +11,11 @@ using Events.Infrastructure;
 
 namespace Events.Models
 {
-    [Authorize]
+    [RoutePrefix("api/Endpoints")]
+    //[Authorize]
     public class EndpointsController : ApplicationApiController
     {
-        public IGcmRegIdsRepository regIdsRepo;
+        private IGcmRegIdsRepository regIdsRepo;
         public EndpointsController(IGcmRegIdsRepository repo)
         {
             regIdsRepo = repo;
@@ -24,7 +25,12 @@ namespace Events.Models
         [CheckModelForNull]
         public async Task<IHttpActionResult> GcmRegister(string regId)
         {
-            var model = await regIdsRepo.FindAsync(regId);
+            if (String.IsNullOrEmpty(regId) ) {
+                return BadRequest();
+            }
+            var reg = new GcmRegistrationId { RegId = regId, UserId = CurrentUser.UserId };
+            await regIdsRepo.SaveInstance(reg);
+            //var model = await regIdsRepo.FindAsync(regId);
             return Ok();
         }
     }

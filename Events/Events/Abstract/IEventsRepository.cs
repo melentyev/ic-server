@@ -9,6 +9,6 @@ namespace Events.Abstract
     {
         IQueryable<Event> Objects { get; }
         Task<Event> FindAsync(params object[] k);
-        Task SaveInstance(Event ev);
+        Task<Event> SaveInstance(Event ev);
     }
 }

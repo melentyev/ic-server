@@ -18,6 +18,7 @@ using Events.Filters;
 
 namespace Events.Controllers
 {
+    [RoutePrefix("api/Friends")]
     [Authorize]
     public class FriendsController : ApplicationApiController
     {
@@ -46,30 +47,30 @@ namespace Events.Controllers
                     return BadRequest("/api/friends/my/{type} or /api/friends/{userId}/{type}");
                 }
             }
-            var friends = subscribeRepository.Objects;
+            var rels = subscribeRepository.Objects;
             switch (param)
             {
                 case "f":
-                    friends = subscribeRepository.Objects.Where(e => (e.SubscribedTo == CurrentUser.UserId && e.Relationship == Subscription.relationship.follower));
+                    rels = rels.Where(e => e.SubscribedTo == userId && e.Relationship == Relationship.Follower);
                     break;
                 case "s":
-                    friends = subscribeRepository.Objects.Where(e => (e.Subscriber == CurrentUser.UserId && e.Relationship == Subscription.relationship.following));
+                    rels = rels.Where(e => e.Subscriber == userId && e.Relationship == Relationship.Following);
                     break;
                 case "m":
-                    friends = subscribeRepository.Objects.Where(e => (e.Subscriber == CurrentUser.UserId && e.Relationship == Subscription.relationship.friend));
+                    rels = rels.Where(e => e.Subscriber == userId && e.Relationship == Relationship.Friend);
                     break;
                 case "mf":
-                    friends = subscribeRepository.Objects.Where
-                        (e => (e.SubscribedTo == CurrentUser.UserId && (e.Relationship == Subscription.relationship.follower || e.Relationship == Subscription.relationship.friend)));
+                    rels = rels.Where
+                        (e => (e.SubscribedTo == userId && (e.Relationship == Relationship.Follower || e.Relationship == Relationship.Friend)));
                     break;
                 case "ms":
-                    friends = subscribeRepository.Objects.Where
-                        (e => (e.Subscriber == CurrentUser.UserId && (e.Relationship == Subscription.relationship.following || e.Relationship == Subscription.relationship.friend)));
+                    rels = rels.Where
+                        (e => (e.Subscriber == userId && (e.Relationship == Relationship.Following || e.Relationship == Relationship.Friend)));
                     break;
                 default:
                     return BadRequest("incorrect input");
             }
-            return Ok(@friends);
+            return Ok(rels);
         }
 
         // POST api/Friends/Follow
@@ -93,13 +94,13 @@ namespace Events.Controllers
                 };
                 if (friend == null)
                 {
-                    sub.Relationship = Subscription.relationship.following;
+                    sub.Relationship = Relationship.Following;
                     await subscribeRepository.SaveInstance(sub);
                 }
                 else
                 {
-                    sub.Relationship = Subscription.relationship.friend;
-                    friend.Relationship = Subscription.relationship.friend;
+                    sub.Relationship = Relationship.Friend;
+                    friend.Relationship = Relationship.Friend;
                     await subscribeRepository.SaveInstance(sub);
                     await subscribeRepository.SaveInstance(friend);
                 }
@@ -108,13 +109,13 @@ namespace Events.Controllers
             {
                 if (friend == null)
                 {
-                    i.Relationship = Subscription.relationship.following;
+                    i.Relationship = Relationship.Following;
                     await subscribeRepository.SaveInstance(i);
                 }
                 else
                 {
-                    i.Relationship = Subscription.relationship.friend;
-                    friend.Relationship = Subscription.relationship.friend;
+                    i.Relationship = Relationship.Friend;
+                    friend.Relationship = Relationship.Friend;
                     await subscribeRepository.SaveInstance(i);
                     await subscribeRepository.SaveInstance(friend);
                 }
@@ -141,13 +142,13 @@ namespace Events.Controllers
             {
                 if (friend == null)
                 {
-                    i.Relationship = Subscription.relationship.unfollow;
+                    i.Relationship = Relationship.Unfollow;
                     await subscribeRepository.SaveInstance(i);
                 }
                 else
                 {
-                    i.Relationship = Subscription.relationship.unfollow;
-                    friend.Relationship = Subscription.relationship.following;
+                    i.Relationship = Relationship.Unfollow;
+                    friend.Relationship = Relationship.Following;
                     await subscribeRepository.SaveInstance(i);
                     await subscribeRepository.SaveInstance(friend);
                 }

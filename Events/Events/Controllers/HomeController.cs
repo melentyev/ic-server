@@ -13,11 +13,11 @@ namespace Events.Controllers
     public class HomeController : Controller
     {
         private IEventsRepository eventsRepository = new EFEventsRepository();
-        public string Index()
+        public ActionResult Index()
         {
             var tmp = eventsRepository.Objects.First();
             var nm = tmp.EventId;
-            return "<H1>Home</H1>";
+            return View();
         }
     }
 }

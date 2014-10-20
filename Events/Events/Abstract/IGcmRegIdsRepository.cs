@@ -11,6 +11,6 @@ namespace Events.Abstract
     {
         IQueryable<GcmRegistrationId> Objects { get; }
         Task<GcmRegistrationId> FindAsync(params object[] k);
-        Task SaveInstance(GcmRegistrationId regId);
+        Task<GcmRegistrationId> SaveInstance(GcmRegistrationId regId);
     }
 }

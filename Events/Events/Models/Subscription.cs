@@ -12,11 +12,12 @@ namespace Events.Models
 {
     public class Subscription
     {
-        public enum relationship {unfollow, follower, following, friend }
+        
         [Key]
         public int SubscribtionId { get; set; }
         public int Subscriber { get; set; }
         public int SubscribedTo { get; set; }
-        public relationship Relationship { get; set; }
+        public Relationship Relationship { get; set; }
     }
+    public enum Relationship { Unfollow, Follower, Following, Friend }
 }

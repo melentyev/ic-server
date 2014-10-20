@@ -23,12 +23,12 @@ namespace Events.Concrete
             get { return context.Set<T>(); }
         }
 
-        public virtual async Task SaveInstance(T ev)
+        public virtual async Task<T> SaveInstance(T ev)
         {
             var id = (int)(typeof(T)).GetProperty(IdPropName).GetValue(ev);
             if (id == 0)
             {
-                context.Set<T>().Add(ev);
+                ev = context.Set<T>().Add(ev);
             }
             else
             {
@@ -36,6 +36,7 @@ namespace Events.Concrete
                 foreach (var prop in typeof(T).GetProperties()) {
                     prop.SetValue(dbEntry, prop.GetValue(ev));
                 }
+                ev = dbEntry;
                 /*if (dbEntry != null)
                 {
                     dbEntry.UserId = ev.UserId;
@@ -44,6 +45,7 @@ namespace Events.Concrete
                 }*/
             }
             await context.SaveChangesAsync();
+            return ev;
         }
         public void Dispose()
         {

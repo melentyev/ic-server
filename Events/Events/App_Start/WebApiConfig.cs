@@ -21,6 +21,7 @@ namespace Events
             container.RegisterType<IEventsRepository, EFEventsRepository>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentsRepository, EFCommentsRepository>(new HierarchicalLifetimeManager());
             container.RegisterType<ISubscribeRepository, EFSubscriptionRepository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IGcmRegIdsRepository, EFGcmRegIdsRepository>(new HierarchicalLifetimeManager());
 
             config.DependencyResolver = new UnityResolver(container);
 

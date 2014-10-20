@@ -13,5 +13,13 @@ namespace Events.Concrete
         {
             return context.Set<Event>().FindAsync(k);
         }
+
+        public Task Delete(int id)
+        {
+            var ev = new Event { EventId = id };
+            context.Events.Attach(ev);
+            context.Events.Remove(ev);
+            return context.SaveChangesAsync();
+        }
     }
 }
