@@ -13,10 +13,10 @@ namespace Events.Models
     {
         public int CommentId { get; set; }
         public int UserId { get; set; }
-
         public EntityTypes EntityType { get; set; }
         public int EntityId { get; set; }
         public string Text { get; set; }
         public DateTime DateCreate { get; set; }
+        public int LikesCount { get; set; }
     }
 }

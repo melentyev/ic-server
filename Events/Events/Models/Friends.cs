@@ -7,6 +7,6 @@ namespace Events.Models
 {
     public class Friends
     {
-        aaaaaaaaaaaa
+        
     }
 }

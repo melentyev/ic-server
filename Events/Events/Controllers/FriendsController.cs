@@ -36,8 +36,8 @@ namespace Events.Controllers
 
         // GET api/Friends/f
         [Route("{puserId}/{param}")]
-        [ResponseType(typeof(IQueryable<Subscription>))]
-        public IHttpActionResult GetFriends(string puserId, string param)
+        [ResponseType(typeof(UserProfileViewModel[]))]
+        public async Task<IHttpActionResult> GetFriends(string puserId, string param)
         {
             var userId = CurrentUser.UserId;
             if (puserId != "my") 
@@ -48,29 +48,26 @@ namespace Events.Controllers
                 }
             }
             var rels = subscribeRepository.Objects;
-            switch (param)
+            IQueryable<ApplicationUser> users; 
+            var variants = new Dictionary<string, Func<IQueryable<ApplicationUser> > >();
+            variants["f"]  = () => 
+                rels.Where(s => s.SubscribedToId == userId && s.Relationship == Relationship.Follower).Select(s => s.Subscriber);
+            variants["s"]  = () => 
+                rels.Where(s => s.SubscriberId == userId && s.Relationship == Relationship.Following).Select(s => s.SubscribedTo);
+            variants["m"]  = () => 
+                rels.Where(s => s.SubscriberId == userId && s.Relationship == Relationship.Friend).Select(s => s.SubscribedTo);
+            variants["mf"] = () => rels
+                .Where(s => (s.SubscribedToId == userId && (s.Relationship == Relationship.Follower || s.Relationship == Relationship.Friend)))
+                .Select(s => s.Subscriber);
+            variants["ms"] = () => rels
+                .Where(s => (s.SubscriberId == userId && (s.Relationship == Relationship.Following || s.Relationship == Relationship.Friend)))
+                .Select(s => s.SubscribedTo);
+            if(!variants.ContainsKey(param) ) 
             {
-                case "f":
-                    rels = rels.Where(e => e.SubscribedTo == userId && e.Relationship == Relationship.Follower);
-                    break;
-                case "s":
-                    rels = rels.Where(e => e.Subscriber == userId && e.Relationship == Relationship.Following);
-                    break;
-                case "m":
-                    rels = rels.Where(e => e.Subscriber == userId && e.Relationship == Relationship.Friend);
-                    break;
-                case "mf":
-                    rels = rels.Where
-                        (e => (e.SubscribedTo == userId && (e.Relationship == Relationship.Follower || e.Relationship == Relationship.Friend)));
-                    break;
-                case "ms":
-                    rels = rels.Where
-                        (e => (e.Subscriber == userId && (e.Relationship == Relationship.Following || e.Relationship == Relationship.Friend)));
-                    break;
-                default:
-                    return BadRequest("incorrect input");
+                return BadRequest("incorrect input");
             }
-            return Ok(rels);
+            var result = await variants[param]().Select(u => new UserProfileViewModel(u)).ToArrayAsync();
+            return Ok(result);
         }
 
         // POST api/Friends/Follow
@@ -83,14 +80,14 @@ namespace Events.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var friend = await subscribeRepository.Objects.Where(e => (e.SubscribedTo == CurrentUser.UserId && e.Subscriber == id)).FirstOrDefaultAsync();
-            var i = await subscribeRepository.Objects.Where(e => (e.Subscriber == CurrentUser.UserId && e.SubscribedTo == id)).FirstOrDefaultAsync();
+            var friend = await subscribeRepository.Objects.Where(e => (e.SubscribedToId == CurrentUser.UserId && e.SubscriberId == id)).FirstOrDefaultAsync();
+            var i = await subscribeRepository.Objects.Where(e => (e.SubscriberId == CurrentUser.UserId && e.SubscribedToId == id)).FirstOrDefaultAsync();
             if (i == null)
             {
                 var sub = new Subscription
                 {
-                    Subscriber = CurrentUser.UserId,
-                    SubscribedTo = id,
+                    SubscriberId = CurrentUser.UserId,
+                    SubscribedToId = id,
                 };
                 if (friend == null)
                 {
@@ -132,8 +129,8 @@ namespace Events.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var friend = await subscribeRepository.Objects.Where(e => (e.SubscribedTo == CurrentUser.UserId && e.Subscriber == id)).FirstOrDefaultAsync();
-            var i = await subscribeRepository.Objects.Where(e => (e.Subscriber == CurrentUser.UserId && e.SubscribedTo == id)).FirstOrDefaultAsync();
+            var friend = await subscribeRepository.Objects.Where(e => (e.SubscribedToId == CurrentUser.UserId && e.SubscriberId == id)).FirstOrDefaultAsync();
+            var i = await subscribeRepository.Objects.Where(e => (e.SubscriberId == CurrentUser.UserId && e.SubscribedToId == id)).FirstOrDefaultAsync();
             if (i == null)
             {
                 return BadRequest("You not subscribe on this user");

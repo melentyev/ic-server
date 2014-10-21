@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Events.Models;
 using System.IO;
+using System.Data.Entity;
 
 namespace Events.Infrastructure
 {
@@ -18,6 +19,21 @@ namespace Events.Infrastructure
                 myFileLog.Write(msg);
             });*/
         }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+           /* modelBuilder.Entity<ApplicationUser>()
+                .HasMany(c => c.)
+                .WithMany()                 // Note the empty WithMany()
+                .Map(x =>
+                {
+                    x.MapLeftKey("CountryId");
+                    x.MapRightKey("CurrencyId");
+                    x.ToTable("CountryCurrencyMapping");
+                });
+            */
+            base.OnModelCreating(modelBuilder);
+        }
+
         private static StreamWriter m_myFileLog = null;
         static StreamWriter myFileLog 
         { 

@@ -15,8 +15,12 @@ namespace Events.Models
         
         [Key]
         public int SubscribtionId { get; set; }
-        public int Subscriber { get; set; }
-        public int SubscribedTo { get; set; }
+        [Key, Column(Order = 0)]
+        public int SubscriberId { get; set; }
+        [Key, Column(Order = 1)]
+        public int SubscribedToId { get; set; }
+        public virtual ApplicationUser Subscriber { get; set; }
+        public virtual ApplicationUser SubscribedTo { get; set; }
         public Relationship Relationship { get; set; }
     }
     public enum Relationship { Unfollow, Follower, Following, Friend }

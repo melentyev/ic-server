@@ -20,6 +20,7 @@ namespace Events.Models
         public string Description { get; set; }
         public DateTime EventDate { get; set; }
         public DateTime DateCreate { get; set; }
+        public int LikesCount { get; set; }
     }
 }
 

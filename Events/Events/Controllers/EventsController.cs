@@ -25,12 +25,14 @@ namespace Events.Controllers
         private IEventsRepository eventsRepository;
         private IGcmRegIdsRepository gcmRepo;
         private const int getEventsMaxCount = 200;
+        private AppUserManager userManager;
         //private ICommentsRepository commentsRepository;
 
         public EventsController(IEventsRepository evRepo, IGcmRegIdsRepository paramGcmRepo)
         {
             eventsRepository = evRepo;
             gcmRepo = paramGcmRepo;
+            userManager = Startup.UserManagerFactory();
         }
         // GET api/Events
         public IQueryable<EventViewModel> GetEvents(int? offset = null, int count = 20)
@@ -38,15 +40,7 @@ namespace Events.Controllers
             var query = eventsRepository.Objects;
             query = offset == null ? query : query.Skip(offset.Value);
             query = query.Take(Math.Min(count, getEventsMaxCount));
-            return query.Select(e => new EventViewModel 
-            {   
-                EventId = e.EventId, 
-                UserId = e.UserId,
-                Latitude = e.Latitude,
-                Longitude = e.Longitude,
-                Description = e.Description,
-                EventDate = e.EventDate,
-            });;
+            return query.Select(e => new EventViewModel(e) );
         }
 
         // GET api/Events/5
@@ -59,17 +53,12 @@ namespace Events.Controllers
             {
                 return NotFound();
             }
-            var res = new EventViewModel
-            {
-                EventId = dbEntry.EventId,
-                UserId = dbEntry.UserId,
-                Latitude = dbEntry.Latitude,
-                Longitude = dbEntry.Longitude,
-                Description = dbEntry.Description,
-                EventDate = dbEntry.EventDate,
-                LastComments = new CommentViewModel[0],
-                Photos = new SavedFileViewModel[0]
-            };
+            var res = new EventViewModel(dbEntry);
+
+            var user = await userManager.FindByIdAsync(dbEntry.UserId);
+            res.User = new UserProfileViewModel(user);
+            res.LastComments = new CommentViewModel[0];
+            res.Photos = new PhotoViewModel[0];
             return Ok(res);
         }
 
