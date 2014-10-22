@@ -19,7 +19,6 @@ namespace Events.Models
         public int FileSize { get; set; }
         public UserFileState State { get; set; }
         public DateTime DateCreate { get; set; }
-        public int Hash { get; set; }
     }
 
     public enum UserFileState

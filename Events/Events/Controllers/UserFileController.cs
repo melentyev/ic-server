@@ -53,22 +53,27 @@ namespace Events.Controllers
             {
                 if (file != null)
                 {
-                    // получаем имя файла
-                    string fileName = System.IO.Path.GetFileName(file.FileName) + CurrentUser.UserId.ToString() + DateTime.Now.ToString();
-                    // сохраняем файл в папку Files в проекте
-                    file.SaveAs(HttpContext.Current.Server.MapPath("~/Files/" + fileName));
                     var userFile = new UserFile
                     {
                         UserId = CurrentUser.UserId,
-                        FilePath = "~/Files/" + fileName,
+                        FilePath = "",
                         FileSize = file.ContentLength,
                         State = UserFileState.JustUploaded,
                         DateCreate = DateTime.Now,
-                        Hash = file.GetHashCode(),
                     };
                     var addedFile = await userFileRepository.SaveInstance(userFile);
+                    // имя - номер записи в базе
+                    string fileName = addedFile.UserFileId.ToString();
+                    // сохраняем файл в папку Files в проекте
+                    file.SaveAs(HttpContext.Current.Server.MapPath("~/Files/" + fileName));
+                    addedFile.FilePath = ("~/Files/" + fileName);
+                    addedFile = await userFileRepository.SaveInstance(userFile);
                     answer.FileId.Add(addedFile.UserFileId);
                     forHash = forHash + addedFile.UserFileId.ToString() + addedFile.FileSize.ToString();
+                }
+                else
+                {
+                    BadRequest("Not file in input");
                 }
             }
             answer.Hash = forHash.GetHashCode();
@@ -87,16 +92,13 @@ namespace Events.Controllers
             }
             foreach (var fileId in model.FileId)
             {
-                if (fileId != null)
+                var dbEntry = await userFileRepository.Objects.Where(e => e.UserFileId == fileId).FirstOrDefaultAsync();
+                if (dbEntry == null)
                 {
-                    var dbEntry = await userFileRepository.Objects.Where(e => e.UserFileId == fileId).FirstOrDefaultAsync();
-                    if (dbEntry == null)
-                    {
-                        return BadRequest();
-                    }
-                    UFList.Add(dbEntry);
-                    forHash = forHash + dbEntry.UserFileId.ToString() + dbEntry.FileSize.ToString();
+                    return BadRequest();
                 }
+                UFList.Add(dbEntry);
+                forHash = forHash + dbEntry.UserFileId.ToString() + dbEntry.FileSize.ToString();
             }
             if (forHash.GetHashCode() == model.Hash)
             {
@@ -107,10 +109,22 @@ namespace Events.Controllers
                         userFile.State = UserFileState.Saved;
                         Path.Add(userFile.FilePath);
                     }
+                    else
+                    {
+                        return BadRequest();
+                    }
                 }
                 return Ok(Path);
             }
             return BadRequest();
+        }
+        [Route("File.Delete/{filePath}")]
+        public async Task<IHttpActionResult> Delete(string path)
+        {
+            var dbEntry = await userFileRepository.Objects.Where(e => e.FilePath == path).FirstOrDefaultAsync();
+            dbEntry.State = UserFileState.Removed;
+            await userFileRepository.SaveInstance(dbEntry);
+            return Ok();
         }
     }
 }
