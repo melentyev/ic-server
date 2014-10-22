@@ -36,5 +36,6 @@ namespace Events.Infrastructure
         public System.Data.Entity.DbSet<Comment> Comments { get; set; }
         public System.Data.Entity.DbSet<Subscription> Subscriptions { get; set; }
         public System.Data.Entity.DbSet<GcmRegistrationId> GcmRegistrationIds { get; set; }
+        public System.Data.Entity.DbSet<UserFile> UserFile { get; set; }
     }
 }

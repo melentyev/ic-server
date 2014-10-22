@@ -15,8 +15,8 @@ namespace Events.Controllers
         private IEventsRepository eventsRepository = new EFEventsRepository();
         public ActionResult Index()
         {
-            var tmp = eventsRepository.Objects.First();
-            var nm = tmp.EventId;
+            //var tmp = eventsRepository.Objects.First();
+            //var nm = tmp.EventId;
             return View();
         }
     }

@@ -37,6 +37,7 @@ namespace Events.Infrastructure
             kernel.Bind<ICommentsRepository>().To<EFCommentsRepository>();
             kernel.Bind<ISubscribeRepository>().To<EFSubscriptionRepository>();
             kernel.Bind<IGcmRegIdsRepository>().To<EFGcmRegIdsRepository>();
+            kernel.Bind<IUserFileRepository>().To<EFUserFileRepository>();
         }
     }
 }
