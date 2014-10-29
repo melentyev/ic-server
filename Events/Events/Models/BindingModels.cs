@@ -29,4 +29,9 @@ namespace Events.Models
         [Required]
         public int SubscribedTo { get; set; }
     }
+    public class SaveFileBindingModel
+    {
+        public List<int> FileId { get; set; }
+        public int Hash { get; set; }
+    }
 }

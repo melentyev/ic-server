@@ -65,11 +65,11 @@ namespace Events.Models
         }
 
         [Route("Upload/{uploads}")]
-        [ResponseType(typeof(FileAnswer))]
+        [ResponseType(typeof(SaveFileBindingModel))]
         public async Task<IHttpActionResult> Upload(IEnumerable<System.Web.HttpPostedFileBase> uploads)
         {
             string forHash = "";
-            var answer = new FileAnswer();
+            var answer = new SaveFileBindingModel();
             foreach (var file in uploads)
             {
                 if (file != null)
@@ -101,8 +101,8 @@ namespace Events.Models
             return Ok(answer);
         }
 
-        [Route("File.Save")]
-        public async Task<IHttpActionResult> Save(FileAnswer model)
+        [Route("api/Endpoints/SaveUploadedFile/")]
+        public async Task<IHttpActionResult> Save(SaveFileBindingModel model)
         {
             List<UserFile> UFList = null;
             string forHash = "";
@@ -138,14 +138,6 @@ namespace Events.Models
                 return Ok(Path);
             }
             return BadRequest();
-        }
-        [Route("File.Delete/{filePath}")]
-        public async Task<IHttpActionResult> Delete(string path)
-        {
-            var dbEntry = await userFileRepository.Objects.Where(e => e.FilePath == path).FirstOrDefaultAsync();
-            dbEntry.State = UserFileState.Removed;
-            await userFileRepository.SaveInstance(dbEntry);
-            return Ok();
         }
     }
 }

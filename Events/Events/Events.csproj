@@ -266,7 +266,6 @@
     <Compile Include="Models\Common.cs" />
     <Compile Include="Controllers\EndpointsController.cs" />
     <Compile Include="Models\Event.cs" />
-    <Compile Include="Models\FileAnswer.cs" />
     <Compile Include="Models\GcmRegistrationId.cs" />
     <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\UserFile.cs" />
