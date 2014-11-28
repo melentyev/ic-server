@@ -9,6 +9,8 @@ namespace Events.Infrastructure
     {
         protected IUnityContainer container;
 
+        public static UnityResolver Default { get; set;  }
+
         public UnityResolver(IUnityContainer container)
         {
             if (container == null)
@@ -16,6 +18,7 @@ namespace Events.Infrastructure
                 throw new ArgumentNullException("container");
             }
             this.container = container;
+            Default = this;
         }
 
         public object GetService(Type serviceType)

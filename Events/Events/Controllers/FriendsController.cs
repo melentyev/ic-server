@@ -23,8 +23,12 @@ namespace Events.Controllers
     public class FriendsController : ApplicationApiController
     {
         private ISubscribeRepository subscribeRepository;
-        public FriendsController(ISubscribeRepository subRepo)
+        private IPhotosRepository photosRepo;
+        public FriendsController(
+            IPhotosRepository paramPhotosRepo, 
+            ISubscribeRepository subRepo)
         {
+            photosRepo = paramPhotosRepo;
             subscribeRepository = subRepo;
         }
         // GET api/Friends
@@ -48,7 +52,6 @@ namespace Events.Controllers
                 }
             }
             var rels = subscribeRepository.Objects;
-            IQueryable<ApplicationUser> users; 
             var variants = new Dictionary<string, Func<IQueryable<ApplicationUser> > >();
             variants["f"]  = () => 
                 rels.Where(s => s.SubscribedToId == userId && s.Relationship == Relationship.Follower).Select(s => s.Subscriber);
@@ -66,8 +69,13 @@ namespace Events.Controllers
             {
                 return BadRequest("incorrect input");
             }
-            var result = await variants[param]().Select(u => new UserProfileViewModel(u)).ToArrayAsync();
-            return Ok(result);
+            var result = await variants[param]().ToArrayAsync();
+
+            return Ok(result.Select(u =>
+            {
+                var photo = photosRepo.Objects.Where(p => p.PhotoId == u.PhotoId).FirstOrDefault();
+                return new UserProfileViewModel(u, photo);
+            }).ToArray());
         }
 
         // POST api/Friends/Follow

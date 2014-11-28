@@ -37,7 +37,10 @@ namespace EventsCsClient
             var dt = DateTime.Now.ToString("r");
             var dtu1 = DateTime.UtcNow.ToString();
             var dt1 = DateTime.Now.ToString();
-            
+
+            var dtu2 = DateTime.UtcNow.ToString("s");
+            var dt2 = DateTime.Now.ToString("s");
+
             var wc = new WebClient();
             var data = "grant_type=password&username=" + textBox1.Text + "&password=" + textBox2.Text;
             wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
@@ -53,7 +56,9 @@ namespace EventsCsClient
             }
             catch (WebException we)
             {
-                MsgBox1.Text = we.Message;
+                var stream = new System.IO.StreamReader(we.Response.GetResponseStream());
+                var line = stream.ReadToEnd();
+                MsgBox1.Text = we.Message + line;
             }
         }
 
@@ -89,13 +94,31 @@ namespace EventsCsClient
 
         private async void GetEventsBtn_Click(object sender, EventArgs e)
         {
-            var wc = new WebClient();
-            wc.Headers.Add("Content-Type", "application/json");
-            WaitLab.Show();
-            var result = await wc.DownloadStringTaskAsync(SiteUrlTb.Text + GetEventsUrl);
-            WaitLab.Hide();
-            MsgBox1.Text = "200\r\n" + result;
-
+            try
+            {
+                var wc = new WebClient();
+                wc.Headers.Add("Content-Type", "application/json");
+                WaitLab.Show();
+                var result = await wc.DownloadStringTaskAsync(SiteUrlTb.Text + GetEventsUrl);
+                
+                MsgBox1.Text = "200\r\n" + result;
+                EventsListView.Items.Clear();
+                EventsListView.Items.AddRange(JArray.Parse(result).Select(tok =>  {
+                    var descr = (tok as JObject)["Description"].Value<string>();
+                    var id = (tok as JObject)["EventId"].Value<int>();
+                    return new ListViewItem { Text = descr, Tag = id };
+                }).ToArray());
+                WaitLab.Hide();
+                //new ListViewItem { Text = "aaa" });
+                    
+            }
+            catch (WebException we)
+            {
+                MsgBox2.Text = we.Message;
+                var stream = new System.IO.StreamReader(we.Response.GetResponseStream());
+                var line = stream.ReadToEnd();
+                MsgBox1.Text += line;
+            }
         }
 
         private async void AddEvent_Click(object sender, EventArgs e)
@@ -125,10 +148,9 @@ namespace EventsCsClient
             }
             catch (WebException we)
             {
-                MsgBox2.Text = we.Message;
                 var stream = new System.IO.StreamReader(we.Response.GetResponseStream());
                 var line = stream.ReadToEnd();
-                var aaa = 5;
+                MsgBox2.Text = we.Message + line;
                 WaitLab.Hide();
             }
             catch (Exception exc)

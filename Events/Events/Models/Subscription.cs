@@ -12,13 +12,11 @@ namespace Events.Models
 {
     public class Subscription
     {
-        
-        [Key]
-        public int SubscribtionId { get; set; }
+
         [Key, Column(Order = 0)]
-        public int SubscriberId { get; set; }
-        [Key, Column(Order = 1)]
-        public int SubscribedToId { get; set; }
+        public int SubscribtionId { get; set; }
+        public int? SubscriberId { get; set; }
+        public int? SubscribedToId { get; set; }
         public virtual ApplicationUser Subscriber { get; set; }
         public virtual ApplicationUser SubscribedTo { get; set; }
         public Relationship Relationship { get; set; }

@@ -54,6 +54,7 @@
             this.Follow = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.EventsListView = new System.Windows.Forms.ListView();
             this.SuspendLayout();
             // 
             // textBox1
@@ -153,7 +154,7 @@
             // 
             // AddEvent
             // 
-            this.AddEvent.Location = new System.Drawing.Point(698, 166);
+            this.AddEvent.Location = new System.Drawing.Point(575, 174);
             this.AddEvent.Name = "AddEvent";
             this.AddEvent.Size = new System.Drawing.Size(75, 23);
             this.AddEvent.TabIndex = 11;
@@ -163,7 +164,7 @@
             // 
             // GetEventsBtn
             // 
-            this.GetEventsBtn.Location = new System.Drawing.Point(886, 164);
+            this.GetEventsBtn.Location = new System.Drawing.Point(816, 19);
             this.GetEventsBtn.Name = "GetEventsBtn";
             this.GetEventsBtn.Size = new System.Drawing.Size(98, 23);
             this.GetEventsBtn.TabIndex = 12;
@@ -173,23 +174,23 @@
             // 
             // EventAddLatitude
             // 
-            this.EventAddLatitude.Location = new System.Drawing.Point(698, 11);
+            this.EventAddLatitude.Location = new System.Drawing.Point(575, 19);
             this.EventAddLatitude.Name = "EventAddLatitude";
             this.EventAddLatitude.Size = new System.Drawing.Size(100, 20);
             this.EventAddLatitude.TabIndex = 13;
-            this.EventAddLatitude.Text = "1232,322";
+            this.EventAddLatitude.Text = "59.876049";
             // 
             // EventAddLongitude
             // 
-            this.EventAddLongitude.Location = new System.Drawing.Point(698, 38);
+            this.EventAddLongitude.Location = new System.Drawing.Point(575, 46);
             this.EventAddLongitude.Name = "EventAddLongitude";
             this.EventAddLongitude.Size = new System.Drawing.Size(100, 20);
             this.EventAddLongitude.TabIndex = 14;
-            this.EventAddLongitude.Text = "45334,8";
+            this.EventAddLongitude.Text = "29.830303";
             // 
             // MsgBox2
             // 
-            this.MsgBox2.Location = new System.Drawing.Point(698, 64);
+            this.MsgBox2.Location = new System.Drawing.Point(575, 72);
             this.MsgBox2.Name = "MsgBox2";
             this.MsgBox2.Size = new System.Drawing.Size(153, 96);
             this.MsgBox2.TabIndex = 15;
@@ -214,7 +215,7 @@
             // 
             this.WaitLab.AutoSize = true;
             this.WaitLab.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.WaitLab.Location = new System.Drawing.Point(550, 78);
+            this.WaitLab.Location = new System.Drawing.Point(465, 74);
             this.WaitLab.Name = "WaitLab";
             this.WaitLab.Size = new System.Drawing.Size(68, 25);
             this.WaitLab.TabIndex = 18;
@@ -233,7 +234,7 @@
             // 
             // richTextBox4
             // 
-            this.richTextBox4.Location = new System.Drawing.Point(731, 257);
+            this.richTextBox4.Location = new System.Drawing.Point(816, 257);
             this.richTextBox4.Name = "richTextBox4";
             this.richTextBox4.Size = new System.Drawing.Size(160, 96);
             this.richTextBox4.TabIndex = 20;
@@ -241,31 +242,31 @@
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(731, 231);
+            this.textBox9.Location = new System.Drawing.Point(816, 231);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(100, 20);
             this.textBox9.TabIndex = 21;
             // 
             // friendTb
             // 
-            this.friendTb.Location = new System.Drawing.Point(1021, 11);
+            this.friendTb.Location = new System.Drawing.Point(1094, 9);
             this.friendTb.Name = "friendTb";
             this.friendTb.Size = new System.Drawing.Size(237, 20);
             this.friendTb.TabIndex = 22;
             // 
             // Follow
             // 
-            this.Follow.Location = new System.Drawing.Point(1021, 166);
+            this.Follow.Location = new System.Drawing.Point(1094, 164);
             this.Follow.Name = "Follow";
             this.Follow.Size = new System.Drawing.Size(75, 23);
             this.Follow.TabIndex = 23;
             this.Follow.Text = "follow";
             this.Follow.UseVisualStyleBackColor = true;
-            this.Follow.Click += new System.EventHandler (this.Follow_Click);
+            this.Follow.Click += new System.EventHandler(this.Follow_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(1102, 166);
+            this.button2.Location = new System.Drawing.Point(1175, 164);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 24;
@@ -274,18 +275,27 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(1183, 166);
+            this.button3.Location = new System.Drawing.Point(1256, 164);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 25;
             this.button3.Text = "get list";
             this.button3.UseVisualStyleBackColor = true;
             // 
+            // EventsListView
+            // 
+            this.EventsListView.Location = new System.Drawing.Point(816, 48);
+            this.EventsListView.Name = "EventsListView";
+            this.EventsListView.Size = new System.Drawing.Size(200, 177);
+            this.EventsListView.TabIndex = 26;
+            this.EventsListView.UseCompatibleStateImageBehavior = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1443, 384);
+            this.ClientSize = new System.Drawing.Size(1362, 536);
+            this.Controls.Add(this.EventsListView);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.Follow);
@@ -347,6 +357,7 @@
         private System.Windows.Forms.Button Follow;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ListView EventsListView;
     }
 }
 

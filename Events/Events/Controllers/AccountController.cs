@@ -347,7 +347,7 @@ namespace Events.Controllers
                 return errorResult;
             }
 
-            return Ok();
+            return Ok("{}");
         }
 
         // POST api/Account/RegisterExternal

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Events.Models;
 using System.Threading.Tasks;
+
+using Events.Models;
 
 namespace Events.Abstract
 {

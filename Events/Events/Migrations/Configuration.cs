@@ -10,6 +10,8 @@ namespace Events.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            ContextKey = "Events.Infrastructure.ApplicationDbContext";
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(Events.Infrastructure.ApplicationDbContext context)

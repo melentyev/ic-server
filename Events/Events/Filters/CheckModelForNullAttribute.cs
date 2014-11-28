@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http.Filters;
 using System.Web.Http.Controllers;
 
+using Events.Infrastructure;
 namespace Events.Filters
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = true)]
@@ -24,7 +25,7 @@ namespace Events.Filters
        {
           if (_validate(actionContext.ActionArguments))
           {
-             actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "The argument cannot be null");
+             actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest, Messages.Get("INVALID_MODEL") );
           }
        }
     }

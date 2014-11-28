@@ -99,6 +99,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -197,6 +198,8 @@
     <Compile Include="Abstract\ICommentsRepository.cs" />
     <Compile Include="Abstract\IEventsRepository.cs" />
     <Compile Include="Abstract\IGcmRegIdsRepository.cs" />
+    <Compile Include="Abstract\IEventSubscribersRepository.cs" />
+    <Compile Include="Abstract\IPhotosRepository.cs" />
     <Compile Include="Abstract\ISubscribeRepository.cs" />
     <Compile Include="Abstract\IUsersRepository.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -218,9 +221,11 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Concrete\EFEventSubscribersRepository.cs" />
     <Compile Include="Concrete\EFGcmRegIdsRepository.cs" />
     <Compile Include="Concrete\EFCommentsRepository.cs" />
     <Compile Include="Concrete\EFEventsRepository.cs" />
+    <Compile Include="Concrete\EFPhotosRepository.cs.cs" />
     <Compile Include="Concrete\EFRepository.cs" />
     <Compile Include="Concrete\EFSubscriptionRepository.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -230,13 +235,17 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Filters\CheckModelForNullAttribute.cs" />
+    <Compile Include="Filters\CheckOptionalDoubleArg.cs" />
+    <Compile Include="Filters\CheckOptionalIntArg.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\ApplicationApiController.cs" />
     <Compile Include="Infrastructure\ApplicationDbContext.cs" />
+    <Compile Include="Infrastructure\EFContext.cs" />
     <Compile Include="Infrastructure\EventsHub.cs" />
     <Compile Include="Infrastructure\GCMClient.cs" />
+    <Compile Include="Infrastructure\Messages.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\Secrets.cs" />
     <Compile Include="Infrastructure\UnityResolver.cs" />
@@ -249,9 +258,17 @@
     <Compile Include="KatanaContrib.Security.VK\VkAuthenticationOptions.cs" />
     <Compile Include="KatanaContrib.Security.VK\VkAuthenticationProvider.cs" />
     <Compile Include="KatanaContrib.Security.VK\VkReturnEndpointContext.cs" />
-    <Compile Include="Migrations\201410150902246_InitialCreate.cs" />
-    <Compile Include="Migrations\201410150902246_InitialCreate.Designer.cs">
-      <DependentUpon>201410150902246_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201410221725244_InitialCreate.cs" />
+    <Compile Include="Migrations\201410221725244_InitialCreate.Designer.cs">
+      <DependentUpon>201410221725244_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410221728035_initial.cs" />
+    <Compile Include="Migrations\201410221728035_initial.Designer.cs">
+      <DependentUpon>201410221728035_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410230744488_Current.cs" />
+    <Compile Include="Migrations\201410230744488_Current.Designer.cs">
+      <DependentUpon>201410230744488_Current.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -262,8 +279,10 @@
     <Compile Include="Models\Common.cs" />
     <Compile Include="Controllers\EndpointsController.cs" />
     <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\Server.cs" />
     <Compile Include="Models\GcmRegistrationId.cs" />
-    <Compile Include="Models\Like.cs" />
+    <Compile Include="Models\EventSubscrier.cs" />
+    <Compile Include="Models\Photo.cs" />
     <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\UserFile.cs" />
     <Compile Include="Models\ViewModels.cs" />
@@ -280,6 +299,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Compile Include="Infrastructure\JsonConverters.cs" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -340,8 +360,14 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201410150902246_InitialCreate.resx">
-      <DependentUpon>201410150902246_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201410221725244_InitialCreate.resx">
+      <DependentUpon>201410221725244_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410221728035_initial.resx">
+      <DependentUpon>201410221728035_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410230744488_Current.resx">
+      <DependentUpon>201410230744488_Current.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

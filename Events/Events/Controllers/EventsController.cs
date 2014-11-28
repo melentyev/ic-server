@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity.Spatial;
 
 using Events.Infrastructure;
 using Events.Models;
@@ -24,23 +25,83 @@ namespace Events.Controllers
     {
         private IEventsRepository eventsRepository;
         private IGcmRegIdsRepository gcmRepo;
+        private IPhotosRepository photosRepo;
+        private ICommentsRepository commentsRepo;
+        private IEventSubscribersRepository eventSubsRepo;
         private const int getEventsMaxCount = 200;
         private AppUserManager userManager;
         //private ICommentsRepository commentsRepository;
 
-        public EventsController(IEventsRepository evRepo, IGcmRegIdsRepository paramGcmRepo)
+        public EventsController(
+            IEventsRepository pEventsRepo,
+            IPhotosRepository pPhotosRepo, 
+            IGcmRegIdsRepository pGcmRepo, 
+            ICommentsRepository pCommentsRepo,
+            IEventSubscribersRepository pEventSubsRepo
+            )
         {
-            eventsRepository = evRepo;
-            gcmRepo = paramGcmRepo;
+            eventsRepository = pEventsRepo;
+            photosRepo = pPhotosRepo;
+            gcmRepo = pGcmRepo;
+            commentsRepo = pCommentsRepo;
+            eventSubsRepo = pEventSubsRepo;
             userManager = Startup.UserManagerFactory();
         }
+
+
         // GET api/Events
-        public IQueryable<EventViewModel> GetEvents(int? offset = null, int count = 20)
+        [CheckOptionalDoubleArg("south", "north", "west", "east", "plat", "plng", "prad")]
+        [CheckOptionalIntArg("offset")]
+        [ResponseType(typeof(IEnumerable<EventViewModel>))]
+        public async Task<IHttpActionResult> GetEvents(int? offset = null, int count = 10, 
+            string south = null, 
+            string north = null, 
+            string west = null, 
+            string east = null,
+            string plat = null,
+            string plng = null,
+            string prad = null
+            )
         {
-            var query = eventsRepository.Objects;
+            var query = eventsRepository.Objects.Include(e => e.User);
             query = offset == null ? query : query.Skip(offset.Value);
             query = query.Take(Math.Min(count, getEventsMaxCount));
-            return query.Select(e => new EventViewModel(e) );
+            if (prad != null) 
+            {
+                DbGeography p0 = DbGeography.FromText(String.Format("POINT({0} {1})", plat, plng));
+                double rad;
+                if (!Double.TryParse(prad, out rad))
+                {
+                    return BadRequest(Messages.Get("INVALID_DOUBLE", d => d + " (" + rad + ")"));
+                }
+                query = query.Where(e => e.Location.Distance(p0) < rad);
+            }
+            if (south != null)
+            {
+                query = query.Where(e =>   e.Location.Latitude <= Double.Parse(north) 
+                                && e.Location.Latitude >= Double.Parse(south)
+                                && e.Location.Longitude <= Double.Parse(west)
+                                && e.Location.Longitude >= Double.Parse(east));                
+            }
+            
+            var result = query.ToArray();
+            var eventsIds = result.Select(e => e.EventId);
+            var comments = commentsRepo.Objects.Where(c => c.EntityType == EntityTypes.Event && eventsIds.Contains(c.EntityId))
+                .ToList();
+            var eventComments = 
+                comments
+                    .GroupBy(c => c.EntityId)
+                    .ToDictionary(group => group.Key, group => group.ToArray());
+
+            return Ok(result.Select(e => 
+            {
+                IEnumerable<CommentViewModel> coms = null; 
+                if (eventComments.ContainsKey(e.EventId) )
+                { 
+                    coms = eventComments[e.EventId].Select(c => new CommentViewModel(c, null, null));
+                }
+                return new EventViewModel(e, null, coms, null, null);
+            }));
         }
 
         // GET api/Events/5
@@ -48,15 +109,18 @@ namespace Events.Controllers
         public async Task<IHttpActionResult> GetEvent(int id)
         {
 
-            Event dbEntry = await eventsRepository.Objects.Where(e => e.EventId == id).FirstOrDefaultAsync();
+            Event dbEntry = await eventsRepository.Objects.Where(e => e.EventId == id)
+                .Include(e => e.User)
+                .FirstOrDefaultAsync();
             if (dbEntry == null)
             {
                 return NotFound();
             }
-            var res = new EventViewModel(dbEntry);
+            var res = new EventViewModel(dbEntry, null, null, null, null);
 
             var user = await userManager.FindByIdAsync(dbEntry.UserId);
-            res.User = new UserProfileViewModel(user);
+            var photo = await photosRepo.Objects.Where(p => user.PhotoId == p.PhotoId).FirstOrDefaultAsync();
+            res.User = new UserProfileViewModel(user, photo);
             res.LastComments = new CommentViewModel[0];
             res.Photos = new PhotoViewModel[0];
             return Ok(res);
@@ -79,7 +143,6 @@ namespace Events.Controllers
 
         // POST api/Events
         [Authorize]
-        [ResponseType(typeof(Event))]
         [CheckModelForNull]
         public async Task<IHttpActionResult> PostEvent(AddEventBindingModel model)
         {
@@ -90,36 +153,31 @@ namespace Events.Controllers
             var ev = new Event
             {
                 UserId = CurrentUser.UserId,
-                Latitude = model.Latitude,
-                Longitude =  model.Longitude,
+                Location = DbGeography.FromText(String.Format("POINT({1} {0})", model.Latitude, model.Longitude)),
                 Description = model.Description,
                 EventDate = model.EventDate,
-                DateCreate = DateTime.Now
+                DateCreate = DateTime.UtcNow
             };
             ev = await eventsRepository.SaveInstance(ev);
-            var gcmClient = new GCMClient();
+            
             var rids = await gcmRepo.Objects.Select(r => r.RegId).ToArrayAsync();
+
+            var gcmClient = new GCMClient();
             //await gcmClient.SendNotification(rids, new { Code = "NEW_EVENT", EventId = ev.EventId } as Object);
             GlobalHost.ConnectionManager.GetHubContext<EventsHub>().Clients.All.broadcastNewEvent(ev.EventId.ToString());
-            return CreatedAtRoute("DefaultApi", new { id = ev.EventId }, ev);
+            return Ok(new { EventId = ev.EventId });
         }
 
-        // DELETE api/Events/5
-        [Authorize]
-        [ResponseType(typeof(Event))]
-        public async Task<IHttpActionResult> DeleteEvent(int id)
+        [Route("api/Events/Subscribe/{id}")]
+        public async Task<IHttpActionResult> Subscribe(int id)
         {
-            Event @event = await eventsRepository.FindAsync(id);
-
-            /*if (@event == null)
+            var ev = await eventsRepository.FindAsync(id);
+            if (ev == null) 
             {
-                return NotFound();
+                return BadRequest(Messages.Get("OBJECT_NOT_FOUND", d => d + " Event " + id.ToString() ) );
             }
-
-            db.Events.Remove(@event);
-            await db.SaveChangesAsync();
-            */
-            return Ok(@event);
+            await eventSubsRepo.ToggleSubscription(CurrentUser.UserId, id);
+            return Ok();
         }
 
         protected override void Dispose(bool disposing)

@@ -15,14 +15,29 @@ namespace Events.Infrastructure
         public ApplicationDbContext()
             : base("DefaultConnection")
         {
-            /*Database.Log = (msg => {                
+            Database.Log = (msg => {                
                 myFileLog.Write(msg);
-            });*/
+                myFileLog.Close();
+                m_myFileLog = null;
+            });
         }
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(DbModelBuilder builder)
         {
-           /* modelBuilder.Entity<ApplicationUser>()
-                .HasMany(c => c.)
+            //Database.SetInitializer(new DropCreateDatabaseAlways<ApplicationDbContext>());
+            builder.Entity<Event>().HasKey(e => e.EventId);
+            builder.Entity<EventSubscrier>().HasKey(q => new { q.EventId, q.UserId });
+            builder.Entity<EventSubscrier>()
+                .HasRequired(e => e.Event)
+                .WithMany()
+                .HasForeignKey(e => e.EventId);
+            /*builder.Entity<Photo>()
+                .HasRequired(u => u.Photo)
+                .WithRequiredPrincipal(u => u.)
+                .HasOptional(u => u.Photo)
+                .*/
+                
+            /*builder.Entity<Event>()
+                .HasMany(c => c)
                 .WithMany()                 // Note the empty WithMany()
                 .Map(x =>
                 {
@@ -31,7 +46,7 @@ namespace Events.Infrastructure
                     x.ToTable("CountryCurrencyMapping");
                 });
             */
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(builder);
         }
 
         private static StreamWriter m_myFileLog = null;
@@ -52,5 +67,6 @@ namespace Events.Infrastructure
         public System.Data.Entity.DbSet<Comment> Comments { get; set; }
         public System.Data.Entity.DbSet<Subscription> Subscriptions { get; set; }
         public System.Data.Entity.DbSet<GcmRegistrationId> GcmRegistrationIds { get; set; }
+        public System.Data.Entity.DbSet<EventSubscrier> EventSubscriers { get; set; }
     }
 }
