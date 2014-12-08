@@ -68,5 +68,6 @@ namespace Events.Infrastructure
         public System.Data.Entity.DbSet<Subscription> Subscriptions { get; set; }
         public System.Data.Entity.DbSet<GcmRegistrationId> GcmRegistrationIds { get; set; }
         public System.Data.Entity.DbSet<EventSubscrier> EventSubscriers { get; set; }
+        public System.Data.Entity.DbSet<UserFile> UserFile { get; set; }
     }
 }

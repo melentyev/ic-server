@@ -201,6 +201,7 @@
     <Compile Include="Abstract\IEventSubscribersRepository.cs" />
     <Compile Include="Abstract\IPhotosRepository.cs" />
     <Compile Include="Abstract\ISubscribeRepository.cs" />
+    <Compile Include="Abstract\IUserFileRepository.cs" />
     <Compile Include="Abstract\IUsersRepository.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Concrete\EFPhotosRepository.cs.cs" />
     <Compile Include="Concrete\EFRepository.cs" />
     <Compile Include="Concrete\EFSubscriptionRepository.cs" />
+    <Compile Include="Concrete\EFUserFileRepository.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EventCommentsController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
