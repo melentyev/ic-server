@@ -27,9 +27,10 @@ namespace Events.Models
     {
         private IGcmRegIdsRepository regIdsRepo;
         private IUserFileRepository userFileRepository;
-        public EndpointsController(IGcmRegIdsRepository repo)
+        public EndpointsController(IGcmRegIdsRepository repo, IUserFileRepository puserFileRepository)
         {
             regIdsRepo = repo;
+            userFileRepository = puserFileRepository;
         }
 
         [Route("GcmRegister/{regId}")]

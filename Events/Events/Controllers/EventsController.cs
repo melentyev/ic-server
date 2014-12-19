@@ -11,6 +11,8 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Microsoft.AspNet.Identity;
 using System.Data.Entity.Spatial;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 using Events.Infrastructure;
 using Events.Models;
@@ -64,6 +66,7 @@ namespace Events.Controllers
             )
         {
             var query = eventsRepository.Objects.Include(e => e.User);
+            query = query.OrderByDescending(e => e.EventId);
             query = offset == null ? query : query.Skip(offset.Value);
             query = query.Take(Math.Min(count, getEventsMaxCount));
             if (prad != null) 
@@ -84,10 +87,10 @@ namespace Events.Controllers
                                 && e.Location.Longitude >= Double.Parse(east));                
             }
             
-            var result = query.ToArray();
+            var result = await query.ToArrayAsync();
             var eventsIds = result.Select(e => e.EventId);
-            var comments = commentsRepo.Objects.Where(c => c.EntityType == EntityTypes.Event && eventsIds.Contains(c.EntityId))
-                .ToList();
+            var comments = await commentsRepo.Objects.Where(c => c.EntityType == EntityTypes.Event && eventsIds.Contains(c.EntityId))
+                .ToListAsync();
             var eventComments = 
                 comments
                     .GroupBy(c => c.EntityId)
@@ -150,10 +153,26 @@ namespace Events.Controllers
             {
                 return BadRequest(ModelState);
             }
+            string locCaption;
+            using (var client = new HttpClient()) {   
+                var query = String.Format("http://maps.googleapis.com/maps/api/geocode/json?latlng={0},{1}", model.Latitude, model.Longitude);
+                var response = await client.GetAsync(query);
+                var data = await response.Content.ReadAsStringAsync();
+                try 
+                {
+                    locCaption = (JObject.Parse(data))["results"][0]["formatted_address"].Value<string>();
+                }
+                catch
+                {
+                    locCaption = "unknown";
+                }
+                
+            }
             var ev = new Event
             {
                 UserId = CurrentUser.UserId,
                 Location = DbGeography.FromText(String.Format("POINT({1} {0})", model.Latitude, model.Longitude)),
+                LocationCaption = locCaption,
                 Description = model.Description,
                 EventDate = model.EventDate,
                 DateCreate = DateTime.UtcNow

@@ -17,10 +17,12 @@ namespace Events.Models
             User = e.User != null ? new UserProfileViewModel(e.User, userPhoto) : null;
             Latitude = e.Location == null ? null : e.Location.Latitude.ToString();
             Longitude = e.Location == null ? null : e.Location.Longitude.ToString();
+            LocationCaption = e.LocationCaption;
             Description = e.Description;
             EventDate = e.EventDate;
             DateCreate = e.DateCreate;
             LastComments = comments;
+            
             Photos = photos;
             LastLikes = likes;
         }
@@ -28,6 +30,7 @@ namespace Events.Models
         public UserProfileViewModel User { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+        public string LocationCaption { get; set; }
         public string Description { get; set; }
         public DateTime EventDate { get; set; }
         public DateTime DateCreate { get; set; }

@@ -15,6 +15,7 @@ namespace Events.Models
         [Required]
         public string Description { get; set; }
         public DateTime EventDate { get; set; }
+        public int[] PhotoIds { get; set; }
     }
     public class AddCommentBindingModel
     {

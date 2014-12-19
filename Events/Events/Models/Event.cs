@@ -15,7 +15,8 @@ namespace Events.Models
     {
         public int EventId { get; set; }
         public int UserId { get; set; }
-        public DbGeography Location { get; set; } 
+        public DbGeography Location { get; set; }
+        public string LocationCaption { get; set; }
         public string Description { get; set; }
         public DateTime EventDate { get; set; }
         public DateTime DateCreate { get; set; }
