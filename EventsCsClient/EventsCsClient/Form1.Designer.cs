@@ -55,29 +55,34 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.EventsListView = new System.Windows.Forms.ListView();
+            this.AddFileTB = new System.Windows.Forms.TextBox();
+            this.SelectAddFile = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 48);
+            this.textBox1.Location = new System.Drawing.Point(18, 74);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.Size = new System.Drawing.Size(148, 26);
             this.textBox1.TabIndex = 0;
             this.textBox1.Text = "user";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(12, 74);
+            this.textBox2.Location = new System.Drawing.Point(18, 114);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.Size = new System.Drawing.Size(148, 26);
             this.textBox2.TabIndex = 1;
             this.textBox2.Text = "123456";
             // 
             // LoginBtn
             // 
-            this.LoginBtn.Location = new System.Drawing.Point(118, 71);
+            this.LoginBtn.Location = new System.Drawing.Point(177, 109);
+            this.LoginBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.LoginBtn.Name = "LoginBtn";
-            this.LoginBtn.Size = new System.Drawing.Size(75, 23);
+            this.LoginBtn.Size = new System.Drawing.Size(112, 35);
             this.LoginBtn.TabIndex = 2;
             this.LoginBtn.Text = "LoginBtn";
             this.LoginBtn.UseVisualStyleBackColor = true;
@@ -85,9 +90,10 @@
             // 
             // RegisterBtn
             // 
-            this.RegisterBtn.Location = new System.Drawing.Point(335, 95);
+            this.RegisterBtn.Location = new System.Drawing.Point(502, 146);
+            this.RegisterBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.RegisterBtn.Name = "RegisterBtn";
-            this.RegisterBtn.Size = new System.Drawing.Size(75, 23);
+            this.RegisterBtn.Size = new System.Drawing.Size(112, 35);
             this.RegisterBtn.TabIndex = 3;
             this.RegisterBtn.Text = "RegisterBtn";
             this.RegisterBtn.UseVisualStyleBackColor = true;
@@ -95,68 +101,76 @@
             // 
             // MsgBox1
             // 
-            this.MsgBox1.Location = new System.Drawing.Point(2, 232);
+            this.MsgBox1.Location = new System.Drawing.Point(3, 357);
+            this.MsgBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MsgBox1.Name = "MsgBox1";
-            this.MsgBox1.Size = new System.Drawing.Size(306, 149);
+            this.MsgBox1.Size = new System.Drawing.Size(457, 227);
             this.MsgBox1.TabIndex = 4;
             this.MsgBox1.Text = "";
             // 
             // LabelBearer
             // 
             this.LabelBearer.AutoSize = true;
-            this.LabelBearer.Location = new System.Drawing.Point(118, 48);
+            this.LabelBearer.Location = new System.Drawing.Point(177, 74);
+            this.LabelBearer.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelBearer.Name = "LabelBearer";
-            this.LabelBearer.Size = new System.Drawing.Size(38, 13);
+            this.LabelBearer.Size = new System.Drawing.Size(53, 20);
             this.LabelBearer.TabIndex = 5;
             this.LabelBearer.Text = "Token";
             this.LabelBearer.Click += new System.EventHandler(this.label1_Click);
             // 
             // TbLoginUserName
             // 
-            this.TbLoginUserName.Location = new System.Drawing.Point(217, 45);
+            this.TbLoginUserName.Location = new System.Drawing.Point(326, 69);
+            this.TbLoginUserName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TbLoginUserName.Name = "TbLoginUserName";
-            this.TbLoginUserName.Size = new System.Drawing.Size(100, 20);
+            this.TbLoginUserName.Size = new System.Drawing.Size(148, 26);
             this.TbLoginUserName.TabIndex = 6;
             this.TbLoginUserName.Text = "user";
             // 
             // TbLoginPassword
             // 
-            this.TbLoginPassword.Location = new System.Drawing.Point(217, 72);
+            this.TbLoginPassword.Location = new System.Drawing.Point(326, 111);
+            this.TbLoginPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TbLoginPassword.Name = "TbLoginPassword";
-            this.TbLoginPassword.Size = new System.Drawing.Size(100, 20);
+            this.TbLoginPassword.Size = new System.Drawing.Size(148, 26);
             this.TbLoginPassword.TabIndex = 7;
             this.TbLoginPassword.Text = "123456";
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(217, 98);
+            this.textBox5.Location = new System.Drawing.Point(326, 151);
+            this.textBox5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 20);
+            this.textBox5.Size = new System.Drawing.Size(148, 26);
             this.textBox5.TabIndex = 8;
             this.textBox5.Text = "123456";
             // 
             // SiteUrlTb
             // 
-            this.SiteUrlTb.Location = new System.Drawing.Point(54, 12);
+            this.SiteUrlTb.Location = new System.Drawing.Point(81, 18);
+            this.SiteUrlTb.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.SiteUrlTb.Name = "SiteUrlTb";
-            this.SiteUrlTb.Size = new System.Drawing.Size(398, 20);
+            this.SiteUrlTb.Size = new System.Drawing.Size(595, 26);
             this.SiteUrlTb.TabIndex = 9;
             this.SiteUrlTb.Text = "http://localhost:45457/";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 12);
+            this.label1.Location = new System.Drawing.Point(14, 18);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
+            this.label1.Size = new System.Drawing.Size(57, 20);
             this.label1.TabIndex = 10;
             this.label1.Text = "SiteUrl";
             // 
             // AddEvent
             // 
-            this.AddEvent.Location = new System.Drawing.Point(575, 174);
+            this.AddEvent.Location = new System.Drawing.Point(862, 308);
+            this.AddEvent.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.AddEvent.Name = "AddEvent";
-            this.AddEvent.Size = new System.Drawing.Size(75, 23);
+            this.AddEvent.Size = new System.Drawing.Size(112, 35);
             this.AddEvent.TabIndex = 11;
             this.AddEvent.Text = "AddEvent";
             this.AddEvent.UseVisualStyleBackColor = true;
@@ -164,9 +178,10 @@
             // 
             // GetEventsBtn
             // 
-            this.GetEventsBtn.Location = new System.Drawing.Point(816, 19);
+            this.GetEventsBtn.Location = new System.Drawing.Point(1224, 29);
+            this.GetEventsBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.GetEventsBtn.Name = "GetEventsBtn";
-            this.GetEventsBtn.Size = new System.Drawing.Size(98, 23);
+            this.GetEventsBtn.Size = new System.Drawing.Size(147, 35);
             this.GetEventsBtn.TabIndex = 12;
             this.GetEventsBtn.Text = "GetEventsBtn";
             this.GetEventsBtn.UseVisualStyleBackColor = true;
@@ -174,59 +189,66 @@
             // 
             // EventAddLatitude
             // 
-            this.EventAddLatitude.Location = new System.Drawing.Point(575, 19);
+            this.EventAddLatitude.Location = new System.Drawing.Point(862, 29);
+            this.EventAddLatitude.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.EventAddLatitude.Name = "EventAddLatitude";
-            this.EventAddLatitude.Size = new System.Drawing.Size(100, 20);
+            this.EventAddLatitude.Size = new System.Drawing.Size(148, 26);
             this.EventAddLatitude.TabIndex = 13;
             this.EventAddLatitude.Text = "59.876049";
             // 
             // EventAddLongitude
             // 
-            this.EventAddLongitude.Location = new System.Drawing.Point(575, 46);
+            this.EventAddLongitude.Location = new System.Drawing.Point(862, 65);
+            this.EventAddLongitude.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.EventAddLongitude.Name = "EventAddLongitude";
-            this.EventAddLongitude.Size = new System.Drawing.Size(100, 20);
+            this.EventAddLongitude.Size = new System.Drawing.Size(148, 26);
             this.EventAddLongitude.TabIndex = 14;
             this.EventAddLongitude.Text = "29.830303";
             // 
             // MsgBox2
             // 
-            this.MsgBox2.Location = new System.Drawing.Point(575, 72);
+            this.MsgBox2.Location = new System.Drawing.Point(862, 151);
+            this.MsgBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MsgBox2.Name = "MsgBox2";
-            this.MsgBox2.Size = new System.Drawing.Size(153, 96);
+            this.MsgBox2.Size = new System.Drawing.Size(228, 146);
             this.MsgBox2.TabIndex = 15;
             this.MsgBox2.Text = "sasdasd";
             // 
             // richTextBox3
             // 
-            this.richTextBox3.Location = new System.Drawing.Point(314, 232);
+            this.richTextBox3.Location = new System.Drawing.Point(471, 357);
+            this.richTextBox3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(372, 149);
+            this.richTextBox3.Size = new System.Drawing.Size(556, 227);
             this.richTextBox3.TabIndex = 16;
             this.richTextBox3.Text = "";
             // 
             // TbToken
             // 
-            this.TbToken.Location = new System.Drawing.Point(12, 166);
+            this.TbToken.Location = new System.Drawing.Point(18, 255);
+            this.TbToken.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TbToken.Name = "TbToken";
-            this.TbToken.Size = new System.Drawing.Size(440, 20);
+            this.TbToken.Size = new System.Drawing.Size(658, 26);
             this.TbToken.TabIndex = 17;
             // 
             // WaitLab
             // 
             this.WaitLab.AutoSize = true;
             this.WaitLab.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.WaitLab.Location = new System.Drawing.Point(465, 74);
+            this.WaitLab.Location = new System.Drawing.Point(698, 114);
+            this.WaitLab.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.WaitLab.Name = "WaitLab";
-            this.WaitLab.Size = new System.Drawing.Size(68, 25);
+            this.WaitLab.Size = new System.Drawing.Size(102, 37);
             this.WaitLab.TabIndex = 18;
             this.WaitLab.Text = "WAIT";
             this.WaitLab.Visible = false;
             // 
             // AddComment
             // 
-            this.AddComment.Location = new System.Drawing.Point(816, 359);
+            this.AddComment.Location = new System.Drawing.Point(1224, 552);
+            this.AddComment.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.AddComment.Name = "AddComment";
-            this.AddComment.Size = new System.Drawing.Size(75, 23);
+            this.AddComment.Size = new System.Drawing.Size(112, 35);
             this.AddComment.TabIndex = 19;
             this.AddComment.Text = "AddComment";
             this.AddComment.UseVisualStyleBackColor = true;
@@ -234,31 +256,35 @@
             // 
             // richTextBox4
             // 
-            this.richTextBox4.Location = new System.Drawing.Point(816, 257);
+            this.richTextBox4.Location = new System.Drawing.Point(1224, 395);
+            this.richTextBox4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.richTextBox4.Name = "richTextBox4";
-            this.richTextBox4.Size = new System.Drawing.Size(160, 96);
+            this.richTextBox4.Size = new System.Drawing.Size(238, 146);
             this.richTextBox4.TabIndex = 20;
             this.richTextBox4.Text = "";
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(816, 231);
+            this.textBox9.Location = new System.Drawing.Point(1224, 355);
+            this.textBox9.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(100, 20);
+            this.textBox9.Size = new System.Drawing.Size(148, 26);
             this.textBox9.TabIndex = 21;
             // 
             // friendTb
             // 
-            this.friendTb.Location = new System.Drawing.Point(1094, 9);
+            this.friendTb.Location = new System.Drawing.Point(1641, 14);
+            this.friendTb.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.friendTb.Name = "friendTb";
-            this.friendTb.Size = new System.Drawing.Size(237, 20);
+            this.friendTb.Size = new System.Drawing.Size(354, 26);
             this.friendTb.TabIndex = 22;
             // 
             // Follow
             // 
-            this.Follow.Location = new System.Drawing.Point(1094, 164);
+            this.Follow.Location = new System.Drawing.Point(1641, 252);
+            this.Follow.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Follow.Name = "Follow";
-            this.Follow.Size = new System.Drawing.Size(75, 23);
+            this.Follow.Size = new System.Drawing.Size(112, 35);
             this.Follow.TabIndex = 23;
             this.Follow.Text = "follow";
             this.Follow.UseVisualStyleBackColor = true;
@@ -266,35 +292,57 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(1175, 164);
+            this.button2.Location = new System.Drawing.Point(1762, 252);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(112, 35);
             this.button2.TabIndex = 24;
             this.button2.Text = "unfollow";
             this.button2.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(1256, 164);
+            this.button3.Location = new System.Drawing.Point(1884, 252);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(112, 35);
             this.button3.TabIndex = 25;
             this.button3.Text = "get list";
             this.button3.UseVisualStyleBackColor = true;
             // 
             // EventsListView
             // 
-            this.EventsListView.Location = new System.Drawing.Point(816, 48);
+            this.EventsListView.Location = new System.Drawing.Point(1224, 74);
+            this.EventsListView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.EventsListView.Name = "EventsListView";
-            this.EventsListView.Size = new System.Drawing.Size(200, 177);
+            this.EventsListView.Size = new System.Drawing.Size(298, 270);
             this.EventsListView.TabIndex = 26;
             this.EventsListView.UseCompatibleStateImageBehavior = false;
             // 
+            // AddFileTB
+            // 
+            this.AddFileTB.Location = new System.Drawing.Point(862, 109);
+            this.AddFileTB.Name = "AddFileTB";
+            this.AddFileTB.Size = new System.Drawing.Size(102, 26);
+            this.AddFileTB.TabIndex = 27;
+            // 
+            // SelectAddFile
+            // 
+            this.SelectAddFile.Location = new System.Drawing.Point(970, 109);
+            this.SelectAddFile.Name = "SelectAddFile";
+            this.SelectAddFile.Size = new System.Drawing.Size(40, 31);
+            this.SelectAddFile.TabIndex = 28;
+            this.SelectAddFile.Text = "...";
+            this.SelectAddFile.UseVisualStyleBackColor = true;
+            this.SelectAddFile.Click += new System.EventHandler(this.SelectAddFile_Click);
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1362, 536);
+            this.ClientSize = new System.Drawing.Size(1912, 825);
+            this.Controls.Add(this.SelectAddFile);
+            this.Controls.Add(this.AddFileTB);
             this.Controls.Add(this.EventsListView);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -322,6 +370,7 @@
             this.Controls.Add(this.LoginBtn);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainForm";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -358,6 +407,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ListView EventsListView;
+        private System.Windows.Forms.TextBox AddFileTB;
+        private System.Windows.Forms.Button SelectAddFile;
     }
 }
 

@@ -4,10 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
+using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -128,6 +130,27 @@ namespace EventsCsClient
             wc.Encoding = Encoding.UTF8;
             wc.Headers.Add("Content-Type", "application/json");
             wc.Headers.Add("Authorization", "Bearer " + token);
+            string sdata;
+            var photoIds = new string[0];
+            if (!String.IsNullOrWhiteSpace(AddFileTB.Text))
+            {
+                var url = new WebClient().DownloadString(new Uri(SiteUrlTb.Text + "api/Endpoints/GetUploadUrl/AddEvent"));
+                using (var client = new HttpClient())
+                {
+                    MultipartFormDataContent form = new MultipartFormDataContent();
+                    var fs = new FileStream(AddFileTB.Text, FileMode.Open);
+                    form.Add(new StreamContent(fs), "file", "file.jpg");
+                    var response = await client.PostAsync("PostUrl", form);
+                    sdata = await response.Content.ReadAsStringAsync();
+                    
+                }
+                using (var client = new HttpClient())
+                {
+                    var content = new StringContent(sdata);
+                    var response = await client.PostAsync(SiteUrlTb.Text 
+                                            + "api/Endpoints/SaveUploadedFile/AddEvent", content);
+                }
+            }
             try
             {
                 //var descr = MsgBox2.Text.Select(c => string.Format(@"\u{0:x4}", (int)c)).Aggregate("", (a, b) => a + b);
@@ -138,7 +161,8 @@ namespace EventsCsClient
                     Latitude = EventAddLatitude.Text,
                     Longitude = EventAddLongitude.Text,
                     Description = descr,
-                    EventDate = dtu
+                    EventDate = dtu,
+                    PhotoIds = photoIds
                 });
                 //data = data.Replace(@"\\", @"\");
                 WaitLab.Show();
@@ -245,6 +269,13 @@ namespace EventsCsClient
             //var result = await wc.DownloadStringTaskAsync(SiteUrlTb.Text + SubscribeUrl);
             //WaitLab.Hide();
             //MsgBox1.Text = "200\r\n" + result;
+        }
+
+        private void SelectAddFile_Click(object sender, EventArgs e)
+        {
+            var d = new OpenFileDialog();
+            DialogResult res = d.ShowDialog();
+            AddFileTB.Text = d.FileName;
         }
     }
 }
