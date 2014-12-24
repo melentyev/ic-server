@@ -53,10 +53,8 @@ namespace Events.Models
             {
                 case "AddEvent":
                     return Ok("/api/Endpoints/Upload");
-                    break;
                 default:
                     return BadRequest("incorrect input");
-                    break;
             }
 
         }
