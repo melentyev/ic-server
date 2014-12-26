@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Data;
 using System.Data.Entity;
@@ -13,6 +14,7 @@ using Microsoft.AspNet.Identity;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.IO;
 
 using Events.Infrastructure;
 using Events.Models;
@@ -45,7 +47,7 @@ namespace Events.Models
             //var model = await regIdsRepo.FindAsync(regId);
             return Ok();
         }
-        [Route("GetUploadUrl")]
+        [Route("GetUploadUrl/{purpose}")]
         [ResponseType(typeof(string))]
         public IHttpActionResult GetUploadUrl(string purpose)
         {
@@ -59,81 +61,91 @@ namespace Events.Models
 
         }
 
-        [Route("Upload/{uploads}")]
+        [Route("Upload")]
         [ResponseType(typeof(SaveFileBindingModel))]
-        public async Task<IHttpActionResult> Upload(IEnumerable<System.Web.HttpPostedFileBase> uploads)
+        [Authorize]
+        public async Task<IHttpActionResult> PostUpload()
         {
             string forHash = "";
-            var answer = new SaveFileBindingModel();
-            foreach (var file in uploads)
+            var answer = new SaveFileBindingModel() { FileId = new List<int>() { } };
+            HttpRequestMessage request = this.Request;
+            if (!request.Content.IsMimeMultipartContent())
             {
-                if (file != null)
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            string root = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/uploads/");
+            var provider = new MultipartFormDataStreamProvider(root);
+
+            await request.Content.ReadAsMultipartAsync(provider);
+            MultipartFileData file = provider.FileData.First();
+            {
+                var originalName = file.Headers.ContentDisposition.FileName;
+                if (file == null)
                 {
-                    var userFile = new UserFile
-                    {
-                        UserId = CurrentUser.UserId,
-                        FilePath = "",
-                        FileSize = file.ContentLength,
-                        State = UserFileState.JustUploaded,
-                        DateCreate = DateTime.Now,
-                    };
-                    var addedFile = await userFileRepository.SaveInstance(userFile);
-                    // имя - номер записи в базе
-                    string fileName = addedFile.UserFileId.ToString();
-                    // сохраняем файл в папку Files в проекте
-                    file.SaveAs(HttpContext.Current.Server.MapPath("~/Files/" + fileName));
-                    addedFile.FilePath = ("~/Files/" + fileName);
-                    addedFile = await userFileRepository.SaveInstance(userFile);
-                    answer.FileId.Add(addedFile.UserFileId);
-                    forHash = forHash + addedFile.UserFileId.ToString() + addedFile.FileSize.ToString();
+                    return BadRequest("Not file in input");
                 }
-                else
+                try { 
+                var userFile = new UserFile
                 {
-                    BadRequest("Not file in input");
+                    UserId = CurrentUser.UserId,
+                    FilePath = file.LocalFileName,
+                    FileSize = (int)new System.IO.FileInfo(file.LocalFileName).Length,
+                    State = UserFileState.JustUploaded,
+                    DateCreate = DateTime.Now,
+                    ServerId = 1
+                };
+               
+                var addedFile = await userFileRepository.SaveInstance(userFile);
+                answer.FileId.Add(addedFile.UserFileId);
+                forHash = forHash + addedFile.UserFileId.ToString() + addedFile.FileSize.ToString();
+                }
+                catch (Exception e)
+                {
+                    var a = 5;
                 }
             }
             answer.Hash = forHash.GetHashCode();
             return Ok(answer);
         }
-
-        [Route("api/Endpoints/SaveUploadedFile/")]
-        public async Task<IHttpActionResult> Save(SaveFileBindingModel model)
+        [Route("GetFile/{fileId}")]
+        public async Task<HttpResponseMessage> GetFile(string fileId)
         {
-            List<UserFile> UFList = null;
-            string forHash = "";
-            List<string> Path = null;
+            var id = Int32.Parse(fileId);
+            string root = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/uploads/");
+
+            var file = await userFileRepository.Objects.Where(f => f.UserFileId == id).FirstOrDefaultAsync();
+            var path = file.FilePath;
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            result.Content = new StreamContent(stream);
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+            return result;
+        }
+
+        [Route("SaveUploadedFile/{purpose}")]
+        public async Task<IHttpActionResult> PostSave(string purpose, SaveFileBindingModel model)
+        {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            foreach (var fileId in model.FileId)
+            var fileEntries = await userFileRepository.Objects.Where(e => model.FileId.Contains(e.UserFileId)).ToListAsync();
+            if (fileEntries.Count != model.FileId.Count)
             {
-                var dbEntry = await userFileRepository.Objects.Where(e => e.UserFileId == fileId).FirstOrDefaultAsync();
-                if (dbEntry == null)
-                {
-                    return BadRequest();
-                }
-                UFList.Add(dbEntry);
-                forHash = forHash + dbEntry.UserFileId.ToString() + dbEntry.FileSize.ToString();
+                return BadRequest();
             }
-            if (forHash.GetHashCode() == model.Hash)
+            var forHash = fileEntries.Aggregate("", (h, f) => h + f.UserFileId.ToString() + f.FileSize.ToString());
+            if (forHash.GetHashCode() != model.Hash)
             {
-                foreach (var userFile in UFList)
-                {
-                    if (userFile != null)
-                    {
-                        userFile.State = UserFileState.Saved;
-                        Path.Add(userFile.FilePath);
-                    }
-                    else
-                    {
-                        return BadRequest();
-                    }
-                }
-                return Ok(Path);
+                return BadRequest();
             }
-            return BadRequest();
+            await Task.WhenAll(fileEntries.Select(f => {
+                f.State = UserFileState.Saved;
+                return userFileRepository.SaveInstance(f);
+            }));
+            var result = fileEntries.Select(f => new SavedFileViewModel { Id = f.UserFileId, FileSize = f.FileSize, Url = f.FilePath});
+            return Ok(result);
         }
-
     }
 }

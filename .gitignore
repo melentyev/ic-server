@@ -192,3 +192,5 @@ Web.config.Debug
 Web.config.Release
 Web.Debug.config
 Web.Release.config
+
+uploads/

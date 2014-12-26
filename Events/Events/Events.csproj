@@ -196,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\ICommentsRepository.cs" />
+    <Compile Include="Abstract\IDataRepository.cs" />
     <Compile Include="Abstract\IEventsRepository.cs" />
     <Compile Include="Abstract\IGcmRegIdsRepository.cs" />
     <Compile Include="Abstract\IEventSubscribersRepository.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Concrete\EFDataRepository.cs" />
     <Compile Include="Concrete\EFEventSubscribersRepository.cs" />
     <Compile Include="Concrete\EFGcmRegIdsRepository.cs" />
     <Compile Include="Concrete\EFCommentsRepository.cs" />
@@ -316,6 +318,8 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="doc.json" />
+    <None Include="Properties\PublishProfiles\icreate - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\icreate - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\myasp1.pubxml" />
     <None Include="Properties\PublishProfiles\pbixman.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

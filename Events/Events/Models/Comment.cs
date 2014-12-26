@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Events.Models
 {
-    public enum EntityTypes 
+    public enum CommentEntityTypes 
     {
         Event
     }  
@@ -13,7 +13,7 @@ namespace Events.Models
     {
         public int CommentId { get; set; }
         public int UserId { get; set; }
-        public EntityTypes EntityType { get; set; }
+        public CommentEntityTypes EntityType { get; set; }
         public int EntityId { get; set; }
         public string Text { get; set; }
         public DateTime DateCreate { get; set; }

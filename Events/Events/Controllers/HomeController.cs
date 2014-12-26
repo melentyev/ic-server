@@ -22,7 +22,10 @@ namespace Events.Controllers
         public ActionResult Index()
         {
             var tmp = eventsRepository.Objects.FirstOrDefault();
-            var nm = tmp.EventId;
+            if (tmp != null)
+            {
+                var nm = tmp.EventId;
+            }
             return View();
         }
         public async Task<string> AddTestData()

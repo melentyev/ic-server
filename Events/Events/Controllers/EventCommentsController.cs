@@ -48,7 +48,7 @@ namespace Events.Controllers
             {
                 UserId = CurrentUser.UserId,
                 EntityId = model.EntityId,
-                EntityType = EntityTypes.Event,
+                EntityType = CommentEntityTypes.Event,
                 Text = model.Text,
                 DateCreate = DateTime.Now
             };

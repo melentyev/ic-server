@@ -12,13 +12,20 @@ namespace Events.Infrastructure
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, AppRole, int, AppUserLogin, AppUserRole, AppUserClaim>
     {
+        private Object mutex = new Object();
         public ApplicationDbContext()
             : base("DefaultConnection")
         {
-            Database.Log = (msg => {                
-                myFileLog.Write(msg);
-                myFileLog.Close();
-                m_myFileLog = null;
+            Database.Log = (msg => 
+            {
+                lock (mutex) 
+                {
+                    using (var fs = new FileStream(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\mydblog.txt", FileMode.Append)) { 
+                        var myFileLog = new StreamWriter(fs);
+                        myFileLog.Write(msg);
+                        myFileLog.Close();
+                    }
+                }
             });
         }
         protected override void OnModelCreating(DbModelBuilder builder)
@@ -49,25 +56,13 @@ namespace Events.Infrastructure
             base.OnModelCreating(builder);
         }
 
-        private static StreamWriter m_myFileLog = null;
-        static StreamWriter myFileLog 
-        { 
-            get 
-            { 
-                if (m_myFileLog == null) 
-                {
-                    m_myFileLog = new StreamWriter(new FileStream(
-                        Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\mydblog.txt", FileMode.Append));
-                } 
-                return m_myFileLog;
-            } 
-        }
         static IList<string> myLog = new List<string>();
         public System.Data.Entity.DbSet<Event> Events { get; set; }
         public System.Data.Entity.DbSet<Comment> Comments { get; set; }
         public System.Data.Entity.DbSet<Subscription> Subscriptions { get; set; }
         public System.Data.Entity.DbSet<GcmRegistrationId> GcmRegistrationIds { get; set; }
         public System.Data.Entity.DbSet<EventSubscrier> EventSubscriers { get; set; }
-        public System.Data.Entity.DbSet<UserFile> UserFile { get; set; }
+        public System.Data.Entity.DbSet<UserFile> UserFiles { get; set; }
+        public System.Data.Entity.DbSet<Photo> Photos { get; set; }
     }
 }

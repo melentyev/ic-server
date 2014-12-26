@@ -30,6 +30,7 @@ namespace Events.Controllers
         private IPhotosRepository photosRepo;
         private ICommentsRepository commentsRepo;
         private IEventSubscribersRepository eventSubsRepo;
+        private IDataRepository dataRepo;
         private const int getEventsMaxCount = 200;
         private AppUserManager userManager;
         //private ICommentsRepository commentsRepository;
@@ -39,7 +40,8 @@ namespace Events.Controllers
             IPhotosRepository pPhotosRepo, 
             IGcmRegIdsRepository pGcmRepo, 
             ICommentsRepository pCommentsRepo,
-            IEventSubscribersRepository pEventSubsRepo
+            IEventSubscribersRepository pEventSubsRepo,
+            IDataRepository pDataRepo
             )
         {
             eventsRepository = pEventsRepo;
@@ -47,6 +49,7 @@ namespace Events.Controllers
             gcmRepo = pGcmRepo;
             commentsRepo = pCommentsRepo;
             eventSubsRepo = pEventSubsRepo;
+            dataRepo = pDataRepo;
             userManager = Startup.UserManagerFactory();
         }
 
@@ -65,7 +68,7 @@ namespace Events.Controllers
             string prad = null
             )
         {
-            var query = eventsRepository.Objects.Include(e => e.User);
+            var query = dataRepo.Events;
             query = query.OrderByDescending(e => e.EventId);
             query = offset == null ? query : query.Skip(offset.Value);
             query = query.Take(Math.Min(count, getEventsMaxCount));
@@ -86,25 +89,8 @@ namespace Events.Controllers
                                 && e.Location.Longitude <= Double.Parse(west)
                                 && e.Location.Longitude >= Double.Parse(east));                
             }
-            
-            var result = await query.ToArrayAsync();
-            var eventsIds = result.Select(e => e.EventId);
-            var comments = await commentsRepo.Objects.Where(c => c.EntityType == EntityTypes.Event && eventsIds.Contains(c.EntityId))
-                .ToListAsync();
-            var eventComments = 
-                comments
-                    .GroupBy(c => c.EntityId)
-                    .ToDictionary(group => group.Key, group => group.ToArray());
-
-            return Ok(result.Select(e => 
-            {
-                IEnumerable<CommentViewModel> coms = null; 
-                if (eventComments.ContainsKey(e.EventId) )
-                { 
-                    coms = eventComments[e.EventId].Select(c => new CommentViewModel(c, null, null));
-                }
-                return new EventViewModel(e, null, coms, null, null);
-            }));
+            var res = await dataRepo.GetEventsWithCommentsAndPhotos(query);
+            return Ok(res);
         }
 
         // GET api/Events/5
@@ -178,6 +164,12 @@ namespace Events.Controllers
                 DateCreate = DateTime.UtcNow
             };
             ev = await eventsRepository.SaveInstance(ev);
+            await Task.WhenAll(model.PhotoIds.Select(fid => photosRepo.SaveInstance(new Photo {
+                UserId = ev.UserId, 
+                AlbumId = 0, 
+                EntityType = PhotoEntityTypes.Event,
+                EntityId = ev.EventId,
+                UserFileId = fid})));
             
             var rids = await gcmRepo.Objects.Select(r => r.RegId).ToArrayAsync();
 

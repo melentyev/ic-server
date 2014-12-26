@@ -14,7 +14,14 @@ namespace Events.Models
         public int UserId { get; set; }
         public int AlbumId { get; set; }
         public int UserFileId { get; set; }
-        public UserFile UserFile { get; set; }
         public ApplicationUser User { get; set; }
+        public PhotoEntityTypes EntityType { get; set; }
+        public int EntityId { get; set; }
+        
     }
+    public enum PhotoEntityTypes
+    {
+        Event,
+        User
+    }  
 }

@@ -71,12 +71,6 @@ namespace Events.Models
     }
     public class PhotoViewModel 
     {
-        public PhotoViewModel(Photo p)
-        {
-            UserId = p.User.Id;
-            AlbumId = p.AlbumId;
-            Url = p.UserFile.GetFullUrl();
-        }
         public string Url { get; set; }
         public int UserId { get; set; }
         public int AlbumId { get; set; }
@@ -90,7 +84,7 @@ namespace Events.Models
         {
             UserId = u.Id;
             UserName = u.UserName;
-            Photo = p == null ? null : new PhotoViewModel(p);
+            Photo = p == null ? null : new PhotoViewModel();
         }
         public int UserId { get; set; }
         public string UserName { get; set; }
