@@ -94,15 +94,25 @@ namespace EventsCsClient
             }
         }
 
+        public string UTF8to1251(string s) 
+        {
+            Encoding srcEncodingFormat = Encoding.UTF8;
+            Encoding dstEncodingFormat = Encoding.GetEncoding("windows-1251");
+            byte[] originalByteString = srcEncodingFormat.GetBytes(s);
+            byte[] convertedByteString = Encoding.Convert(srcEncodingFormat, dstEncodingFormat, originalByteString);
+            return dstEncodingFormat.GetString(convertedByteString);
+        }
+
         private async void GetEventsBtn_Click(object sender, EventArgs e)
         {
             try
             {
                 var wc = new WebClient();
                 wc.Headers.Add("Content-Type", "application/json");
+                wc.Headers.Add("Accept-Charset", "cp1251");
                 WaitLab.Show();
                 var result = await wc.DownloadStringTaskAsync(SiteUrlTb.Text + GetEventsUrl);
-                
+                //result = UTF8to1251(result);
                 MsgBox1.Text = "200\r\n" + result;
                 EventsListView.Items.Clear();
                 EventsListView.Items.AddRange(JArray.Parse(result).Select(tok =>  {
@@ -135,20 +145,32 @@ namespace EventsCsClient
             if (!String.IsNullOrWhiteSpace(AddFileTB.Text))
             {
                 var url = new WebClient().DownloadString(new Uri(SiteUrlTb.Text + "api/Endpoints/GetUploadUrl/AddEvent"));
+                url = url.Trim(new char[] { '\"' });
+                url = url.TrimStart(new char[] { '/' });
                 using (var client = new HttpClient())
                 {
                     MultipartFormDataContent form = new MultipartFormDataContent();
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
                     var fs = new FileStream(AddFileTB.Text, FileMode.Open);
                     form.Add(new StreamContent(fs), "file", "file.jpg");
-                    var response = await client.PostAsync("PostUrl", form);
+                    var response = await client.PostAsync(SiteUrlTb.Text + url, form);
                     sdata = await response.Content.ReadAsStringAsync();
-                    
                 }
                 using (var client = new HttpClient())
                 {
-                    var content = new StringContent(sdata);
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+                    //client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
+                    var content = new StringContent(sdata, Encoding.UTF8, "application/json");
                     var response = await client.PostAsync(SiteUrlTb.Text 
                                             + "api/Endpoints/SaveUploadedFile/AddEvent", content);
+                    sdata = await response.Content.ReadAsStringAsync();
+                    photoIds = JArray.Parse(sdata).Select(tok => (tok as JObject)["Id"].Value<string>()).ToArray();
+                    /*EventsListView.Items.AddRange(JArray.Parse(result).Select(tok =>
+                    {
+                        var descr = (tok as JObject)["Description"].Value<string>();
+                        var id = (tok as JObject)["EventId"].Value<int>();
+                        return new ListViewItem { Text = descr, Tag = id };
+                    }).ToArray());*/
                 }
             }
             try

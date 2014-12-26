@@ -61,28 +61,28 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(18, 74);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBox1.Location = new System.Drawing.Point(24, 92);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(148, 26);
+            this.textBox1.Size = new System.Drawing.Size(196, 31);
             this.textBox1.TabIndex = 0;
             this.textBox1.Text = "user";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(18, 114);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBox2.Location = new System.Drawing.Point(24, 142);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(148, 26);
+            this.textBox2.Size = new System.Drawing.Size(196, 31);
             this.textBox2.TabIndex = 1;
             this.textBox2.Text = "123456";
             // 
             // LoginBtn
             // 
-            this.LoginBtn.Location = new System.Drawing.Point(177, 109);
-            this.LoginBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.LoginBtn.Location = new System.Drawing.Point(236, 136);
+            this.LoginBtn.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.LoginBtn.Name = "LoginBtn";
-            this.LoginBtn.Size = new System.Drawing.Size(112, 35);
+            this.LoginBtn.Size = new System.Drawing.Size(149, 44);
             this.LoginBtn.TabIndex = 2;
             this.LoginBtn.Text = "LoginBtn";
             this.LoginBtn.UseVisualStyleBackColor = true;
@@ -90,10 +90,10 @@
             // 
             // RegisterBtn
             // 
-            this.RegisterBtn.Location = new System.Drawing.Point(502, 146);
-            this.RegisterBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.RegisterBtn.Location = new System.Drawing.Point(669, 182);
+            this.RegisterBtn.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.RegisterBtn.Name = "RegisterBtn";
-            this.RegisterBtn.Size = new System.Drawing.Size(112, 35);
+            this.RegisterBtn.Size = new System.Drawing.Size(149, 44);
             this.RegisterBtn.TabIndex = 3;
             this.RegisterBtn.Text = "RegisterBtn";
             this.RegisterBtn.UseVisualStyleBackColor = true;
@@ -101,76 +101,76 @@
             // 
             // MsgBox1
             // 
-            this.MsgBox1.Location = new System.Drawing.Point(3, 357);
-            this.MsgBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MsgBox1.Location = new System.Drawing.Point(4, 446);
+            this.MsgBox1.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.MsgBox1.Name = "MsgBox1";
-            this.MsgBox1.Size = new System.Drawing.Size(457, 227);
+            this.MsgBox1.Size = new System.Drawing.Size(608, 283);
             this.MsgBox1.TabIndex = 4;
             this.MsgBox1.Text = "";
             // 
             // LabelBearer
             // 
             this.LabelBearer.AutoSize = true;
-            this.LabelBearer.Location = new System.Drawing.Point(177, 74);
-            this.LabelBearer.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelBearer.Location = new System.Drawing.Point(236, 92);
+            this.LabelBearer.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.LabelBearer.Name = "LabelBearer";
-            this.LabelBearer.Size = new System.Drawing.Size(53, 20);
+            this.LabelBearer.Size = new System.Drawing.Size(72, 25);
             this.LabelBearer.TabIndex = 5;
             this.LabelBearer.Text = "Token";
             this.LabelBearer.Click += new System.EventHandler(this.label1_Click);
             // 
             // TbLoginUserName
             // 
-            this.TbLoginUserName.Location = new System.Drawing.Point(326, 69);
-            this.TbLoginUserName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TbLoginUserName.Location = new System.Drawing.Point(435, 86);
+            this.TbLoginUserName.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.TbLoginUserName.Name = "TbLoginUserName";
-            this.TbLoginUserName.Size = new System.Drawing.Size(148, 26);
+            this.TbLoginUserName.Size = new System.Drawing.Size(196, 31);
             this.TbLoginUserName.TabIndex = 6;
             this.TbLoginUserName.Text = "user";
             // 
             // TbLoginPassword
             // 
-            this.TbLoginPassword.Location = new System.Drawing.Point(326, 111);
-            this.TbLoginPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TbLoginPassword.Location = new System.Drawing.Point(435, 139);
+            this.TbLoginPassword.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.TbLoginPassword.Name = "TbLoginPassword";
-            this.TbLoginPassword.Size = new System.Drawing.Size(148, 26);
+            this.TbLoginPassword.Size = new System.Drawing.Size(196, 31);
             this.TbLoginPassword.TabIndex = 7;
             this.TbLoginPassword.Text = "123456";
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(326, 151);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBox5.Location = new System.Drawing.Point(435, 189);
+            this.textBox5.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(148, 26);
+            this.textBox5.Size = new System.Drawing.Size(196, 31);
             this.textBox5.TabIndex = 8;
             this.textBox5.Text = "123456";
             // 
             // SiteUrlTb
             // 
-            this.SiteUrlTb.Location = new System.Drawing.Point(81, 18);
-            this.SiteUrlTb.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.SiteUrlTb.Location = new System.Drawing.Point(108, 22);
+            this.SiteUrlTb.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.SiteUrlTb.Name = "SiteUrlTb";
-            this.SiteUrlTb.Size = new System.Drawing.Size(595, 26);
+            this.SiteUrlTb.Size = new System.Drawing.Size(792, 31);
             this.SiteUrlTb.TabIndex = 9;
             this.SiteUrlTb.Text = "http://localhost:45457/";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 18);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(19, 22);
+            this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 20);
+            this.label1.Size = new System.Drawing.Size(76, 25);
             this.label1.TabIndex = 10;
             this.label1.Text = "SiteUrl";
             // 
             // AddEvent
             // 
-            this.AddEvent.Location = new System.Drawing.Point(862, 308);
-            this.AddEvent.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.AddEvent.Location = new System.Drawing.Point(1149, 385);
+            this.AddEvent.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.AddEvent.Name = "AddEvent";
-            this.AddEvent.Size = new System.Drawing.Size(112, 35);
+            this.AddEvent.Size = new System.Drawing.Size(149, 44);
             this.AddEvent.TabIndex = 11;
             this.AddEvent.Text = "AddEvent";
             this.AddEvent.UseVisualStyleBackColor = true;
@@ -178,10 +178,10 @@
             // 
             // GetEventsBtn
             // 
-            this.GetEventsBtn.Location = new System.Drawing.Point(1224, 29);
-            this.GetEventsBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.GetEventsBtn.Location = new System.Drawing.Point(1632, 36);
+            this.GetEventsBtn.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.GetEventsBtn.Name = "GetEventsBtn";
-            this.GetEventsBtn.Size = new System.Drawing.Size(147, 35);
+            this.GetEventsBtn.Size = new System.Drawing.Size(196, 44);
             this.GetEventsBtn.TabIndex = 12;
             this.GetEventsBtn.Text = "GetEventsBtn";
             this.GetEventsBtn.UseVisualStyleBackColor = true;
@@ -189,66 +189,66 @@
             // 
             // EventAddLatitude
             // 
-            this.EventAddLatitude.Location = new System.Drawing.Point(862, 29);
-            this.EventAddLatitude.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.EventAddLatitude.Location = new System.Drawing.Point(1149, 36);
+            this.EventAddLatitude.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.EventAddLatitude.Name = "EventAddLatitude";
-            this.EventAddLatitude.Size = new System.Drawing.Size(148, 26);
+            this.EventAddLatitude.Size = new System.Drawing.Size(196, 31);
             this.EventAddLatitude.TabIndex = 13;
             this.EventAddLatitude.Text = "59.876049";
             // 
             // EventAddLongitude
             // 
-            this.EventAddLongitude.Location = new System.Drawing.Point(862, 65);
-            this.EventAddLongitude.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.EventAddLongitude.Location = new System.Drawing.Point(1149, 81);
+            this.EventAddLongitude.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.EventAddLongitude.Name = "EventAddLongitude";
-            this.EventAddLongitude.Size = new System.Drawing.Size(148, 26);
+            this.EventAddLongitude.Size = new System.Drawing.Size(196, 31);
             this.EventAddLongitude.TabIndex = 14;
             this.EventAddLongitude.Text = "29.830303";
             // 
             // MsgBox2
             // 
-            this.MsgBox2.Location = new System.Drawing.Point(862, 151);
-            this.MsgBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MsgBox2.Location = new System.Drawing.Point(1149, 189);
+            this.MsgBox2.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.MsgBox2.Name = "MsgBox2";
-            this.MsgBox2.Size = new System.Drawing.Size(228, 146);
+            this.MsgBox2.Size = new System.Drawing.Size(303, 182);
             this.MsgBox2.TabIndex = 15;
             this.MsgBox2.Text = "sasdasd";
             // 
             // richTextBox3
             // 
-            this.richTextBox3.Location = new System.Drawing.Point(471, 357);
-            this.richTextBox3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.richTextBox3.Location = new System.Drawing.Point(628, 446);
+            this.richTextBox3.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(556, 227);
+            this.richTextBox3.Size = new System.Drawing.Size(740, 283);
             this.richTextBox3.TabIndex = 16;
             this.richTextBox3.Text = "";
             // 
             // TbToken
             // 
-            this.TbToken.Location = new System.Drawing.Point(18, 255);
-            this.TbToken.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TbToken.Location = new System.Drawing.Point(24, 319);
+            this.TbToken.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.TbToken.Name = "TbToken";
-            this.TbToken.Size = new System.Drawing.Size(658, 26);
+            this.TbToken.Size = new System.Drawing.Size(876, 31);
             this.TbToken.TabIndex = 17;
             // 
             // WaitLab
             // 
             this.WaitLab.AutoSize = true;
             this.WaitLab.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.WaitLab.Location = new System.Drawing.Point(698, 114);
-            this.WaitLab.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.WaitLab.Location = new System.Drawing.Point(931, 142);
+            this.WaitLab.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.WaitLab.Name = "WaitLab";
-            this.WaitLab.Size = new System.Drawing.Size(102, 37);
+            this.WaitLab.Size = new System.Drawing.Size(130, 48);
             this.WaitLab.TabIndex = 18;
             this.WaitLab.Text = "WAIT";
             this.WaitLab.Visible = false;
             // 
             // AddComment
             // 
-            this.AddComment.Location = new System.Drawing.Point(1224, 552);
-            this.AddComment.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.AddComment.Location = new System.Drawing.Point(1632, 690);
+            this.AddComment.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.AddComment.Name = "AddComment";
-            this.AddComment.Size = new System.Drawing.Size(112, 35);
+            this.AddComment.Size = new System.Drawing.Size(149, 44);
             this.AddComment.TabIndex = 19;
             this.AddComment.Text = "AddComment";
             this.AddComment.UseVisualStyleBackColor = true;
@@ -256,35 +256,35 @@
             // 
             // richTextBox4
             // 
-            this.richTextBox4.Location = new System.Drawing.Point(1224, 395);
-            this.richTextBox4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.richTextBox4.Location = new System.Drawing.Point(1632, 494);
+            this.richTextBox4.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.richTextBox4.Name = "richTextBox4";
-            this.richTextBox4.Size = new System.Drawing.Size(238, 146);
+            this.richTextBox4.Size = new System.Drawing.Size(316, 182);
             this.richTextBox4.TabIndex = 20;
             this.richTextBox4.Text = "";
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(1224, 355);
-            this.textBox9.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBox9.Location = new System.Drawing.Point(1632, 444);
+            this.textBox9.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(148, 26);
+            this.textBox9.Size = new System.Drawing.Size(196, 31);
             this.textBox9.TabIndex = 21;
             // 
             // friendTb
             // 
-            this.friendTb.Location = new System.Drawing.Point(1641, 14);
-            this.friendTb.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.friendTb.Location = new System.Drawing.Point(2188, 18);
+            this.friendTb.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.friendTb.Name = "friendTb";
-            this.friendTb.Size = new System.Drawing.Size(354, 26);
+            this.friendTb.Size = new System.Drawing.Size(471, 31);
             this.friendTb.TabIndex = 22;
             // 
             // Follow
             // 
-            this.Follow.Location = new System.Drawing.Point(1641, 252);
-            this.Follow.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Follow.Location = new System.Drawing.Point(2188, 315);
+            this.Follow.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.Follow.Name = "Follow";
-            this.Follow.Size = new System.Drawing.Size(112, 35);
+            this.Follow.Size = new System.Drawing.Size(149, 44);
             this.Follow.TabIndex = 23;
             this.Follow.Text = "follow";
             this.Follow.UseVisualStyleBackColor = true;
@@ -292,45 +292,48 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(1762, 252);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button2.Location = new System.Drawing.Point(2349, 315);
+            this.button2.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(112, 35);
+            this.button2.Size = new System.Drawing.Size(149, 44);
             this.button2.TabIndex = 24;
             this.button2.Text = "unfollow";
             this.button2.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(1884, 252);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button3.Location = new System.Drawing.Point(2512, 315);
+            this.button3.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(112, 35);
+            this.button3.Size = new System.Drawing.Size(149, 44);
             this.button3.TabIndex = 25;
             this.button3.Text = "get list";
             this.button3.UseVisualStyleBackColor = true;
             // 
             // EventsListView
             // 
-            this.EventsListView.Location = new System.Drawing.Point(1224, 74);
-            this.EventsListView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.EventsListView.Location = new System.Drawing.Point(1632, 92);
+            this.EventsListView.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.EventsListView.Name = "EventsListView";
-            this.EventsListView.Size = new System.Drawing.Size(298, 270);
+            this.EventsListView.Size = new System.Drawing.Size(396, 336);
             this.EventsListView.TabIndex = 26;
             this.EventsListView.UseCompatibleStateImageBehavior = false;
             // 
             // AddFileTB
             // 
-            this.AddFileTB.Location = new System.Drawing.Point(862, 109);
+            this.AddFileTB.Location = new System.Drawing.Point(1149, 136);
+            this.AddFileTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.AddFileTB.Name = "AddFileTB";
-            this.AddFileTB.Size = new System.Drawing.Size(102, 26);
+            this.AddFileTB.Size = new System.Drawing.Size(135, 31);
             this.AddFileTB.TabIndex = 27;
+            this.AddFileTB.Text = "C:\\Users\\user\\Downloads\\qpq8CUKjobc.jpg";
             // 
             // SelectAddFile
             // 
-            this.SelectAddFile.Location = new System.Drawing.Point(970, 109);
+            this.SelectAddFile.Location = new System.Drawing.Point(1293, 136);
+            this.SelectAddFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.SelectAddFile.Name = "SelectAddFile";
-            this.SelectAddFile.Size = new System.Drawing.Size(40, 31);
+            this.SelectAddFile.Size = new System.Drawing.Size(53, 39);
             this.SelectAddFile.TabIndex = 28;
             this.SelectAddFile.Text = "...";
             this.SelectAddFile.UseVisualStyleBackColor = true;
@@ -338,9 +341,9 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1912, 825);
+            this.ClientSize = new System.Drawing.Size(2549, 1031);
             this.Controls.Add(this.SelectAddFile);
             this.Controls.Add(this.AddFileTB);
             this.Controls.Add(this.EventsListView);
@@ -370,7 +373,7 @@
             this.Controls.Add(this.LoginBtn);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.Name = "MainForm";
             this.Text = "Form1";
             this.ResumeLayout(false);
