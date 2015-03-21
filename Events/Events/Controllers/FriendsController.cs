@@ -74,7 +74,7 @@ namespace Events.Controllers
             return Ok(result.Select(u =>
             {
                 var photo = photosRepo.Objects.Where(p => p.PhotoId == u.PhotoId).FirstOrDefault();
-                return new UserProfileViewModel(u, photo);
+                return new UserProfileViewModel(u, photo, null);
             }).ToArray());
         }
 

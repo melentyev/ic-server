@@ -27,8 +27,16 @@ namespace Events.Models
     //[Authorize]
     public class EndpointsController : ApplicationApiController
     {
+        const int randomDirNameLen = 20;
         private IGcmRegIdsRepository regIdsRepo;
         private IUserFileRepository userFileRepository;
+        private char[] fileNameChars = 
+            Enumerable.Range('a', 'z' - 'a' + 1)
+                .Concat(Enumerable.Range('0', '9' - '0' + 1))
+                .Concat(Enumerable.Repeat((int)'-', 1))
+                .Select(c => (char)c).ToArray();
+
+        public static string UploadsFolder = System.Web.HttpContext.Current.Server.MapPath("~/Uploads/");
         public EndpointsController(IGcmRegIdsRepository repo, IUserFileRepository puserFileRepository)
         {
             regIdsRepo = repo;
@@ -54,6 +62,7 @@ namespace Events.Models
             switch (purpose)
             {
                 case "AddEvent":
+                case "UpdateUserPic":
                     return Ok("/api/Endpoints/Upload");
                 default:
                     return BadRequest("incorrect input");
@@ -66,6 +75,10 @@ namespace Events.Models
         [Authorize]
         public async Task<IHttpActionResult> PostUpload()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             string forHash = "";
             var answer = new SaveFileBindingModel() { FileId = new List<int>() { } };
             HttpRequestMessage request = this.Request;
@@ -73,38 +86,49 @@ namespace Events.Models
             {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
+            var rnd = new System.Random((int)DateTime.Now.Ticks + Request.GetHashCode());
 
-            string root = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/uploads/");
+            Func<int, string> randomFileName = (n) => 
+                new String(
+                    Enumerable.Range(1, n)
+                    .Select(x => fileNameChars[rnd.Next(fileNameChars.Length)])
+                    .ToArray());
+
+            string newDir;
+            DirectoryInfo di;
+            do
+            {
+                newDir = randomFileName(randomDirNameLen);
+                di = Directory.CreateDirectory(UploadsFolder + newDir);
+            } while (di.CreationTime.AddSeconds(10) < DateTime.Now);
+            string root = UploadsFolder + newDir + @"\";
             var provider = new MultipartFormDataStreamProvider(root);
 
             await request.Content.ReadAsMultipartAsync(provider);
             MultipartFileData file = provider.FileData.First();
+            if (file == null)
             {
-                var originalName = file.Headers.ContentDisposition.FileName;
-                if (file == null)
-                {
-                    return BadRequest("Not file in input");
-                }
-                try { 
-                var userFile = new UserFile
-                {
-                    UserId = CurrentUser.UserId,
-                    FilePath = file.LocalFileName,
-                    FileSize = (int)new System.IO.FileInfo(file.LocalFileName).Length,
-                    State = UserFileState.JustUploaded,
-                    DateCreate = DateTime.Now,
-                    ServerId = 1
-                };
-               
-                var addedFile = await userFileRepository.SaveInstance(userFile);
-                answer.FileId.Add(addedFile.UserFileId);
-                forHash = forHash + addedFile.UserFileId.ToString() + addedFile.FileSize.ToString();
-                }
-                catch (Exception e)
-                {
-                    var a = 5;
-                }
+                return BadRequest("Not file in input");
             }
+            var originalName = file.Headers.ContentDisposition.FileName;
+            var newName = randomFileName(10) + Path.GetExtension(originalName);
+            var newLocalName = UploadsFolder + newDir + @"\" + newName;
+            File.Move(file.LocalFileName, newLocalName);
+                
+            var userFile = new UserFile
+            {
+                UserId = CurrentUser.UserId,
+                FilePath = newDir + @"/" + newName,
+                FileSize = (int)new System.IO.FileInfo(newLocalName).Length,
+                State = UserFileState.JustUploaded,
+                DateCreate = DateTime.Now,
+                ServerId = 1
+            };
+               
+            var addedFile = await userFileRepository.SaveInstance(userFile);
+            answer.FileId.Add(addedFile.UserFileId);
+            forHash = forHash + addedFile.UserFileId.ToString() + addedFile.FileSize.ToString();
+
             answer.Hash = forHash.GetHashCode();
             return Ok(answer);
         }
@@ -112,10 +136,9 @@ namespace Events.Models
         public async Task<HttpResponseMessage> GetFile(string fileId)
         {
             var id = Int32.Parse(fileId);
-            string root = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/uploads/");
 
             var file = await userFileRepository.Objects.Where(f => f.UserFileId == id).FirstOrDefaultAsync();
-            var path = file.FilePath;
+            var path = UploadsFolder + file.FilePath;
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
             result.Content = new StreamContent(stream);

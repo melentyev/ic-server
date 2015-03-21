@@ -12,21 +12,22 @@ namespace Events.Infrastructure
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, AppRole, int, AppUserLogin, AppUserRole, AppUserClaim>
     {
-        private Object mutex = new Object();
+        private static Object mutex = new Object();
         public ApplicationDbContext()
             : base("DefaultConnection")
         {
-            Database.Log = (msg => 
-            {
-                lock (mutex) 
-                {
-                    using (var fs = new FileStream(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\mydblog.txt", FileMode.Append)) { 
-                        var myFileLog = new StreamWriter(fs);
-                        myFileLog.Write(msg);
-                        myFileLog.Close();
-                    }
-                }
-            });
+            //Database.Log = (msg => 
+            //{
+            //    lock (mutex) 
+            //    {
+            //        using (var fs = new FileStream(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\mydblog.txt", FileMode.Append)) {
+            //            using (var myFileLog = new StreamWriter(fs))
+            //            {
+            //                myFileLog.Write(msg);
+            //            }
+            //        }
+            //    }
+            //});
         }
         protected override void OnModelCreating(DbModelBuilder builder)
         {

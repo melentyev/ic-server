@@ -13,11 +13,15 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
+
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using Events.Models;
 using Events.Providers;
 using Events.Results;
 using Events.Filters;
 using Events.Infrastructure;
+using Events.Abstract;
 
 namespace Events.Controllers
 {
@@ -25,18 +29,17 @@ namespace Events.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApplicationApiController
     {
+        private IDataRepository dataRepo;
+
+        #region Generated code
+
         private const string LocalLoginProvider = "Local";
 
-        public AccountController()
-            : this(Startup.UserManagerFactory(), Startup.OAuthOptions.AccessTokenFormat)
+        public AccountController(IDataRepository pdataRepo)
         {
-        }
-
-        public AccountController(AppUserManager userManager,
-            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
-        {
-            UserManager = userManager;
-            AccessTokenFormat = accessTokenFormat;
+            UserManager = Startup.UserManagerFactory();
+            AccessTokenFormat = Startup.OAuthOptions.AccessTokenFormat;
+            dataRepo = pdataRepo;
         }
 
         public AppUserManager UserManager { get; private set; }
@@ -260,10 +263,12 @@ namespace Events.Controllers
                 ClaimsIdentity cookieIdentity = await UserManager.CreateIdentityAsync(user,
                     CookieAuthenticationDefaults.AuthenticationType);
 
-                // ADDED FROM INTERNET!!!!/ 
+                #region ADDED FROM INTERNET!!!!
 
                 oAuthIdentity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
                 cookieIdentity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
+
+                #endregion
 
                 AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
                 Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
@@ -396,6 +401,39 @@ namespace Events.Controllers
             }
 
             base.Dispose(disposing);
+        }
+        #endregion
+
+
+        [HttpPost]
+        [Authorize]
+        [Route("UpdateUserPic")]
+        public async Task<IHttpActionResult> PostUpdateUserPic(UpdateUserPicBinndingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            UserFile file = await dataRepo.UserFiles.Where(f => f.UserFileId == model.UserFileId).FirstOrDefaultAsync();
+            if (file == null)
+            {
+                return BadRequest("File with supplied id not found.");
+            }
+            file.State = UserFileState.Assigned;
+            Photo photo = new Photo
+            {
+                AlbumId = 0,
+                UserId = CurrentUser.UserId,
+                EntityId = CurrentUser.UserId,
+                EntityType = PhotoEntityTypes.User,
+                UserFileId = file.UserFileId
+            };
+            (dataRepo.Photos as DbSet<Photo>).Add(photo);
+            await dataRepo.SaveChangesAsync();
+            ApplicationUser user = await dataRepo.Users.Where(u => u.Id == CurrentUser.UserId).FirstAsync();
+            user.PhotoId = photo.PhotoId;
+            await dataRepo.SaveChangesAsync();
+            return Ok();
         }
 
         #region Helpers

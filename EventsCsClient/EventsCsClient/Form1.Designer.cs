@@ -57,6 +57,10 @@
             this.EventsListView = new System.Windows.Forms.ListView();
             this.AddFileTB = new System.Windows.Forms.TextBox();
             this.SelectAddFile = new System.Windows.Forms.Button();
+            this.UploadUserPicTB = new System.Windows.Forms.TextBox();
+            this.SelectUpdateUserPic = new System.Windows.Forms.Button();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.UpdateUserPicBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -151,7 +155,7 @@
             this.SiteUrlTb.Location = new System.Drawing.Point(108, 22);
             this.SiteUrlTb.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.SiteUrlTb.Name = "SiteUrlTb";
-            this.SiteUrlTb.Size = new System.Drawing.Size(792, 31);
+            this.SiteUrlTb.Size = new System.Drawing.Size(710, 31);
             this.SiteUrlTb.TabIndex = 9;
             this.SiteUrlTb.Text = "http://localhost:45457/";
             // 
@@ -178,7 +182,7 @@
             // 
             // GetEventsBtn
             // 
-            this.GetEventsBtn.Location = new System.Drawing.Point(1632, 36);
+            this.GetEventsBtn.Location = new System.Drawing.Point(1475, 30);
             this.GetEventsBtn.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.GetEventsBtn.Name = "GetEventsBtn";
             this.GetEventsBtn.Size = new System.Drawing.Size(196, 44);
@@ -216,10 +220,10 @@
             // 
             // richTextBox3
             // 
-            this.richTextBox3.Location = new System.Drawing.Point(628, 446);
+            this.richTextBox3.Location = new System.Drawing.Point(828, 22);
             this.richTextBox3.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(740, 283);
+            this.richTextBox3.Size = new System.Drawing.Size(314, 379);
             this.richTextBox3.TabIndex = 16;
             this.richTextBox3.Text = "";
             // 
@@ -228,14 +232,14 @@
             this.TbToken.Location = new System.Drawing.Point(24, 319);
             this.TbToken.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.TbToken.Name = "TbToken";
-            this.TbToken.Size = new System.Drawing.Size(876, 31);
+            this.TbToken.Size = new System.Drawing.Size(794, 31);
             this.TbToken.TabIndex = 17;
             // 
             // WaitLab
             // 
             this.WaitLab.AutoSize = true;
             this.WaitLab.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.WaitLab.Location = new System.Drawing.Point(931, 142);
+            this.WaitLab.Location = new System.Drawing.Point(233, 226);
             this.WaitLab.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.WaitLab.Name = "WaitLab";
             this.WaitLab.Size = new System.Drawing.Size(130, 48);
@@ -245,7 +249,7 @@
             // 
             // AddComment
             // 
-            this.AddComment.Location = new System.Drawing.Point(1632, 690);
+            this.AddComment.Location = new System.Drawing.Point(1475, 684);
             this.AddComment.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.AddComment.Name = "AddComment";
             this.AddComment.Size = new System.Drawing.Size(149, 44);
@@ -256,7 +260,7 @@
             // 
             // richTextBox4
             // 
-            this.richTextBox4.Location = new System.Drawing.Point(1632, 494);
+            this.richTextBox4.Location = new System.Drawing.Point(1475, 488);
             this.richTextBox4.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.richTextBox4.Name = "richTextBox4";
             this.richTextBox4.Size = new System.Drawing.Size(316, 182);
@@ -265,7 +269,7 @@
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(1632, 444);
+            this.textBox9.Location = new System.Drawing.Point(1475, 438);
             this.textBox9.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(196, 31);
@@ -273,7 +277,7 @@
             // 
             // friendTb
             // 
-            this.friendTb.Location = new System.Drawing.Point(2188, 18);
+            this.friendTb.Location = new System.Drawing.Point(2031, 12);
             this.friendTb.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.friendTb.Name = "friendTb";
             this.friendTb.Size = new System.Drawing.Size(471, 31);
@@ -281,7 +285,7 @@
             // 
             // Follow
             // 
-            this.Follow.Location = new System.Drawing.Point(2188, 315);
+            this.Follow.Location = new System.Drawing.Point(2031, 309);
             this.Follow.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.Follow.Name = "Follow";
             this.Follow.Size = new System.Drawing.Size(149, 44);
@@ -292,7 +296,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(2349, 315);
+            this.button2.Location = new System.Drawing.Point(2192, 309);
             this.button2.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(149, 44);
@@ -302,7 +306,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(2512, 315);
+            this.button3.Location = new System.Drawing.Point(2355, 309);
             this.button3.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(149, 44);
@@ -312,7 +316,7 @@
             // 
             // EventsListView
             // 
-            this.EventsListView.Location = new System.Drawing.Point(1632, 92);
+            this.EventsListView.Location = new System.Drawing.Point(1475, 86);
             this.EventsListView.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.EventsListView.Name = "EventsListView";
             this.EventsListView.Size = new System.Drawing.Size(396, 336);
@@ -322,7 +326,7 @@
             // AddFileTB
             // 
             this.AddFileTB.Location = new System.Drawing.Point(1149, 136);
-            this.AddFileTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AddFileTB.Margin = new System.Windows.Forms.Padding(4);
             this.AddFileTB.Name = "AddFileTB";
             this.AddFileTB.Size = new System.Drawing.Size(135, 31);
             this.AddFileTB.TabIndex = 27;
@@ -331,7 +335,7 @@
             // SelectAddFile
             // 
             this.SelectAddFile.Location = new System.Drawing.Point(1293, 136);
-            this.SelectAddFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SelectAddFile.Margin = new System.Windows.Forms.Padding(4);
             this.SelectAddFile.Name = "SelectAddFile";
             this.SelectAddFile.Size = new System.Drawing.Size(53, 39);
             this.SelectAddFile.TabIndex = 28;
@@ -339,11 +343,52 @@
             this.SelectAddFile.UseVisualStyleBackColor = true;
             this.SelectAddFile.Click += new System.EventHandler(this.SelectAddFile_Click);
             // 
+            // UploadUserPicTB
+            // 
+            this.UploadUserPicTB.Location = new System.Drawing.Point(621, 446);
+            this.UploadUserPicTB.Margin = new System.Windows.Forms.Padding(4);
+            this.UploadUserPicTB.Name = "UploadUserPicTB";
+            this.UploadUserPicTB.Size = new System.Drawing.Size(239, 31);
+            this.UploadUserPicTB.TabIndex = 29;
+            this.UploadUserPicTB.Text = "C:\\Users\\user\\Downloads\\1368990659878.png";
+            // 
+            // SelectUpdateUserPic
+            // 
+            this.SelectUpdateUserPic.Location = new System.Drawing.Point(868, 442);
+            this.SelectUpdateUserPic.Margin = new System.Windows.Forms.Padding(4);
+            this.SelectUpdateUserPic.Name = "SelectUpdateUserPic";
+            this.SelectUpdateUserPic.Size = new System.Drawing.Size(53, 39);
+            this.SelectUpdateUserPic.TabIndex = 30;
+            this.SelectUpdateUserPic.Text = "...";
+            this.SelectUpdateUserPic.UseVisualStyleBackColor = true;
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Location = new System.Drawing.Point(620, 484);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(664, 515);
+            this.webBrowser1.TabIndex = 31;
+            // 
+            // UpdateUserPicBtn
+            // 
+            this.UpdateUserPicBtn.Location = new System.Drawing.Point(939, 442);
+            this.UpdateUserPicBtn.Name = "UpdateUserPicBtn";
+            this.UpdateUserPicBtn.Size = new System.Drawing.Size(182, 39);
+            this.UpdateUserPicBtn.TabIndex = 32;
+            this.UpdateUserPicBtn.Text = "UpdateUserPic";
+            this.UpdateUserPicBtn.UseVisualStyleBackColor = true;
+            this.UpdateUserPicBtn.Click += new System.EventHandler(this.UpdateUserPicBtn_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2549, 1031);
+            this.ClientSize = new System.Drawing.Size(2851, 1031);
+            this.Controls.Add(this.UpdateUserPicBtn);
+            this.Controls.Add(this.webBrowser1);
+            this.Controls.Add(this.SelectUpdateUserPic);
+            this.Controls.Add(this.UploadUserPicTB);
             this.Controls.Add(this.SelectAddFile);
             this.Controls.Add(this.AddFileTB);
             this.Controls.Add(this.EventsListView);
@@ -412,6 +457,10 @@
         private System.Windows.Forms.ListView EventsListView;
         private System.Windows.Forms.TextBox AddFileTB;
         private System.Windows.Forms.Button SelectAddFile;
+        private System.Windows.Forms.TextBox UploadUserPicTB;
+        private System.Windows.Forms.Button SelectUpdateUserPic;
+        private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.Button UpdateUserPicBtn;
     }
 }
 

@@ -18,7 +18,7 @@ namespace Events.Models
         public virtual ApplicationUser User { get; set; }
         public string GetFullUrl()
         {
-            return "http://" + Server.Domain + "/" + FilePath;
+            return /*"http://" + Server.Domain +*/  "/Uploads/" + FilePath;
         }
     }
     public enum UserFileState

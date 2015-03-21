@@ -75,11 +75,8 @@ namespace Events.Controllers
             if (prad != null) 
             {
                 DbGeography p0 = DbGeography.FromText(String.Format("POINT({0} {1})", plat, plng));
-                double rad;
-                if (!Double.TryParse(prad, out rad))
-                {
-                    return BadRequest(Messages.Get("INVALID_DOUBLE", d => d + " (" + rad + ")"));
-                }
+                double rad = Double.Parse(prad);
+                
                 query = query.Where(e => e.Location.Distance(p0) < rad);
             }
             if (south != null)
@@ -109,7 +106,7 @@ namespace Events.Controllers
 
             var user = await userManager.FindByIdAsync(dbEntry.UserId);
             var photo = await photosRepo.Objects.Where(p => user.PhotoId == p.PhotoId).FirstOrDefaultAsync();
-            res.User = new UserProfileViewModel(user, photo);
+            res.User = new UserProfileViewModel(user, photo, null);
             res.LastComments = new CommentViewModel[0];
             res.Photos = new PhotoViewModel[0];
             return Ok(res);
@@ -171,12 +168,18 @@ namespace Events.Controllers
                 EntityId = ev.EventId,
                 UserFileId = fid})));
             
+            await dataRepo.Database.ExecuteSqlCommandAsync(
+                "UPDATE dbo.UserFiles SET State=@p0 WHERE UserFileId IN (@p1)", 
+                UserFileState.Assigned,
+                String.Join(",", model.PhotoIds.ToArray()));
+            
+            
             var rids = await gcmRepo.Objects.Select(r => r.RegId).ToArrayAsync();
 
             var gcmClient = new GCMClient();
             //await gcmClient.SendNotification(rids, new { Code = "NEW_EVENT", EventId = ev.EventId } as Object);
             GlobalHost.ConnectionManager.GetHubContext<EventsHub>().Clients.All.broadcastNewEvent(ev.EventId.ToString());
-            return Ok(new { EventId = ev.EventId });
+            return Ok(ev);
         }
 
         [Route("api/Events/Subscribe/{id}")]

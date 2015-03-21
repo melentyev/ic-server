@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 namespace Events.Models
 {
     // Models used as parameters to AccountController actions.
+    #region Generated code
 
     public class AddExternalLoginBindingModel
     {
@@ -80,5 +81,11 @@ namespace Events.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+    #endregion
+
+    public class UpdateUserPicBinndingModel
+    {
+        public int UserFileId { get; set; }
     }
 }

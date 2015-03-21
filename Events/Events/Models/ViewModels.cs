@@ -14,7 +14,7 @@ namespace Events.Models
             IEnumerable<SimpleUserProfileViewModel> likes)
         {
             EventId = e.EventId;
-            User = e.User != null ? new UserProfileViewModel(e.User, userPhoto) : null;
+            User = e.User != null ? new UserProfileViewModel(e.User, userPhoto, null) : null;
             Latitude = e.Location == null ? null : e.Location.Latitude.ToString();
             Longitude = e.Location == null ? null : e.Location.Longitude.ToString();
             LocationCaption = e.LocationCaption;
@@ -80,11 +80,18 @@ namespace Events.Models
     }
     public class UserProfileViewModel
     {
-        public UserProfileViewModel(ApplicationUser u, Photo p)
+        public UserProfileViewModel(ApplicationUser user, Photo photo, UserFile file)
         {
-            UserId = u.Id;
-            UserName = u.UserName;
-            Photo = p == null ? null : new PhotoViewModel();
+            UserId = user.Id;
+            UserName = user.UserName;
+            Photo = photo != null && file != null ? new PhotoViewModel
+            {
+                AlbumId = 0,
+                UserId = photo.UserId,
+                Likes = Enumerable.Empty<SimpleUserProfileViewModel>(),
+                LikesCount = 0,
+                Url = file.GetFullUrl()
+            } : null;
         }
         public int UserId { get; set; }
         public string UserName { get; set; }

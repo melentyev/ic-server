@@ -26,6 +26,7 @@ namespace EventsCsClient
         public MainForm()
         {
             InitializeComponent();
+            webBrowser1.Navigate("http://th07.deviantart.net/fs71/200H/i/2013/179/1/f/crystal_pony___twilight_by_selinmarsou-d5es7v8.png");
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -105,6 +106,7 @@ namespace EventsCsClient
 
         private async void GetEventsBtn_Click(object sender, EventArgs e)
         {
+            new Task<bool>(() => true);
             try
             {
                 var wc = new WebClient();
@@ -298,6 +300,75 @@ namespace EventsCsClient
             var d = new OpenFileDialog();
             DialogResult res = d.ShowDialog();
             AddFileTB.Text = d.FileName;
+        }
+
+        private async void UpdateUserPicBtn_Click(object sender, EventArgs e)
+        {
+            var token = TbToken.Text;
+            var wc = new WebClient();
+            wc.Encoding = Encoding.UTF8;
+            wc.Headers.Add("Content-Type", "application/json");
+            wc.Headers.Add("Authorization", "Bearer " + token);
+            string sdata;
+            var fileIds = new string[0];
+            if (!String.IsNullOrWhiteSpace(AddFileTB.Text))
+            {
+                var url = new WebClient().DownloadString(new Uri(SiteUrlTb.Text + "api/Endpoints/GetUploadUrl/UpdateUserPic"));
+                url = url.Trim(new char[] { '\"' });
+                url = url.TrimStart(new char[] { '/' });
+                using (var client = new HttpClient())
+                {
+                    MultipartFormDataContent form = new MultipartFormDataContent();
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+                    var fs = new FileStream(AddFileTB.Text, FileMode.Open);
+                    form.Add(new StreamContent(fs), "file", "file.jpg");
+                    var response = await client.PostAsync(SiteUrlTb.Text + url, form);
+                    sdata = await response.Content.ReadAsStringAsync();
+                }
+                using (var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
+                    //client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
+                    var content = new StringContent(sdata, Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync(SiteUrlTb.Text
+                                            + "api/Endpoints/SaveUploadedFile/UpdateUserPic", content);
+                    sdata = await response.Content.ReadAsStringAsync();
+                    fileIds = JArray.Parse(sdata).Select(tok => (tok as JObject)["Id"].Value<string>()).ToArray();
+                    /*EventsListView.Items.AddRange(JArray.Parse(result).Select(tok =>
+                    {
+                        var descr = (tok as JObject)["Description"].Value<string>();
+                        var id = (tok as JObject)["EventId"].Value<int>();
+                        return new ListViewItem { Text = descr, Tag = id };
+                    }).ToArray());*/
+                }
+            }
+            try
+            {
+                //var descr = MsgBox2.Text.Select(c => string.Format(@"\u{0:x4}", (int)c)).Aggregate("", (a, b) => a + b);
+                var descr = MsgBox2.Text;
+                var dtu = DateTime.UtcNow.ToString("r");
+                var data = JsonConvert.SerializeObject(new
+                {
+                    UserFileId = fileIds[0]
+                });
+                //data = data.Replace(@"\\", @"\");
+                WaitLab.Show();
+                var result = await wc.UploadStringTaskAsync(SiteUrlTb.Text + "api/Account/UpdateUserPic", data);
+                WaitLab.Hide();
+                MsgBox1.Text = result;
+            }
+            catch (WebException we)
+            {
+                var stream = new System.IO.StreamReader(we.Response.GetResponseStream());
+                var line = stream.ReadToEnd();
+                MsgBox2.Text = we.Message + line;
+                WaitLab.Hide();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+                WaitLab.Hide();
+            }
         }
     }
 }

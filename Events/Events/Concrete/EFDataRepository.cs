@@ -16,10 +16,12 @@ namespace Events.Concrete
     public class EFDataRepository : IDataRepository
     {
         protected ApplicationDbContext context = new ApplicationDbContext();
+        public Database Database { get { return context.Database; } }
         public IQueryable<Event> Events { get { return context.Events; } }
         public IQueryable<Comment> Comments { get { return context.Comments; } }
         public IQueryable<Photo> Photos { get { return context.Photos; } }
         public IQueryable<UserFile> UserFiles { get { return context.UserFiles; } }
+        public IQueryable<ApplicationUser> Users { get { return context.Users; } }
         public async Task<IEnumerable<EventViewModel>> GetEventsWithCommentsAndPhotos(IQueryable<Event> query)
         {
             query = query.Include(e => e.User);
@@ -35,7 +37,7 @@ namespace Events.Concrete
             var photoViewModelMap = files
                 .Select(f => new { EntityId = photosMap[f.UserFileId].EntityId, ViewModel =  new PhotoViewModel 
                 { 
-                    Url = "/api/Endpoints/GetFile/" + f.UserFileId, 
+                    Url = "/Uploads/" + f.FilePath, 
                     UserId = f.UserId, 
                     Likes = Enumerable.Empty<SimpleUserProfileViewModel>(),
                     LikesCount = 0,
@@ -54,6 +56,10 @@ namespace Events.Concrete
                     photoViewModelMap.ContainsKey(e.EventId) ? photoViewModelMap[e.EventId] : null,
                     null);
             });
+        }
+        public Task SaveChangesAsync()
+        {
+            return context.SaveChangesAsync();
         }
     }
 }
