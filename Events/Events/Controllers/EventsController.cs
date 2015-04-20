@@ -72,14 +72,14 @@ namespace Events.Controllers
             query = query.OrderByDescending(e => e.EventId);
             query = offset == null ? query : query.Skip(offset.Value);
             query = query.Take(Math.Min(count, getEventsMaxCount));
-            if (prad != null) 
+            if (new string[] {plat, plng, prad}.All(e => e != null)) 
             {
-                DbGeography p0 = DbGeography.FromText(String.Format("POINT({0} {1})", plat, plng));
+                DbGeography selectionCenter = DbGeography.FromText(String.Format("POINT({0} {1})", plat, plng));
                 double rad = Double.Parse(prad);
-                
-                query = query.Where(e => e.Location.Distance(p0) < rad);
+
+                query = query.Where(e => e.Location.Distance(selectionCenter) < rad);
             }
-            if (south != null)
+            if (new string[] {north, south, west, east}.All(e => e != null))
             {
                 query = query.Where(e =>   e.Location.Latitude <= Double.Parse(north) 
                                 && e.Location.Latitude >= Double.Parse(south)

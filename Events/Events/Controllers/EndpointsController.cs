@@ -30,7 +30,7 @@ namespace Events.Models
         const int randomDirNameLen = 20;
         private IGcmRegIdsRepository regIdsRepo;
         private IUserFileRepository userFileRepository;
-        private char[] fileNameChars = 
+        private static char[] fileNameChars = 
             Enumerable.Range('a', 'z' - 'a' + 1)
                 .Concat(Enumerable.Range('0', '9' - '0' + 1))
                 .Concat(Enumerable.Repeat((int)'-', 1))
