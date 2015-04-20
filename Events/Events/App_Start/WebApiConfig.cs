@@ -37,7 +37,7 @@ namespace Events
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
-            config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new Iso8601SortableDateTimeConverter());
+            config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new UniversalSortableDateTimeConverter());
 
             // Web API routes
             config.MapHttpAttributeRoutes();

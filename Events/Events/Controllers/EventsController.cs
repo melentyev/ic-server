@@ -179,7 +179,7 @@ namespace Events.Controllers
             var gcmClient = new GCMClient();
             //await gcmClient.SendNotification(rids, new { Code = "NEW_EVENT", EventId = ev.EventId } as Object);
             GlobalHost.ConnectionManager.GetHubContext<EventsHub>().Clients.All.broadcastNewEvent(ev.EventId.ToString());
-            return Ok(ev);
+            return Ok(ev.EventId);
         }
 
         [Route("api/Events/Subscribe/{id}")]

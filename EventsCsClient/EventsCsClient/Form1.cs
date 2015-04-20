@@ -179,7 +179,7 @@ namespace EventsCsClient
             {
                 //var descr = MsgBox2.Text.Select(c => string.Format(@"\u{0:x4}", (int)c)).Aggregate("", (a, b) => a + b);
                 var descr = MsgBox2.Text;
-                var dtu = DateTime.UtcNow.ToString("r");
+                var dtu = DateTime.UtcNow.ToString("u");
                 var data = JsonConvert.SerializeObject(new
                 {
                     Latitude = EventAddLatitude.Text,
