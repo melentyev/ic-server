@@ -179,7 +179,7 @@ namespace EventsCsClient
             {
                 //var descr = MsgBox2.Text.Select(c => string.Format(@"\u{0:x4}", (int)c)).Aggregate("", (a, b) => a + b);
                 var descr = MsgBox2.Text;
-                var dtu = DateTime.UtcNow.ToString("u");
+                var dtu = DateTime.UtcNow.ToString("r");
                 var data = JsonConvert.SerializeObject(new
                 {
                     Latitude = EventAddLatitude.Text,
@@ -273,7 +273,7 @@ namespace EventsCsClient
                 });
                 WaitLab.Show();
                 var st = SiteUrlTb.Text + SubscribeUrl + "/" + "{" + friendTb.Text + "}";
-                var result = await wc.DownloadStringTaskAsync(SiteUrlTb.Text + SubscribeUrl + "/" + "{" + friendTb.Text + "}");
+                var result = await wc.DownloadStringTaskAsync(SiteUrlTb.Text + SubscribeUrl + "/" + friendTb.Text);
                 WaitLab.Hide();
                 MsgBox1.Text = result;
             }
@@ -368,6 +368,29 @@ namespace EventsCsClient
             {
                 MessageBox.Show(exc.Message);
                 WaitLab.Hide();
+            }
+        }
+
+        private async void button3_Click(object sender, EventArgs e)
+        {
+            var token = TbToken.Text;
+            var wc = new WebClient();
+            wc.Headers.Add("Content-Type", "application/json");
+            wc.Headers.Add("Authorization", "Bearer " + token);
+            try
+            {
+                WaitLab.Show();
+                var result = await wc.DownloadStringTaskAsync(SiteUrlTb.Text + "api/Friends/my/m");
+                WaitLab.Hide();
+                MsgBox1.Text = result;
+            }
+            catch (WebException we)
+            {
+                MsgBox2.Text = we.Message;
+            }
+            catch
+            {
+
             }
         }
     }

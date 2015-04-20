@@ -39,7 +39,7 @@ namespace Events.Controllers
         //}
 
         // GET api/Friends/f
-        [Route("{puserId}/{param}")]
+        [Route("/List/{puserId}/{param}")]
         [ResponseType(typeof(UserProfileViewModel[]))]
         public async Task<IHttpActionResult> GetFriends(string puserId, string param)
         {
