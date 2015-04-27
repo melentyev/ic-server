@@ -54,17 +54,17 @@ namespace Events.Controllers
             var rels = subscribeRepository.Objects;
             var variants = new Dictionary<string, Func<IQueryable<ApplicationUser> > >();
             variants["f"]  = () => 
-                rels.Where(s => s.SubscribedToId == userId && s.Relationship == Relationship.Follower).Select(s => s.Subscriber);
+                rels.Where(s => s.SubscribedToId == userId && s.Relationship == Relationship.Follow).Select(s => s.Subscriber);
             variants["s"]  = () => 
-                rels.Where(s => s.SubscriberId == userId && s.Relationship == Relationship.Following).Select(s => s.SubscribedTo);
+                rels.Where(s => s.SubscriberId == userId && s.Relationship == Relationship.Follow).Select(s => s.SubscribedTo);
             variants["m"]  = () => 
-                rels.Where(s => s.SubscriberId == userId && s.Relationship == Relationship.Friend).Select(s => s.SubscribedTo);
-            variants["mf"] = () => rels
-                .Where(s => (s.SubscribedToId == userId && (s.Relationship == Relationship.Follower || s.Relationship == Relationship.Friend)))
-                .Select(s => s.Subscriber);
-            variants["ms"] = () => rels
-                .Where(s => (s.SubscriberId == userId && (s.Relationship == Relationship.Following || s.Relationship == Relationship.Friend)))
-                .Select(s => s.SubscribedTo);
+                rels.Where(s => (s.SubscriberId == userId || s.SubscribedToId == userId) && s.Relationship == Relationship.Friend).Select(s => s.SubscribedTo);
+            //variants["mf"] = () => rels
+            //    .Where(s => (s.SubscribedToId == userId && (s.Relationship == Relationship.Follower || s.Relationship == Relationship.Friend)))
+            //    .Select(s => s.Subscriber);
+            //variants["ms"] = () => rels
+            //    .Where(s => (s.SubscriberId == userId && (s.Relationship == Relationship.Following || s.Relationship == Relationship.Friend)))
+            //    .Select(s => s.SubscribedTo);
             if(!variants.ContainsKey(param) ) 
             {
                 return BadRequest("incorrect input");
@@ -81,52 +81,106 @@ namespace Events.Controllers
         // POST api/Friends/Follow
         [Route("Follow/{id}")]
         [ResponseType(typeof(Subscription))]
-        [CheckModelForNull]
         public async Task<IHttpActionResult> PostFollow(int id)
         {
-            if (!ModelState.IsValid)
+            var toMe = await subscribeRepository.Objects.Where(e => (e.SubscribedToId == CurrentUser.UserId && e.SubscriberId == id && e.Relationship != Relationship.BadSubscription)).FirstOrDefaultAsync();
+            var fromMe = await subscribeRepository.Objects.Where(e => (e.SubscriberId == CurrentUser.UserId && e.SubscribedToId == id && e.Relationship != Relationship.BadSubscription)).FirstOrDefaultAsync();
+            if (fromMe == null)
             {
-                return BadRequest(ModelState);
-            }
-            var friend = await subscribeRepository.Objects.Where(e => (e.SubscribedToId == CurrentUser.UserId && e.SubscriberId == id)).FirstOrDefaultAsync();
-            var i = await subscribeRepository.Objects.Where(e => (e.SubscriberId == CurrentUser.UserId && e.SubscribedToId == id)).FirstOrDefaultAsync();
-            if (i == null)
-            {
-                var sub = new Subscription
+                if (toMe == null)
                 {
-                    SubscriberId = CurrentUser.UserId,
-                    SubscribedToId = id,
-                };
-                if (friend == null)
-                {
-                    sub.Relationship = Relationship.Following;
+                    var sub = new Subscription
+                    {
+                        SubscriberId = CurrentUser.UserId,
+                        SubscribedToId = id,
+                        Relationship = Relationship.Follow
+                    };
                     await subscribeRepository.SaveInstance(sub);
                 }
                 else
                 {
-                    sub.Relationship = Relationship.Friend;
-                    friend.Relationship = Relationship.Friend;
-                    await subscribeRepository.SaveInstance(sub);
-                    await subscribeRepository.SaveInstance(friend);
+                    if (toMe.Relationship == Relationship.Unfollow)
+                    {
+                        toMe.SubscriberId = CurrentUser.UserId;
+                        toMe.SubscribedToId = id;
+                        toMe.Relationship = Relationship.Follow;
+                    }
+                    else
+                    {
+                        toMe.Relationship = Relationship.Friend;                        
+                    }
+                    await subscribeRepository.SaveInstance(toMe);
                 }
             }
             else
             {
-                if (friend == null)
+                if (toMe == null)
                 {
-                    i.Relationship = Relationship.Following;
-                    await subscribeRepository.SaveInstance(i);
+                    if (fromMe.Relationship == Relationship.Unfollow)
+                    {
+                        fromMe.Relationship = Relationship.Follow;
+                        await subscribeRepository.SaveInstance(fromMe);
+                    }
                 }
                 else
                 {
-                    i.Relationship = Relationship.Friend;
-                    friend.Relationship = Relationship.Friend;
-                    await subscribeRepository.SaveInstance(i);
-                    await subscribeRepository.SaveInstance(friend);
+                    switch (fromMe.Relationship)
+                    {
+                            case Relationship.Follow:
+                                switch (toMe.Relationship)
+                                {
+                                    case Relationship.Follow:
+                                        fromMe.Relationship = Relationship.Friend;
+                                        toMe.Relationship = Relationship.BadSubscription;
+                                        break;
+                                    case Relationship.Unfollow:
+                                        toMe.Relationship = Relationship.BadSubscription;
+                                        break;
+                                    case Relationship.Friend:
+                                        fromMe.Relationship = Relationship.BadSubscription;
+                                        break;
+                                };
+                                break;
+                            case Relationship.Unfollow:
+                                switch (toMe.Relationship)
+                                {
+                                    case Relationship.Follow:
+                                        fromMe.Relationship = Relationship.Friend;
+                                        toMe.Relationship = Relationship.BadSubscription;
+                                        break;
+                                    case Relationship.Unfollow:
+                                        fromMe.Relationship = Relationship.Follow;
+                                        toMe.Relationship = Relationship.BadSubscription;
+                                        break;
+                                    case Relationship.Friend:
+                                        fromMe.Relationship = Relationship.Friend;
+                                        toMe.Relationship = Relationship.BadSubscription;
+                                        break;
+                                };
+                                break;
+                        case Relationship.Friend:
+                                switch (toMe.Relationship)
+                                {
+                                    case Relationship.Follow:
+                                        toMe.Relationship = Relationship.BadSubscription;
+                                        break;
+                                    case Relationship.Unfollow:
+                                        fromMe.Relationship = Relationship.Follow;
+                                        toMe.Relationship = Relationship.BadSubscription;
+                                        break;
+                                    case Relationship.Friend:
+                                        toMe.Relationship = Relationship.BadSubscription;
+                                        break;
+                                };
+                                break;
+                    }
+                    await subscribeRepository.SaveInstance(fromMe);
+                    await subscribeRepository.SaveInstance(toMe);
                 }
             }
             return Ok();
         }
+
         // POST api/Friends/Unfollow
         [Route("Unfollow/{id}")]
         [ResponseType(typeof(Subscription))]
@@ -137,49 +191,102 @@ namespace Events.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var friend = await subscribeRepository.Objects.Where(e => (e.SubscribedToId == CurrentUser.UserId && e.SubscriberId == id)).FirstOrDefaultAsync();
-            var i = await subscribeRepository.Objects.Where(e => (e.SubscriberId == CurrentUser.UserId && e.SubscribedToId == id)).FirstOrDefaultAsync();
-            if (i == null)
+            var toMe = await subscribeRepository.Objects.Where(e => (e.SubscribedToId == CurrentUser.UserId && e.SubscriberId == id && e.Relationship != Relationship.BadSubscription)).FirstOrDefaultAsync();
+            var fromMe = await subscribeRepository.Objects.Where(e => (e.SubscriberId == CurrentUser.UserId && e.SubscribedToId == id && e.Relationship != Relationship.BadSubscription)).FirstOrDefaultAsync();
+            if (fromMe == null)
             {
-                return BadRequest("You not subscribe on this user");
-            }
-            else
-            {
-                if (friend == null)
+                if (toMe == null)
                 {
-                    i.Relationship = Relationship.Unfollow;
-                    await subscribeRepository.SaveInstance(i);
+                    return BadRequest("You are not subscribed to this user");
                 }
                 else
                 {
-                    i.Relationship = Relationship.Unfollow;
-                    friend.Relationship = Relationship.Following;
-                    await subscribeRepository.SaveInstance(i);
-                    await subscribeRepository.SaveInstance(friend);
+                    if (toMe.Relationship == Relationship.Friend)
+                    {
+                        toMe.Relationship = Relationship.Follow;
+                        await subscribeRepository.SaveInstance(toMe);
+                    }
+                    else
+                    {
+                        return BadRequest("You are not subscribed to this user");
+                    }
+                }
+            }
+            else
+            {
+                if (toMe == null)
+                {
+                    if (fromMe.Relationship == Relationship.Friend)
+                    {
+                        fromMe.SubscriberId = id;
+                        fromMe.SubscribedToId = CurrentUser.UserId;
+                        fromMe.Relationship = Relationship.Follow;
+                    }
+                    else
+                    {
+                        fromMe.Relationship = Relationship.Unfollow;
+                    }
+                    await subscribeRepository.SaveInstance(fromMe);
+                }
+                else
+                {
+                    switch (fromMe.Relationship)
+                    {
+                        case Relationship.Follow:
+                            switch (toMe.Relationship)
+                            {
+                                case Relationship.Follow:
+                                    fromMe.Relationship = Relationship.BadSubscription;
+                                    break;
+                                case Relationship.Unfollow:
+                                    fromMe.Relationship = Relationship.BadSubscription;
+                                    break;
+                                case Relationship.Friend:
+                                    fromMe.Relationship = Relationship.BadSubscription;
+                                    toMe.Relationship = Relationship.Follow;
+                                    break;
+                            }
+                            ;
+                            break;
+                        case Relationship.Unfollow:
+                            switch (toMe.Relationship)
+                            {
+                                case Relationship.Follow:
+                                    fromMe.Relationship = Relationship.BadSubscription;
+                                    break;
+                                case Relationship.Unfollow:
+                                    toMe.Relationship = Relationship.BadSubscription;
+                                    break;
+                                case Relationship.Friend:
+                                    fromMe.Relationship = Relationship.BadSubscription;
+                                    toMe.Relationship = Relationship.Follow;
+                                    break;
+                            }
+                            ;
+                            break;
+                        case Relationship.Friend:
+                            switch (toMe.Relationship)
+                            {
+                                case Relationship.Follow:
+                                    fromMe.Relationship = Relationship.BadSubscription;
+                                    break;
+                                case Relationship.Unfollow:
+                                    fromMe.Relationship = Relationship.BadSubscription;
+                                    break;
+                                case Relationship.Friend:
+                                    fromMe.Relationship = Relationship.BadSubscription;
+                                    toMe.Relationship = Relationship.Follow;
+                                    break;
+                            }
+                            ;
+                            break;
+                    }
+                    await subscribeRepository.SaveInstance(fromMe);
+                    await subscribeRepository.SaveInstance(toMe);
                 }
             }
             return Ok();
         }
-
-        //// POST api/Friends/5
-        //[ResponseType(typeof(Subscription))]
-        //[CheckModelForNull]
-        //public async Task<IHttpActionResult> PostEvent(AddSubscribeBindingModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest("asdadasd");
-        //    }
-        //    var ev = new Subscription
-        //    {
-        //        Subscriber = CurrentUser.UserId,
-        //        SubscribedTo = model.SubscribedTo,
-        //        Relationship = Subscription.relationship.friend
-        //    };
-        //    await subscribeRepository.SaveInstance(ev);
-
-        //    return CreatedAtRoute("DefaultApi", new { id = ev.SubscribtionId }, ev);
-        //}
     }
 }
 

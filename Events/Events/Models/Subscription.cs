@@ -21,5 +21,5 @@ namespace Events.Models
         public virtual ApplicationUser SubscribedTo { get; set; }
         public Relationship Relationship { get; set; }
     }
-    public enum Relationship { Unfollow, Follower, Following, Friend }
+    public enum Relationship { Unfollow, Follow, Friend, BadSubscription }
 }
