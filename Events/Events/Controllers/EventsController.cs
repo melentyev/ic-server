@@ -161,24 +161,27 @@ namespace Events.Controllers
                 DateCreate = DateTime.UtcNow
             };
             ev = await eventsRepository.SaveInstance(ev);
-            await Task.WhenAll(model.PhotoIds.Select(fid => photosRepo.SaveInstance(new Photo {
-                UserId = ev.UserId, 
-                AlbumId = 0, 
-                EntityType = PhotoEntityTypes.Event,
-                EntityId = ev.EventId,
-                UserFileId = fid})));
+            if (model.PhotoIds != null)
+            {
+                await Task.WhenAll(model.PhotoIds.Select(fid => photosRepo.SaveInstance(new Photo {
+                    UserId = ev.UserId, 
+                    AlbumId = 0, 
+                    EntityType = PhotoEntityTypes.Event,
+                    EntityId = ev.EventId,
+                    UserFileId = fid})));
             
-            await dataRepo.Database.ExecuteSqlCommandAsync(
-                "UPDATE dbo.UserFiles SET State=@p0 WHERE UserFileId IN (@p1)", 
-                UserFileState.Assigned,
-                String.Join(",", model.PhotoIds.ToArray()));
-            
-            
+                await dataRepo.Database.ExecuteSqlCommandAsync(
+                    "UPDATE dbo.UserFiles SET State=@p0 WHERE UserFileId IN (@p1)", 
+                    UserFileState.Assigned,
+                    String.Join(",", model.PhotoIds.ToArray()));
+
+            }
             var rids = await gcmRepo.Objects.Select(r => r.RegId).ToArrayAsync();
 
             var gcmClient = new GCMClient();
             //await gcmClient.SendNotification(rids, new { Code = "NEW_EVENT", EventId = ev.EventId } as Object);
             GlobalHost.ConnectionManager.GetHubContext<EventsHub>().Clients.All.broadcastNewEvent(ev.EventId.ToString());
+            
             return Ok(ev.EventId);
         }
 

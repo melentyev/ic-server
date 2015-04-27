@@ -28,7 +28,7 @@ namespace Events.Controllers
         }
         
         [ResponseType(typeof(UserProfileViewModel))]
-        [Route("UserProfile/{userId}")]
+        [Route("Profile/{userId}")]
         public async Task<IHttpActionResult>  GetUserProfile(int userId)
         {
             var user = await dataRepo.Users.Where(u => u.Id == userId).FirstOrDefaultAsync();

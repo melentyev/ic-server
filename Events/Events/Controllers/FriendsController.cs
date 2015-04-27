@@ -39,7 +39,7 @@ namespace Events.Controllers
         //}
 
         // GET api/Friends/f
-        [Route("/List/{puserId}/{param}")]
+        [Route("List/{puserId}/{param}")] 
         [ResponseType(typeof(UserProfileViewModel[]))]
         public async Task<IHttpActionResult> GetFriends(string puserId, string param)
         {
@@ -48,7 +48,7 @@ namespace Events.Controllers
             {
                 if(!Int32.TryParse(puserId, out userId) ) 
                 {
-                    return BadRequest("/api/friends/my/{type} or /api/friends/{userId}/{type}");
+                    return BadRequest("/api/Friends/List/my/{type} or /api/Friends/List/{userId}/{type}");
                 }
             }
             var rels = subscribeRepository.Objects;
