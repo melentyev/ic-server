@@ -57,8 +57,16 @@ namespace Events.Controllers
                 rels.Where(s => s.SubscribedToId == userId && s.Relationship == Relationship.Follow).Select(s => s.Subscriber);
             variants["s"]  = () => 
                 rels.Where(s => s.SubscriberId == userId && s.Relationship == Relationship.Follow).Select(s => s.SubscribedTo);
-            variants["m"]  = () => 
-                rels.Where(s => (s.SubscriberId == userId || s.SubscribedToId == userId) && s.Relationship == Relationship.Friend).Select(s => s.SubscribedTo);
+            variants["m"] = () =>
+                Queryable.Concat(
+                    rels.Where(
+                        s =>
+                            s.SubscriberId == userId &&
+                            s.Relationship == Relationship.Friend).Select(s => s.SubscribedTo),
+                    rels.Where(
+                        s =>
+                            s.SubscribedToId == userId &&
+                            s.Relationship == Relationship.Friend).Select(s => s.Subscriber));
             //variants["mf"] = () => rels
             //    .Where(s => (s.SubscribedToId == userId && (s.Relationship == Relationship.Follower || s.Relationship == Relationship.Friend)))
             //    .Select(s => s.Subscriber);
@@ -197,7 +205,7 @@ namespace Events.Controllers
             {
                 if (toMe == null)
                 {
-                    return BadRequest("You are not subscribed to this user");
+                    return Ok("You are not subscribed to this user");
                 }
                 else
                 {
@@ -208,7 +216,7 @@ namespace Events.Controllers
                     }
                     else
                     {
-                        return BadRequest("You are not subscribed to this user");
+                        return Ok("You are not subscribed to this user");
                     }
                 }
             }

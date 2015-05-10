@@ -216,6 +216,9 @@ namespace EventsCsClient
             wc.Headers.Add("Authorization", "Bearer " + token);
             try
             {
+                var r = await wc.DownloadStringTaskAsync(SiteUrlTb.Text + GetEventsUrl);
+                r = await wc.DownloadStringTaskAsync(SiteUrlTb.Text + GetEventsUrl);
+                r = await wc.DownloadStringTaskAsync(SiteUrlTb.Text + GetEventsUrl);
                 var data = JsonConvert.SerializeObject(new
                 {
                     Text = richTextBox4.Text,

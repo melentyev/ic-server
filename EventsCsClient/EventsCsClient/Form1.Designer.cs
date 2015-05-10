@@ -157,7 +157,7 @@
             this.SiteUrlTb.Name = "SiteUrlTb";
             this.SiteUrlTb.Size = new System.Drawing.Size(357, 20);
             this.SiteUrlTb.TabIndex = 9;
-            this.SiteUrlTb.Text = "http://localhost:45457/";
+            this.SiteUrlTb.Text = "http://icreate.azurewebsites.net/";
             // 
             // label1
             // 
@@ -328,7 +328,7 @@
             // AddFileTB
             // 
             this.AddFileTB.Location = new System.Drawing.Point(574, 71);
-            this.AddFileTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AddFileTB.Margin = new System.Windows.Forms.Padding(2);
             this.AddFileTB.Name = "AddFileTB";
             this.AddFileTB.Size = new System.Drawing.Size(70, 20);
             this.AddFileTB.TabIndex = 27;
@@ -337,7 +337,7 @@
             // SelectAddFile
             // 
             this.SelectAddFile.Location = new System.Drawing.Point(646, 71);
-            this.SelectAddFile.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SelectAddFile.Margin = new System.Windows.Forms.Padding(2);
             this.SelectAddFile.Name = "SelectAddFile";
             this.SelectAddFile.Size = new System.Drawing.Size(26, 20);
             this.SelectAddFile.TabIndex = 28;
@@ -348,7 +348,7 @@
             // UploadUserPicTB
             // 
             this.UploadUserPicTB.Location = new System.Drawing.Point(310, 232);
-            this.UploadUserPicTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.UploadUserPicTB.Margin = new System.Windows.Forms.Padding(2);
             this.UploadUserPicTB.Name = "UploadUserPicTB";
             this.UploadUserPicTB.Size = new System.Drawing.Size(122, 20);
             this.UploadUserPicTB.TabIndex = 29;
@@ -357,7 +357,7 @@
             // SelectUpdateUserPic
             // 
             this.SelectUpdateUserPic.Location = new System.Drawing.Point(434, 230);
-            this.SelectUpdateUserPic.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SelectUpdateUserPic.Margin = new System.Windows.Forms.Padding(2);
             this.SelectUpdateUserPic.Name = "SelectUpdateUserPic";
             this.SelectUpdateUserPic.Size = new System.Drawing.Size(26, 20);
             this.SelectUpdateUserPic.TabIndex = 30;
@@ -367,7 +367,7 @@
             // webBrowser1
             // 
             this.webBrowser1.Location = new System.Drawing.Point(310, 252);
-            this.webBrowser1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.webBrowser1.Margin = new System.Windows.Forms.Padding(2);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(10, 10);
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.Size = new System.Drawing.Size(332, 268);
@@ -376,7 +376,7 @@
             // UpdateUserPicBtn
             // 
             this.UpdateUserPicBtn.Location = new System.Drawing.Point(470, 230);
-            this.UpdateUserPicBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.UpdateUserPicBtn.Margin = new System.Windows.Forms.Padding(2);
             this.UpdateUserPicBtn.Name = "UpdateUserPicBtn";
             this.UpdateUserPicBtn.Size = new System.Drawing.Size(91, 20);
             this.UpdateUserPicBtn.TabIndex = 32;
