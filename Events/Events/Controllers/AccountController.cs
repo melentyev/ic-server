@@ -54,6 +54,7 @@ namespace Events.Controllers
             var id = User.Identity.GetUserId();
             return new UserInfoViewModel
             {
+                UserId = User.Identity.GetUserId(),
                 UserName = User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null

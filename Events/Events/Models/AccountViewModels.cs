@@ -27,6 +27,7 @@ namespace Events.Models
 
     public class UserInfoViewModel
     {
+        public string UserId { get; set; }
         public string UserName { get; set; }
 
         public bool HasRegistered { get; set; }
