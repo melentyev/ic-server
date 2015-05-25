@@ -205,7 +205,7 @@ namespace Events.Controllers
             {
                 if (toMe == null)
                 {
-                    return Ok("You are not subscribed to this user");
+                    return Ok("You have not subscribed to this user");
                 }
                 else
                 {
@@ -216,7 +216,7 @@ namespace Events.Controllers
                     }
                     else
                     {
-                        return Ok("You are not subscribed to this user");
+                        return Ok("You have not subscribed to this user");
                     }
                 }
             }
